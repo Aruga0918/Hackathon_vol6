@@ -1,0 +1,54 @@
+version: "3"
+services:
+    db:
+        image: mysql:5.7
+        container_name: "hackathon-vol6-mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: database
+            MYSQL_PASSWORD: root
+            TZ: "Asia/Tokyo"
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - "./db/data:/var/lib/mysql"
+            - "./db/my.cnf:/etc/mysql/conf.d/my.cnf"
+        ports:
+            - 3306:3306
+
+    web:
+        build:
+            dockerfile: Dockerfile
+            context: ./web
+        command: sh ./start.sh
+        environment:
+            APP_DATABASE_HOST: db
+            APP_DATABASE_NAME: database
+            APP_DATABASE_USER: root
+            APP_DATABASE_PASSWORD: root
+            FLASK_ENV: development
+            FLASK_APP: app
+            TZ: "Asia/Tokyo"
+        expose:
+            - 8080
+        volumes:
+            - ./web/src:/app
+        depends_on:
+            - db
+
+    frontend:
+        build:
+            dockerfile: Dockerfile
+            context: ./frontend
+        tty: true
+        volumes:
+            - ./frontend/app:/app
+            - /app/node_modules
+        command: yarn dev
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        expose:
+            - "3000"
+        ports:
+            - "3000:3000"
+        depends_on:
+            - web
