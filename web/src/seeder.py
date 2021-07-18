@@ -126,7 +126,7 @@ def seed_post():
 
 def seed_community_user():
     communities_users = list(itertools.chain.from_iterable(
-        [[CommunityUser(community_id=i, user_id=j)for j in range(1, 4)] for i in range(1, 11)]))
+        [[CommunityUser(community_id=i, user_id=j, is_join=j % 2 == 0)for j in range(1, 4)] for i in range(1, 11)]))
     commit_all(communities_users)
 
 

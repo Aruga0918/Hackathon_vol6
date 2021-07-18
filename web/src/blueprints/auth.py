@@ -28,7 +28,7 @@ def signin():
     password = data["password"]
 
     try:
-        user = db.session.query(User).filter_by(uuid=uid).first()
+        user = db.session.query(User).filter_by(uid=uid).first()
         if not user:
             return jsonify({"message": f"not user {uid}"}), HTTPStatus.UNAUTHORIZED
 
@@ -63,7 +63,7 @@ def signup():
     name = data["username"]
     password = data["password"]
 
-    user = db.session.query(User).filter_by(uuid=uid).first()
+    user = db.session.query(User).filter_by(uid=uid).first()
     # 新規登録
     if not user:
         hashed_pass = bcrypt.generate_password_hash(password).decode('utf-8')
