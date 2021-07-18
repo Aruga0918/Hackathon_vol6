@@ -2,8 +2,8 @@ from database import db
 from sqlalchemy.dialects.mysql import INTEGER
 
 
-class Community_User(db.Model):
-    __tablename__ = "community_user"
+class CommunityUser(db.Model):
+    __tablename__ = "communities_users"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -12,13 +12,13 @@ class Community_User(db.Model):
 
     community_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("community.id"),
+        db.ForeignKey("communities.id"),
         nullable=False,
     )
 
     user_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("user.id"),
+        db.ForeignKey("users.id"),
         nullable=False,
     )
 

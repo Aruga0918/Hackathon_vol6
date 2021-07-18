@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import INTEGER, DOUBLE
 
 
 class Shop(db.Model):
-    __tablename__ = "shop"
+    __tablename__ = "shops"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,

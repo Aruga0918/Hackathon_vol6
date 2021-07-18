@@ -2,8 +2,8 @@ from database import db
 from sqlalchemy.dialects.mysql import INTEGER
 
 
-class Shop_Category(db.Model):
-    __tablename__ = "shop_category"
+class ShopCategory(db.Model):
+    __tablename__ = "shops_categories"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -12,13 +12,13 @@ class Shop_Category(db.Model):
 
     shop_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("shop.id"),
+        db.ForeignKey("shops.id"),
         nullable=False,
     )
 
     category_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("category.id"),
+        db.ForeignKey("categories.id"),
         nullable=False,
     )
 

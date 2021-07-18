@@ -1,9 +1,9 @@
-from app.database import db
+from database import db
 from sqlalchemy.dialects.mysql import INTEGER
 
 
 class Post(db.Model):
-    __tablename__ = "post"
+    __tablename__ = "posts"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -12,13 +12,13 @@ class Post(db.Model):
 
     user_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("user.id"),
+        db.ForeignKey("users.id"),
         nullable=False,
     )
 
     shop_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("shop.id"),
+        db.ForeignKey("shops.id"),
         nullable=False,
     )
 

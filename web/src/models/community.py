@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import INTEGER
 
 
 class Community(db.Model):
-    __tablename__ = "community"
+    __tablename__ = "communities"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -21,7 +21,7 @@ class Community(db.Model):
 
     host_user = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("user.id"),
+        db.ForeignKey("users.id"),
         nullable=False,
     )
 

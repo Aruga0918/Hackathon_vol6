@@ -2,8 +2,8 @@ from database import db
 from sqlalchemy.dialects.mysql import INTEGER
 
 
-class Post_Menu(db.Model):
-    __tablename__ = "post_menu"
+class PostMenu(db.Model):
+    __tablename__ = "posts_menus"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -12,13 +12,13 @@ class Post_Menu(db.Model):
 
     post_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("post.id"),
+        db.ForeignKey("posts.id"),
         nullable=False,
     )
 
     menu_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("menu.id"),
+        db.ForeignKey("menus.id"),
         nullable=False,
     )
 

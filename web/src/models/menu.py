@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import INTEGER
 
 
 class Menu(db.Model):
-    __tablename__ = "menu"
+    __tablename__ = "menus"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
@@ -12,7 +12,7 @@ class Menu(db.Model):
 
     shop_id = db.Column(
         INTEGER(unsigned=True),
-        db.ForeignKey("shop.id"),
+        db.ForeignKey("shops.id"),
         nullable=False,
     )
 

@@ -3,7 +3,7 @@ from sqlalchemy.dialects.mysql import INTEGER
 
 
 class Category(db.Model):
-    __tablename__ = "category"
+    __tablename__ = "categories"
     id = db.Column(
         INTEGER(unsigned=True),
         primary_key=True,
