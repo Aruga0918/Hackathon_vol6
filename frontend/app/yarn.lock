@@ -2001,6 +2001,15 @@ autoprefixer@^9.6.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
+axios-mock-server@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/axios-mock-server/-/axios-mock-server-0.19.1.tgz#5d7a3bbf78bbe07155e5d345f3f1cab76ebb0aa3"
+  integrity sha512-4Rh7eetDYq1KRqisvkflk+7LZ95zykIfBliV95da0rhtqjhq+yj661aOZIXIGyyWOwy3PtgHQ+vRtWWO5p4Osw==
+  dependencies:
+    chokidar "^3.5.1"
+    minimist "^1.2.5"
+    url-search-params-polyfill "^8.1.0"
+
 axios-retry@^3.1.9:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.1.9.tgz#6c30fc9aeb4519aebaec758b90ef56fa03fe72e8"
@@ -8436,6 +8445,11 @@ url-loader@^4.1.1:
     loader-utils "^2.0.0"
     mime-types "^2.1.27"
     schema-utils "^3.0.0"
+
+url-search-params-polyfill@^8.1.0:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/url-search-params-polyfill/-/url-search-params-polyfill-8.1.1.tgz#9e69e4dba300a71ae7ad3cead62c7717fd99329f"
+  integrity sha512-KmkCs6SjE6t4ihrfW9JelAPQIIIFbJweaaSLTh/4AO+c58JlDcb+GbdPt8yr5lRcFg4rPswRFRRhBGpWwh0K/Q==
 
 url@^0.11.0:
   version "0.11.0"
