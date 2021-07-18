@@ -1,33 +1,40 @@
-
-from models import User
 import logging
 from flask import Blueprint, jsonify
-from flask_jwt_extended import get_jwt_identity, jwt_required
-
-from http import HTTPStatus
+from models import User, Post
 
 
 users = Blueprint("users", __name__)
 logger = logging.getLogger("app")
 
 
-@users.route("/users", methods=["GET"])
-@jwt_required
-def user_exp():
-    user_id = get_jwt_identity()
+@users.route("/users/<int:user_id>", methods=["GET"])
+def get_user_info(user_id):
     try:
-        user_data = User.query.filter(User.id == user_id).first()
+        user_data = User.query.get(user_id)
         if user_data is None:
-            return jsonify({"message": "User data not found"}), HTTPStatus.UNAUTHORIZED
+            return jsonify({"message": "User data not found"}), 401
 
-        uuid = user_data.uuid
         name = user_data.name
+        uid = user_data.uid
+        icon_url = user_data.icon_url
+        profile = user_data.profile
+
+        post_data = Post.query.filter(Post.user_id == user_id).all()
+        post_id = [post.id for post in post_data]
+
+        return_data = {
+            "name": name,
+            "uid": uid,
+            "icon_url": icon_url,
+            "profile": profile,
+            "post": post_id
+        }
 
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+        return jsonify({"message": "Internal server error"}), 500
 
-    return jsonify({"name": name, "userid": uuid}), HTTPStatus.OK
+    return jsonify(return_data), 200
 
 
 @users.route("/users/test")

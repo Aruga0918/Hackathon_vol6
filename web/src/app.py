@@ -6,7 +6,8 @@ from flask_jwt_extended import JWTManager
 
 from database import init_db
 from seeder import register_command
-from blueprints import api, auth, users, template
+from blueprints import api, auth, users, template, communities
+import os
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -40,6 +41,7 @@ app.register_blueprint(api.api, url_prefix="/")
 app.register_blueprint(auth.auth, url_prefix="/")
 app.register_blueprint(users.users, url_prefix="/")
 app.register_blueprint(template.template, url_prefix="/")
+app.register_blueprint(communities.communities, url_prefix="/")
 
 
 init_db(app)
