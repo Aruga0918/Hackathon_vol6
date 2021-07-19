@@ -115,7 +115,7 @@ def get_community_info(community_id):
         ret = dict()
         ret["id"] = community_data.id
         ret["name"] = community_data.name
-        ret["comm_icon_url"] = community_data.comm_icon_url
+        ret["icon_url"] = community_data.icon_url
         ret["description"] = community_data.description or ""
         ret["host_user"] = community_data.host_user
         ret["members"] = []

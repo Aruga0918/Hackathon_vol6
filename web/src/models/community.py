@@ -16,7 +16,7 @@ class Community(db.Model):
         nullable=False,
     )
 
-    comm_icon_url = db.Column(db.String(255))
+    icon_url = db.Column(db.String(255))
 
     description = db.Column(db.String(255))
 
@@ -47,10 +47,10 @@ class Community(db.Model):
     )
     community_user = db.relationship('CommunityUser')
 
-    def __init__(self, name, host_user, comm_icon_url=None, description=None):
+    def __init__(self, name, host_user, icon_url=None, description=None):
         self.name = name
         self.host_user = host_user
-        self.comm_icon_url = comm_icon_url
+        self.icon_url = icon_url
         self.description = description
 
     def to_dict(self):
@@ -58,8 +58,7 @@ class Community(db.Model):
             id=self.id,
             name=self.name,
             description="" if self.description is None else self.description,
-            comm_icon_url="" if self.comm_icon_url is None else
-            self.comm_icon_url,
+            icon_url=self.icon_url,
             host_user=self.host_user,
             created_at=self.created_at,
         )
