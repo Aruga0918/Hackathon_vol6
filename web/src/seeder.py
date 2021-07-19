@@ -5,8 +5,13 @@ from models import User, Template, Community, Post, Menu, Category, \
 from database import db
 from flask_bcrypt import Bcrypt
 
+import json
+import itertools
+import random
 
 bcrypt = Bcrypt()
+
+shops_json_data = json.load(open("./assets/preprocessed_shops.json"))
 
 
 @click.command("seed")
@@ -15,36 +20,27 @@ bcrypt = Bcrypt()
 def seed(arg):
     if arg == "all":
         seed_user()
-        seed_template()
         seed_community()
-        seed_category()
-        seed_shop()
-        seed_menu()
-        seed_post()
-        seed_shop_category()
         seed_community_user()
-        seed_post_menu()
+        seed_shop_category_menu()
+        seed_post()
 
     if arg == "user":
         seed_user()
-    if arg == "template":
-        seed_template()
-    if arg == "community":
+    elif arg == "community":
         seed_community()
-    if arg == "category":
-        seed_category()
-    if arg == "menu":
-        seed_menu()
-    if arg == "shop":
-        seed_shop()
-    if arg == "post":
-        seed_post()
-    if arg == "shop_category":
-        seed_shop_category()
-    if arg == "community_user":
+    elif arg == "community_user":
         seed_community_user()
-    if arg == "post_menu":
-        seed_post_menu()
+    elif arg == "shop_cat_menu":
+        seed_shop_category_menu()
+    elif arg == "shop":
+        seed_shop()
+    elif arg == "menu":
+        seed_menu()
+    elif arg == "category":
+        seed_category()
+    elif arg == "post":
+        seed_post()
 
 
 def commit_all(objects):
@@ -80,50 +76,6 @@ def seed_community():
     commit_all(communities)
 
 
-def seed_category():
-    categories = [
-        Category(
-            name=f"sample category {i}",
-        )
-        for i in range(1, 11)
-    ]
-    commit_all(categories)
-
-
-def seed_menu():
-    menus = [
-        Menu(
-            name=f"sample menu {i}",
-            shop_id=i,
-            price=i*100
-        )
-        for i in range(1, 11)
-    ]
-    commit_all(menus)
-
-
-def seed_shop():
-    shops = [
-        Shop(
-            name=f"sample shop {i}",
-            lattitude=i * 10.1,
-            longitude=i * 10.1,
-            description="hoge" * i,
-            address="address" * i
-        )
-        for i in range(1, 11)
-    ]
-    commit_all(shops)
-
-
-def seed_post():
-    posts = [
-        Post(user_id=i, shop_id=i)
-        for i in range(1, 11)
-    ]
-    commit_all(posts)
-
-
 def seed_community_user():
     communities_users = []
     for i in range(1, 11):
@@ -137,43 +89,68 @@ def seed_community_user():
     commit_all(communities_users)
 
 
-def seed_post_menu():
-    posts_menus = []
-    for i in range(1, 11):
-        post = Post.query.filter(Post.id == i).first()
-        shop_id = post.shop_id
-        menus = Menu.query.filter(Menu.shop_id == shop_id).all()
+def seed_shop_category_menu():
+    # categoryをadd
+    seed_category()
 
-        for menu in menus:
-            post_menu = PostMenu(post.id, menu.id)
-            post_menu.menu = menu
-            post.post_menu.append(post_menu)
-            posts_menus.append(post_menu)
-    commit_all(posts_menus)
+    # shopをadd
+    seed_shop()
+
+    # menuをadd
+    seed_menu()
 
 
-def seed_shop_category():
-    shop_categories = []
-    for i in range(1, 11):
-        shop = Shop.query.filter(Shop.id == i).first()
-        for j in range(1, 4):
-            category = Category.query.filter(Category.id == j).first()
-            shop_category = ShopCategory(category.id, shop.id)
-            shop_category.shop = shop
-            category.shop_category.append(shop_category)
-            shop_categories.append(shop_category)
-    commit_all(shop_categories)
-
-
-def seed_template():
-    template = [
-        Template(
-            user_id=i % 10 + 1,
-            description=f"{i}"
-        )
-        for i in range(20)
+def seed_category():
+    categories = [
+        Category(name=cat)
+        for cat in set(data["category"] for data in shops_json_data)
     ]
-    commit_all(template)
+    commit_all(categories)
+
+
+def seed_shop():
+    shops = [
+        Shop(
+            name=data["name"],
+            lattitude=data["lattitude"],
+            longitude=data["longitude"],
+            description=data["description"],
+            address=data["address"],
+            icon_url=data["icon_url"]
+        )
+        for data in shops_json_data
+    ]
+    commit_all(shops)
+
+
+def seed_menu():
+    menus = list(itertools.chain.from_iterable([
+        [
+            Menu(
+                name=name,
+                shop_id=Shop.query.filter(Shop.name == data["name"]).first().id,
+                price=price
+            )
+            for name, price in data["menu"].items()
+        ] for data in shops_json_data
+    ]))
+    commit_all(menus)
+
+
+def seed_post():
+    posts = []
+    for user_id in range(1, 11):
+        for shop_id in range(1, 11):
+            post = Post(user_id=user_id, shop_id=shop_id, message="おいしかった"*user_id)
+            menus = Menu.query.filter(Menu.shop_id == shop_id).all()
+            sampled_menus = random.sample(menus, min(len(menus), 4))
+
+            for menu in sampled_menus:
+                post_menu = PostMenu(post.id, menu.id)
+                post_menu.menu = menu
+                post.post_menu.append(post_menu)
+                posts.append(post)
+    commit_all(posts)
 
 
 def register_command(app):

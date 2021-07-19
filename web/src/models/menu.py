@@ -17,7 +17,7 @@ class Menu(db.Model):
         nullable=False,
     )
 
-    name = db.Column(db.String(64), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
 
     price = db.Column(INTEGER(unsigned=True), nullable=False)
 

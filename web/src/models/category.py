@@ -11,7 +11,7 @@ class Category(db.Model):
         autoincrement=True,
     )
 
-    name = db.Column(db.String(32), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
 
     created_at = db.Column(
         db.DateTime,

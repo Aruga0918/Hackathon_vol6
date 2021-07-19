@@ -11,8 +11,8 @@ class User(db.Model):
         autoincrement=True,
     )
 
-    uid = db.Column(db.String(32), nullable=False)
-    name = db.Column(db.String(32), nullable=False)
+    uid = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(60), nullable=False)
     icon_url = db.Column(db.String(255))
     profile = db.Column(db.String(255))
