@@ -2,122 +2,332 @@
   <div class="container">
     <div class="row justify-content-center my-5">
       <div class="col col-md-10">
-        <p v-if="isLogin" class="text-center">user name : {{ displayName }}</p>
-        <div class="my-4">
-          <b-card bg-variant="light">
-            <b-form-group
-              label-cols-lg="3"
-              label="sign up"
-              label-size="lg"
-              label-class="font-weight-bold pt-0"
-              class="mb-0"
-            >
-              <b-form-group
-                label="username"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="username" type="text"></b-form-input>
-              </b-form-group>
+        <h3>コミュニティAPI</h3>
 
-              <b-form-group
-                label="user id"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="signupUserid" type="text"></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  v-model="signupPassword1"
-                  type="password"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  v-model="signupPassword2"
-                  type="password"
-                ></b-form-input>
-              </b-form-group>
-            </b-form-group>
-            <b-button type="button" variant="primary" @click="signup"
-              >sign up</b-button
-            >
-          </b-card>
-        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>コミュニティ情報取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getCommunityInfo"
+                  >getCommunityInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ作成API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="createCommunity"
+                  >createCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ削除API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="deleteCommunity"
+                  >deleteCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ編集API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="editCommunity"
+                  >editCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ参加API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="joinCommunity"
+                  >joinCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ参加拒否API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="cancelJoinCommunity"
+                  >cancelJoinCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー招待API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="inviteCommunity"
+                  >inviteCommunity</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー退会API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="withdrawCommunity"
+                  >withdrawCommunity</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-        <p v-if="loginFailed" class="alert alert-danger">
-          ログインに失敗しました
-        </p>
-        <div class="my-4">
-          <b-card bg-variant="light">
-            <b-form-group
-              label-cols-lg="3"
-              label="login"
-              label-size="lg"
-              label-class="font-weight-bold pt-0"
-              class="mb-0"
-            >
-              <b-form-group
-                label="user id"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="userid" type="text"></b-form-input>
-              </b-form-group>
+        <h3>ユーザーAPI</h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>ユーザー一覧取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getUsersInfo"
+                  >getUsersInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー情報取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getUserInfo"
+                  >getUserInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー削除API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="deleteUser"
+                  >deleteUser</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー編集API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="editUser"
+                  >editUser</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>所属コミュニティ一覧取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getMyCommunities"
+                  >getMyCommunities</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-              <b-form-group
-                label="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="password" type="password"></b-form-input>
-              </b-form-group>
-            </b-form-group>
-            <b-button type="button" variant="primary" @click="login"
-              >login</b-button
-            >
-            <b-button type="button" variant="danger" @click="logout"
-              >logout</b-button
-            >
-          </b-card>
-        </div>
+        <h3>店舗API</h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>店舗情報取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getShopInfo"
+                  >getShopInfo</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-        <div>
-          <h4 class="text-center">template databaseの中身</h4>
-          <b-button @click="getDatabase">更新</b-button>
-          <div>
-            <b-table striped hover :items="items"></b-table>
-          </div>
-        </div>
+        <h3>投稿API</h3>
 
-        <div class="my-4">
-          <b-form inline>
-            <b-form-input
-              v-model="description"
-              class="mb-2 mr-sm-2 mb-sm-0"
-              placeholder="post contents"
-            ></b-form-input>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>投稿取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getPostInfo"
+                  >getPostInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ユーザー投稿取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getUserPostsInfo"
+                  >getUserPostsInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ショップ投稿取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getShopPostsInfo"
+                  >getShopPostsInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>コミュニティ投稿取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getCommunityPostsInfo"
+                  >getCommunityPostsInfo</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>新規投稿API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="postsData"
+                  >postsData</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>投稿編集API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="editPostsData"
+                  >editPostsData</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>投稿削除API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="deletePostsData"
+                  >deletePostsData</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-            <b-button variant="primary" @click="post">post</b-button>
-          </b-form>
-          <p v-if="postFailed" class="text-danger">postに失敗しました</p>
-        </div>
-        <b-button type="button" variant="info" @click="user">user</b-button>
-        <b-button type="button" variant="info" @click="community"
-          >community</b-button
-        >
-        <b-button type="button" variant="info" @click="joinCommunity"
-          >join community</b-button
-        >
+        <h3>カテゴリAPI</h3>
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>カテゴリ一覧取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getCategoryList"
+                  >getCategoryList</b-button
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><h5>ショップ一覧取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getShopList"
+                  >getShopList</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>ランキングAPI</h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><h5>ランキング取得API</h5></td>
+              <td>
+                <b-button
+                  type="button"
+                  variant="info"
+                  size="sm"
+                  @click="getRanking"
+                  >getRanking</b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -127,123 +337,134 @@
 /* eslint-disable no-console */
 export default {
   data() {
-    return {
-      displayName: '',
-      userid: '',
-      password: '',
-      signupUserid: '',
-      signupPassword1: '',
-      signupPassword2: '',
-      username: '',
-      loginFailed: false,
-      isLogin: false,
-      postFailed: false,
-      description: '',
-      items: [],
-    }
+    return {}
   },
   computed: {},
-  mounted() {
-    this.getDatabase()
-  },
+  mounted() {},
   methods: {
-    async user() {
-      const res = await this.$axios.$get('/users/0')
+    async getCommunityInfo() {
+      const res = await this.$axios.get('/mock/communities/1')
       console.log(res.data)
     },
-    async community() {
-      const res = await this.$axios.$get('/community')
+    async createCommunity() {
+      const params = {
+        community_name: 'hoge',
+        description: 'hogehoge',
+        members: [1, 2, 3],
+      }
+      const res = await this.$axios.post('/mock/communities/create', params)
       console.log(res.data)
+    },
+    async deleteCommunity() {
+      const res = await this.$axios.delete('/mock/communities/1')
+      console.log(res)
+    },
+    async editCommunity() {
+      const params = {
+        community_name: 'hoge',
+        description: 'hogehoge',
+      }
+      const res = await this.$axios.patch('/mock/communities/1', params)
+      console.log(res)
     },
     async joinCommunity() {
-      const res = await this.$axios.$post('/community/0/join')
+      const res = await this.$axios.post('/mock/communities/1/join')
       console.log(res.data)
     },
-    login() {
-      const form = { uid: this.userid, password: this.password }
-      this.$api
-        .post('/api/auth/signin', form)
-        .then((res) => {
-          const accessToken = res.data.access_token
-          const refreshToken = res.data.refresh_token
-          this.displayName = res.data.username
-          localStorage.setItem('accessToken', accessToken)
-          localStorage.setItem('refreshToken', refreshToken)
-          this.isLogin = true
-          this.loginFailed = false
-          console.log(localStorage.getItem('accessToken'))
-        })
-        .catch(() => {
-          this.loginFailed = true
-        })
-      this.userid = ''
-      this.password = ''
+    async cancelJoinCommunity() {
+      const res = await this.$axios.delete('/mock/communities/1/join')
+      console.log(res)
     },
-    signup() {
-      if (
-        this.signupPassword1 === this.signupPassword2 &&
-        this.signupPassword1 !== '' &&
-        this.signupUserid !== '' &&
-        this.username !== ''
-      ) {
-        const form = {
-          uid: this.signupUserid,
-          password: this.signupPassword1,
-          username: this.username,
-        }
-        this.$api
-          .post('/api/auth/signup', form)
-          .then((res) => {
-            const accessToken = res.data.access_token
-            const refreshToken = res.data.refresh_token
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
-            this.displayName = res.data.username
-            this.isLogin = true
-            this.loginFailed = false
-            console.log(localStorage.getItem('accessToken'))
-          })
-          .catch(() => {
-            console.error('signup error')
-          })
+    async inviteCommunity() {
+      const params = {
+        members: [1, 2, 3, 4],
       }
-      this.signupPassword1 = ''
-      this.signupPassword2 = ''
-      this.username = ''
-      this.signupUserid = ''
+      const res = await this.$axios.patch('/mock/communities/1/add', params)
+      console.log(res)
     },
-    logout() {
-      localStorage.setItem('accessToken', null)
-      localStorage.setItem('refreshToken', null)
-      console.log(localStorage.getItem('accessToken'))
-      this.isLogin = false
+    async withdrawCommunity() {
+      const res = await this.$axios.delete('/mock/communities/1/members/1')
+      console.log(res)
     },
-    post() {
-      const form = { description: this.description }
-      this.$api
-        .post('/api/template', form)
-        .then(() => {
-          this.postFailed = false
-          this.getDatabase()
-        })
-        .catch(() => {
-          this.postFailed = true
-          console.error("can't post description")
-        })
+    async getUserInfo() {
+      const res = await this.$axios.get('/mock/users/1')
+      console.log(res.data)
     },
-    getDatabase() {
-      this.$api
-        .get('/api/template')
-        .then((res) => {
-          this.refreshItems(res.data)
-        })
-        .catch(() => {
-          console.error("can't get database data")
-        })
+    async getUsersInfo() {
+      const res = await this.$axios.get('/mock/users')
+      console.log(res.data)
     },
-    refreshItems(items) {
-      this.items = items
+    async deleteUser() {
+      const res = await this.$axios.delete('/mock/users/withdrawal')
+      console.log(res)
+    },
+    async editUser() {
+      const params = {
+        user_name: 'user name',
+        user_id: 1,
+        password: 'hge',
+      }
+      const res = await this.$axios.patch('/mock/users/edit', params)
+      console.log(res)
+    },
+    async getMyCommunities() {
+      const res = await this.$axios.get('/mock/users/communities')
+      console.log(res.data)
+    },
+    async getShopInfo() {
+      const res = await this.$axios.get('/mock/shops/1')
+      console.log(res.data)
+    },
+    async getPostInfo() {
+      const res = await this.$axios.get('/mock/posts/1')
+      console.log(res.data)
+    },
+    async getUserPostsInfo() {
+      const res = await this.$axios.get('/mock/posts/users/1')
+      console.log(res.data)
+    },
+    async getShopPostsInfo() {
+      const res = await this.$axios.get('/mock/posts/shops/1')
+      console.log(res.data)
+    },
+    async getCommunityPostsInfo() {
+      const res = await this.$axios.get('/mock/posts/communities/1')
+      console.log(res.data)
+    },
+    async postsData() {
+      const res = await this.$axios.post('/mock/posts/users/1/shops/1')
+      console.log(res)
+    },
+    async editPostsData() {
+      const res = await this.$axios.patch('/mock/posts/1')
+      console.log(res)
+    },
+    async deletePostsData() {
+      const res = await this.$axios.delete('/mock/posts/1')
+      console.log(res)
+    },
+    async getCategoryList() {
+      const res = await this.$axios.get('/mock/categories')
+      console.log(res.data)
+    },
+    async getShopList() {
+      const params = { community_id: 1 }
+      const res = await this.$axios.get('/mock/categories/1/shops', params)
+      console.log(res.data)
+    },
+    async getRanking() {
+      const params = { community_id: 1 }
+      const res = await this.$axios.get('/mock/rankings/shops/1', params)
+      console.log(res.data)
     },
   },
 }
 </script>
+
+<style scoped>
+h3 {
+  border-left: solid 5px lightgray;
+  padding-left: 10px;
+  margin-top: 50px;
+}
+</style>
