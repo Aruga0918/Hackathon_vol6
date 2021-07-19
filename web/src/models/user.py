@@ -52,7 +52,7 @@ class User(db.Model):
         return dict(
             uid=self.uid,
             name=self.name,
-            icon_url="" if self.icon_url is None else self.icon_url,
+            icon_url=self.icon_url,
             profile="" if self.profile is None else self.profile,
             is_private=self.is_private
         )
