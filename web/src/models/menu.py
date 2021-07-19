@@ -1,5 +1,6 @@
 from database import db
 from sqlalchemy.dialects.mysql import INTEGER
+from models.post_menu import PostMenu
 
 
 class Menu(db.Model):
@@ -33,6 +34,13 @@ class Menu(db.Model):
         server_onupdate=db.func.current_timestamp(),
         nullable=False,
     )
+
+    posts = db.relationship(
+        'Post',
+        secondary=PostMenu.__tablename__,
+        back_populates='menus',
+    )
+    post_menu = db.relationship('PostMenu')
 
     def __init__(self, shop_id, name, price):
         self.shop_id = shop_id

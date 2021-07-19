@@ -1,5 +1,6 @@
 from database import db
 from sqlalchemy.dialects.mysql import INTEGER
+from models.community_user import CommunityUser
 
 
 class User(db.Model):
@@ -31,6 +32,13 @@ class User(db.Model):
         server_onupdate=db.func.current_timestamp(),
         nullable=False,
     )
+
+    communities = db.relationship(
+        'Community',
+        secondary=CommunityUser.__tablename__,
+        back_populates='users',
+    )
+    community_user = db.relationship('CommunityUser')
 
     def __init__(self, uid, name, password, icon_url=None, profile=None, is_private=False):
         self.uid = uid

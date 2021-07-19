@@ -29,7 +29,7 @@ def create_community():
             return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), 500
+        return jsonify({"message": "Internal server error"}), 500
 
     # 招待したいユーザーのデータの有無を確認する
     members = payload.get("members")
@@ -42,7 +42,7 @@ def create_community():
             member_ids.append(member_data.id)
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), 500
+        return jsonify({"message": "Internal server error"}), 500
 
     # コミュニティ作成
     description = payload.get("description")
@@ -53,7 +53,7 @@ def create_community():
     except Exception as e:
         logger.error(e)
         db.session.rollback()
-        return jsonify({"message": f"Internal server error\n{e}"}), 500
+        return jsonify({"message": "Internal server error"}), 500
 
     # メンバー登録
     try:
@@ -67,7 +67,7 @@ def create_community():
     except Exception as e:
         logger.error(e)
         db.session.rollback()
-        return jsonify({"message": f"Internal server error\n{e}"}), 500
+        return jsonify({"message": "Internal server error"}), 500
 
     return jsonify(community.to_dict()), 200
 
@@ -75,13 +75,14 @@ def create_community():
 @communities.route("/communities/<int:community_id>", methods=["GET"])
 @jwt_required
 def get_community_info(community_id):
+
     user_id = get_jwt_identity()
     # ユーザーがコミュニティに属しているか検証
     try:
         community_user_data = CommunityUser.query.filter(
-            CommunityUser.community_id == community_id and
-            CommunityUser.user_id == user_id and
-            CommunityUser.is_join is True
+            CommunityUser.community_id == community_id,
+            CommunityUser.user_id == user_id,
+            CommunityUser.is_join
         ).first()
         if community_user_data is None:
             return jsonify({"message": "user doesn't join this community"}), HTTPStatus.BAD_REQUEST
@@ -132,9 +133,9 @@ def get_community_info(community_id):
 
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return ret
+    return jsonify(ret), HTTPStatus.OK
 
 
 @communities.route("/communities/test")

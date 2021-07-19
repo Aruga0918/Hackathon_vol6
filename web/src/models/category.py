@@ -1,5 +1,6 @@
 from database import db
 from sqlalchemy.dialects.mysql import INTEGER
+from models.shop_category import ShopCategory
 
 
 class Category(db.Model):
@@ -25,6 +26,13 @@ class Category(db.Model):
         server_onupdate=db.func.current_timestamp(),
         nullable=False,
     )
+
+    shops = db.relationship(
+        'Shop',
+        secondary=ShopCategory.__tablename__,
+        back_populates='categories',
+    )
+    shop_category = db.relationship('ShopCategory')
 
     def __init__(self, name):
         self.name = name

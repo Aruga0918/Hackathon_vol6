@@ -10,4 +10,5 @@ from .post_menu import PostMenu
 from .shop_category import ShopCategory
 
 
-__all__ = ["User", "Template", "Category", "Community", "Menu", "Post", "Shop", "CommunityUser", "PostMenu", "ShopCategory"]
+__all__ = ["User", "Template", "Category", "Community", "Menu", "Post",
+           "Shop", "CommunityUser", "PostMenu", "ShopCategory"]
