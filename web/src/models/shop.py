@@ -11,7 +11,7 @@ class Shop(db.Model):
         autoincrement=True,
     )
 
-    name = db.Column(db.String(32), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
 
     lattitude = db.Column(DOUBLE(9, 6))
     longitude = db.Column(DOUBLE(9, 6))
