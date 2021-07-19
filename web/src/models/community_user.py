@@ -4,22 +4,19 @@ from sqlalchemy.dialects.mysql import INTEGER
 
 class CommunityUser(db.Model):
     __tablename__ = "communities_users"
-    id = db.Column(
-        INTEGER(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
 
     community_id = db.Column(
         INTEGER(unsigned=True),
         db.ForeignKey("communities.id"),
         nullable=False,
+        primary_key=True
     )
 
     user_id = db.Column(
         INTEGER(unsigned=True),
         db.ForeignKey("users.id"),
         nullable=False,
+        primary_key=True
     )
 
     is_join = db.Column(db.Boolean(), nullable=False)
@@ -37,6 +34,9 @@ class CommunityUser(db.Model):
         server_onupdate=db.func.current_timestamp(),
         nullable=False,
     )
+
+    community = db.relationship('Community')
+    user = db.relationship('User')
 
     def __init__(self, community_id, user_id, is_join=False):
         self.community_id = community_id

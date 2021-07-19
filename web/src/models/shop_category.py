@@ -4,22 +4,19 @@ from sqlalchemy.dialects.mysql import INTEGER
 
 class ShopCategory(db.Model):
     __tablename__ = "shops_categories"
-    id = db.Column(
-        INTEGER(unsigned=True),
-        primary_key=True,
-        autoincrement=True,
-    )
 
     shop_id = db.Column(
         INTEGER(unsigned=True),
         db.ForeignKey("shops.id"),
         nullable=False,
+        primary_key=True
     )
 
     category_id = db.Column(
         INTEGER(unsigned=True),
         db.ForeignKey("categories.id"),
         nullable=False,
+        primary_key=True
     )
 
     created_at = db.Column(
@@ -35,6 +32,9 @@ class ShopCategory(db.Model):
         server_onupdate=db.func.current_timestamp(),
         nullable=False,
     )
+
+    shop = db.relationship('Shop')
+    category = db.relationship('Category')
 
     def __init__(self, shop_id, category_id):
         self.shop_id = shop_id

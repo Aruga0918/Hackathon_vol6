@@ -4,7 +4,7 @@ from models import User, Template, Community, Post, Menu, Category, \
     Shop, CommunityUser, PostMenu, ShopCategory
 from database import db
 from flask_bcrypt import Bcrypt
-import itertools
+
 
 bcrypt = Bcrypt()
 
@@ -125,20 +125,43 @@ def seed_post():
 
 
 def seed_community_user():
-    communities_users = list(itertools.chain.from_iterable(
-        [[CommunityUser(community_id=i, user_id=j, is_join=j % 2 == 0)for j in range(1, 4)] for i in range(1, 11)]))
+    communities_users = []
+    for i in range(1, 11):
+        user = User.query.filter(User.id == i).first()
+        for j in range(1, 4):
+            community = Community.query.filter(Community.id == j).first()
+            community_user = CommunityUser(community.id, user.id, is_join=j % 2 == 0)
+            community_user.user = user
+            community.community_user.append(community_user)
+            communities_users.append(community_user)
     commit_all(communities_users)
 
 
 def seed_post_menu():
-    post_menus = list(itertools.chain.from_iterable(
-        [[PostMenu(post_id=i, menu_id=j) for j in range(1, 4)] for i in range(1, 11)]))
-    commit_all(post_menus)
+    posts_menus = []
+    for i in range(1, 11):
+        post = Post.query.filter(Post.id == i).first()
+        shop_id = post.shop_id
+        menus = Menu.query.filter(Menu.shop_id == shop_id).all()
+
+        for menu in menus:
+            post_menu = PostMenu(post.id, menu.id)
+            post_menu.menu = menu
+            post.post_menu.append(post_menu)
+            posts_menus.append(post_menu)
+    commit_all(posts_menus)
 
 
 def seed_shop_category():
-    shop_categories = list(itertools.chain.from_iterable(
-        [[ShopCategory(shop_id=i, category_id=j) for j in range(1, 4)] for i in range(1, 11)]))
+    shop_categories = []
+    for i in range(1, 11):
+        shop = Shop.query.filter(Shop.id == i).first()
+        for j in range(1, 4):
+            category = Category.query.filter(Category.id == j).first()
+            shop_category = ShopCategory(category.id, shop.id)
+            shop_category.shop = shop
+            category.shop_category.append(shop_category)
+            shop_categories.append(shop_category)
     commit_all(shop_categories)
 
 
