@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/proxy": "^2.1.0",
+    "@nuxtjs/dotenv": "^1.4.1",
     "axios-mock-server": "^0.19.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
