@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "axios-mock-server -b && nuxt",
-    "build": "axios-mock-server -b && nuxt build",
-    "start": "axios-mock-server -b && nuxt start",
-    "generate": "axios-mock-server -b && nuxt generate",
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "mock": "axios-mock-server -b",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
