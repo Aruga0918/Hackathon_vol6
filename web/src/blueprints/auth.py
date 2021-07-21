@@ -54,7 +54,7 @@ def signin():
     return (jsonify({"access_token": access_token}), HTTPStatus.OK)
 
 
-@auth.route("/auth/signup", methods=["GET", "POST"])
+@auth.route("/auth/signup", methods=["POST"])
 def signup():
     if not request.is_json:
         return jsonify({"message": "Missing JSON in request"}), HTTPStatus.BAD_REQUEST
