@@ -6,7 +6,7 @@ from flask_jwt_extended import JWTManager
 
 from database import init_db
 from seeder import register_command
-from blueprints import api, auth, users, template, communities
+from blueprints import api, auth, users, communities, categories, posts, rankings, shops
 import os
 
 app = Flask(__name__)
@@ -40,8 +40,11 @@ logger.addHandler(handler)
 app.register_blueprint(api.api, url_prefix="/")
 app.register_blueprint(auth.auth, url_prefix="/")
 app.register_blueprint(users.users, url_prefix="/")
-app.register_blueprint(template.template, url_prefix="/")
 app.register_blueprint(communities.communities, url_prefix="/")
+app.register_blueprint(categories.categories, url_prefix="/")
+app.register_blueprint(posts.posts, url_prefix="/")
+app.register_blueprint(shops.shops, url_prefix="/")
+app.register_blueprint(rankings.rankings, url_prefix="/")
 
 
 init_db(app)
