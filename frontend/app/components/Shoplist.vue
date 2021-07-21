@@ -1,5 +1,5 @@
 <template>
-  <b-container class="shoplist">
+  <b-container class="commlist">
     <div
       v-for="shop in shops"
       :key="shop.name"
@@ -20,10 +20,7 @@
         />
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
           <p class="d-inline ml-auto">
-            <NuxtLink
-              :to="{ name: 'shop-shopid', params: { shopid: shop.id } }"
-              >{{ shop.name }}</NuxtLink
-            >
+            <a href="/shop_sample">{{ shop.name }}</a>
           </p>
           <p style="font-size: 6px">{{ shop.opentime }}</p>
         </div>
@@ -33,31 +30,24 @@
 </template>
 
 <script>
-// 例:http://localhost:3000/category/1で和食を出す
+import Shoplist from '../assets/shopdata.json'
+import category from '../assets/category.json'
 export default {
-  asyncData() {
-    const Shoplist = require(`~/assets/shopdata.json`)
-    const categories = require(`~/assets/category.json`)
-    return {
-      Shoplist,
-      categories,
-    }
-  },
   data() {
     return {
       shops: [],
+      id: '',
+      CategoryList: category,
     }
   },
   methods: {
-    window: (onload = function () {
-      const id = this.$route.params.categoryId
-      const category = this.categories[id - 1].CategoryName
-      for (const i of this.Shoplist) {
-        if (i.category === category) {
+    getByCategoryId(id) {
+      for (const i of Shoplist) {
+        if (i.id === id) {
           this.shops.push(i)
         }
       }
-    }),
+    },
   },
 }
 </script>
