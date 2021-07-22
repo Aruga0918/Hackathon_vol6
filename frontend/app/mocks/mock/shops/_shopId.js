@@ -42,6 +42,6 @@ const shopInfo = [
 export default {
   // 店舗情報取得API
   get({ values }) {
-    return [200, shopInfo]
+    return [200, shopInfo[0]]
   },
 }

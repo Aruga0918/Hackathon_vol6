@@ -90,7 +90,7 @@
 export default {
   props: {
     shopdata: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
