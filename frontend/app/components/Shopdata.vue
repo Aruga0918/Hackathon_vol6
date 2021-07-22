@@ -1,11 +1,11 @@
 <template>
   <div class="Container" style="vertical-align: center">
     <div class="primary_shopdata d-flex" style="height: 20vh">
-      <img :src="ShopImg" style="object-fit: scale-down" />
+      <img :src="shopdata.img" style="object-fit: scale-down" />
       <div class="d-inline-block ml-auto mr-auto" style="margin-top: 16px">
         <div class="primarydata mr-auto">
-          <big style="height: 20%; font-weight: bold">{{ ShopName }}</big>
-          <p style="height:20% color:gray">ジャンル: {{ ShopCategory }}</p>
+          <big style="height: 20%; font-weight: bold">{{ shopdata.name }}</big>
+          <!-- <p style="height:20% color:gray">ジャンル: {{ ShopCategory }}</p> -->
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
             d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"
           />
         </svg>
-        {{ ShopBudget }}
+        {{ shopdata.budget }}
       </p>
       <p>
         <svg
@@ -52,7 +52,7 @@
             d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"
           />
         </svg>
-        {{ ShopTime }}
+        {{ shopdata.description }}
       </p>
       <p>
         <svg
@@ -70,7 +70,7 @@
             d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
           />
         </svg>
-        {{ ShopAdderss }}
+        {{ shopdata.address }}
       </p>
     </div>
     <div>
@@ -87,20 +87,22 @@
 </template>
 
 <script>
-import shops from '../assets/shopdata.json'
 export default {
-  data() {
-    return {
-      ShopName: shops[0].name,
-      ShopTime: shops[0].opentime,
-      ShopBudget: shops[0].budget,
-      ShopAdderss: shops[0].address,
-      ShopImg: shops[0].img,
-      ShopCategory: shops[0].category,
-      // JumboStyle:{background: url('https://imgfp.hotp.jp/IMGH/10/90/P027711090/P027711090_238.jpg')
-      // }
-    }
+  props: {
+    shopdata: {
+      type: Array,
+      required: true,
+    },
   },
+  // data() {
+  //   return {
+  //     ShopName: shopData.name,
+  //     ShopTime: shopData.description,
+  //     ShopBudget: shopData.budget,
+  //     ShopAdderss: shopData.address,
+  //     ShopImg: shopData.img,
+  //   }
+  // },
 }
 </script>
 

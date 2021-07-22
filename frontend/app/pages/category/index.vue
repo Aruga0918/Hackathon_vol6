@@ -9,7 +9,7 @@
         <nuxt-link
           class="nlink"
           :to="{
-            name: 'category-categoryId',
+            name: 'category-categoryId-shop',
             params: { categoryId: category.id },
           }"
         >

@@ -46,6 +46,12 @@
 
 <script>
 export default {
+  props: {
+    userId: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       comms: [

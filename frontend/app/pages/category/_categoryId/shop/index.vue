@@ -7,12 +7,11 @@
       style="
         align-items: center;
         justify-content: center;
-        border-top-style: ridge;
-        border-bottom-style: groove;
+        border-bottom-style: ridge;
         height: 150px;
       "
     >
-      <div class="d-flex" style="align-items: center; width: 70%">
+      <div class="d-flex" style="align-items: center; width: 100%">
         <img
           :src="shop.img"
           class="d-inline-block"
@@ -21,7 +20,13 @@
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
           <p class="d-inline ml-auto">
             <NuxtLink
-              :to="{ name: 'shop-shopid', params: { shopid: shop.id } }"
+              :to="{
+                name: 'category-categoryId-shop-shopId',
+                params: {
+                  categoryId: $route.params.categoryId,
+                  shopId: shop.id,
+                },
+              }"
               >{{ shop.name }}</NuxtLink
             >
           </p>
@@ -48,16 +53,23 @@ export default {
       shops: [],
     }
   },
-  methods: {
-    window: (onload = function () {
-      const id = this.$route.params.categoryId
-      const category = this.categories[id - 1].CategoryName
-      for (const i of this.Shoplist) {
-        if (i.category === category) {
-          this.shops.push(i)
-        }
+  mounted() {
+    // window: (onload = function () {
+    const id = this.$route.params.categoryId
+    const category = this.categories[id - 1].CategoryName
+    for (const i of this.Shoplist) {
+      if (i.category === category) {
+        this.shops.push(i)
       }
-    }),
+    }
+    // }),
+
+    // async getEventInfo() {
+    //   this.shops = await this.$axios
+    //     .get('mock/categories/this.$route.params.categoryId/shops')
+    //     .then((res) => res.data)
+    // },
+    // console.log(this.shops)
   },
 }
 </script>
