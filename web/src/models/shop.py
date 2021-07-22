@@ -13,14 +13,14 @@ class Shop(db.Model):
 
     name = db.Column(db.String(255), nullable=False)
 
-    lattitude = db.Column(DOUBLE(9, 6))
-    longitude = db.Column(DOUBLE(9, 6))
+    lattitude = db.Column(DOUBLE(9, 6),  default=None)
+    longitude = db.Column(DOUBLE(9, 6), default=None)
 
-    description = db.Column(db.String(255))
+    description = db.Column(db.String(255),  default=None)
 
-    address = db.Column(db.String(255))
+    address = db.Column(db.String(255),  default=None)
 
-    icon_url = db.Column(db.String(255))
+    icon_url = db.Column(db.String(255),  default=None)
 
     created_at = db.Column(
         db.DateTime,
@@ -41,15 +41,6 @@ class Shop(db.Model):
         secondary=ShopCategory.__tablename__,
         back_populates='shops',
     )
-    shop_category = db.relationship('ShopCategory')
-
-    def __init__(self, name, lattitude=None, longitude=None, description=None, address=None, icon_url=None):
-        self.name = name
-        self.lattitude = lattitude
-        self.longitude = longitude
-        self.description = description
-        self.address = address
-        self.icon_url = icon_url
 
     def to_dict(self):
         return dict(
