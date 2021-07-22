@@ -1,7 +1,7 @@
 import logging
-from flask import Blueprint, jsonify
-from models import User, Post
-from flask_jwt_extended import jwt_required
+from flask import Blueprint, jsonify, request
+from models import User, Community, CommunityUser
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from http import HTTPStatus
 
@@ -33,28 +33,19 @@ def get_user_info(user_id):
     try:
         user_data = User.query.get(user_id)
         if user_data is None:
-            return jsonify({"message": "User data not found"}), 401
-
-        name = user_data.name
-        uid = user_data.uid
-        icon_url = user_data.icon_url
-        profile = user_data.profile
-
-        post_data = Post.query.filter(Post.user_id == user_id).all()
-        post_id = [post.id for post in post_data]
-
-        return_data = {
-            "name": name,
-            "id": user_id,
-            "uid": uid,
-            "icon_url": icon_url,
-            "profile": profile,
-            "post": post_id
-        }
+            return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
 
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": "Internal server error"}), 500
+        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    return_data = {
+        "name": user_data.name, 
+        "id": user_data.id, 
+        "uid": user_data.uid, 
+        "icon_url": user_data.icon_url,
+        "profile": user_data.profile
+    }
 
     return jsonify(return_data), HTTPStatus.OK
 
@@ -82,10 +73,27 @@ def get_users_info():
             ユーザーのプロフィール
     ]
     """
-    logger.warn("warn")
-    logger.error("error")
-    logger.critical("critical")
-    return jsonify({"message": "api_test"}), HTTPStatus.OK
+    try:
+        users_data = User.query.all()
+        if not users_data:
+            return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    return_data = []
+    for user_data in users_data:
+        return_data.append(
+            {
+                "name": user_data.name, 
+                "id": user_data.id, 
+                "uid": user_data.uid, 
+                "icon_url": user_data.icon_url,
+                "profile": user_data.profile
+            }
+        )
+
+    return jsonify(return_data), HTTPStatus.OK
 
 
 @users.route("/users/withdrawal", methods=["DELETE"])
@@ -154,10 +162,38 @@ def get_user_communities():
     member_cnt : int
         メンバーの数
     """
-    logger.warn("warn")
-    logger.error("error")
-    logger.critical("critical")
-    return jsonify({"message": "api_test"}), HTTPStatus.OK
+    user_id = get_jwt_identity()
+    try:
+        user_data = User.query.filter(User.id == user_id).first()
+        if user_data is None:
+            return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    try:
+        community_user_data = CommunityUser.query.filter(CommunityUser.user_id == user_id).all()
+        if not community_user_data:
+            return jsonify({"message": "Community data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    return_data = []
+    for data in community_user_data:
+        community_id = data.community_id
+        community_data = Community.query.filter(Community.id == community_id).first()
+        member_cnt = CommunityUser.query.filter(CommunityUser.community_id == community_id).count()
+        return_data.append(
+            {
+                "id": community_id, 
+                "name": community_data.name, 
+                "icon_url": community_data.icon_url, 
+                "member_cnt": member_cnt
+            }
+        )
+
+    return jsonify(return_data), HTTPStatus.OK
 
 
 @users.route("/users/test")
