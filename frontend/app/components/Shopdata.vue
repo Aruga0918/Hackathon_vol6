@@ -83,7 +83,7 @@
           <b-container class="commlist">
             <div
               v-for="(ranking, index) in rankings"
-              :key="ranking.name"
+              :key="index"
               class="d-flex"
               style="
                 align-items: center;
@@ -94,7 +94,7 @@
             >
               <div class="d-flex" style="align-items: center; width: 70%">
                 <img
-                  :src="rankIcon[index]"
+                  :src="require(rankIcon[index])"
                   class="d-inline-block"
                   style="height: 100px; width: 100px; float: left"
                 />
@@ -117,7 +117,7 @@
           <b-container class="menulist">
             <div
               v-for="menu in shopdata.menu"
-              :key="menu"
+              :key="menu.name"
               class="d-flex"
               style="
                 align-items: center;
@@ -156,7 +156,7 @@ export default {
   data() {
     return {
       rankings: [],
-      rankIcon: ['f3-1.png', 'f3-2.png', 'f3-3.png'],
+      rankIcon: ['~/static/f3-1.png', '~/static/f3-2.png', '~/static/f3-3.png'],
     }
   },
   mounted() {
