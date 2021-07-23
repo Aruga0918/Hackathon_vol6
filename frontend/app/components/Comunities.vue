@@ -1,7 +1,7 @@
 <template>
   <b-container class="commlist">
     <div
-      v-for="comm in comms"
+      v-for="comm in belongings"
       :key="comm.name"
       class="d-flex"
       style="
@@ -21,8 +21,10 @@
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
           <p class="d-inline ml-auto">{{ comm.name }}</p>
           <b-nav-item-dropdown text="詳細" right style="list-style: none">
-            <b-dropdown-item href="#">メンバー：</b-dropdown-item>
-            <b-dropdown-item>メンバーを招待</b-dropdown-item>
+            <b-dropdown-item href="#"
+              >メンバー：{{ comm.member_cnt }}</b-dropdown-item
+            >
+            <b-dropdown-item><Invite :id="comm.id" /></b-dropdown-item>
           </b-nav-item-dropdown>
         </div>
 
@@ -47,20 +49,23 @@
 <script>
 export default {
   props: {
-    userId: {
-      type: Object,
+    belongings: {
+      type: Array,
       required: true,
     },
   },
-  data() {
-    return {
-      comms: [
-        { name: 'ベネ英語科', imglink: 'hoge' },
-        { name: 'ガストしか勝たん', imglink: 'hogehoge' },
-        { name: 'ラーメンハオチー', imglink: 'hogeege' },
-        { name: '３年B組', imglink: 'hohoho' },
-      ],
-    }
+  // data() {
+  //   return {
+  //     comms: [
+  //       { name: 'ベネ英語科', imglink: 'hoge' },
+  //       { name: 'ガストしか勝たん', imglink: 'hogehoge' },
+  //       { name: 'ラーメンハオチー', imglink: 'hogeege' },
+  //       { name: '３年B組', imglink: 'hohoho' },
+  //     ],
+  //   }
+  // },
+  mounted() {
+    console.log(this.belongings)
   },
 }
 </script>

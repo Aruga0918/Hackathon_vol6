@@ -1,10 +1,22 @@
 <template>
   <div>
-    <Comunities class="d-inline ml-auto mr-auto" />
+    <Comunities class="d-inline ml-auto mr-auto" :belongings="belongings" />
     <Commodal />
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      belongings: [],
+    }
+  },
+
+  mounted() {
+    this.belongings = this.$axios
+      .get(`/mock/users/communities`)
+      .then((res) => (this.belongings = res.data))
+  },
+}
 </script>

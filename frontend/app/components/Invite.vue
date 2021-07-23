@@ -1,40 +1,11 @@
 <template>
   <div style="text-align: right">
-    <b-button
-      v-b-modal.modal-1
-      variant="outline-secondary"
-      style="margin-right: 16px"
-      >コミュニティ新規作成</b-button
+    <b-button v-b-modal.modal-1 variant="" style="margin-right: 16px"
+      >メンバー招待</b-button
     >
 
     <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
       <div class="creater">
-        <form action="" method="post">
-          <label for="ComunityName"
-            >作成するコミュニティの名前を記入してください</label
-          >
-          <input
-            id="ComunityName"
-            v-model="community_name"
-            class="form-control"
-            type="text"
-            name="ComunityName"
-          />
-        </form>
-        <br />
-        <form action="" method="post">
-          <label for="ComunityDescription">説明</label>
-          <br />
-          <input
-            id="ComunityDescription"
-            v-model="description"
-            class="form-control"
-            type="text"
-            name="ComunityDescription"
-            placeholder="任意"
-          />
-        </form>
-        <br />
         <form action="" method="post">
           <div class="row d-inline-block" style="padding: 0px 16px">
             <div class="col-xs-8">
@@ -80,12 +51,16 @@
 
 <script>
 export default {
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       members: [],
       memberID: '',
-      community_name: '',
-      description: '',
     }
   },
   methods: {
@@ -98,16 +73,14 @@ export default {
       // splice(始まり,消去数)
     },
     submit() {
-      const url = '/mock/communities/create'
+      const url = `/communities/${this.id}/add`
       const params = {
-        community_name: this.community_name,
-        description: this.description,
         members: this.members,
       }
       this.$axios
-        .post(url, params)
+        .patch(url, params)
         .then(() => {
-          alert('created')
+          alert('invited')
         })
         .catch(() => {
           alert('An error occured')
