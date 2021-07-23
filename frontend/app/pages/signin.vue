@@ -70,15 +70,14 @@ export default {
         .post('/api/auth/signin', form)
         .then((res) => {
           const data = res.data
+          const accessToken = res.data.access_token
+          const refreshToken = res.data.refresh_token
           localStorage.setItem('uid', data.uid)
           localStorage.setItem('user_icon_url', data.icon_url)
           localStorage.setItem('username', data.username)
-          const accessToken = res.data.access_token
-          const refreshToken = res.data.refresh_token
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
           this.failed = false
-          console.log(localStorage.getItem('uid'))
           this.$router.go(-1)
         })
         .catch((e) => {
