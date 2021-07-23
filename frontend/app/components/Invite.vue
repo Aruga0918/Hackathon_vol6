@@ -1,10 +1,10 @@
 <template>
   <div style="text-align: right">
-    <b-button v-b-modal.modal-1 variant="" style="margin-right: 16px"
+    <b-button v-b-modal.modal-2 variant="" style="margin-right: 16px"
       >メンバー招待</b-button
     >
 
-    <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
+    <b-modal id="modal-2" title="コミュニティ新規作成" @ok="submit">
       <div class="creater">
         <form action="" method="post">
           <div class="row d-inline-block" style="padding: 0px 16px">

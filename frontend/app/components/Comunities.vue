@@ -50,7 +50,7 @@
 export default {
   props: {
     belongings: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },

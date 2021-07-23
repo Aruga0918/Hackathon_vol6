@@ -14,9 +14,9 @@ export default {
   },
 
   mounted() {
-    this.belongings = this.$axios
-      .get(`/mock/users/communities`)
-      .then((res) => (this.belongings = res.data))
+    this.belongings = this.$axios.get(`/mock/users/communities`).then((res) => {
+      this.belongings = res.data
+    })
   },
 }
 </script>
