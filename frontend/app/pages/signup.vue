@@ -7,7 +7,9 @@
           src="@/assets/fooriend_logo_bland_color.png"
           width="100"
         />
-        <h4 class="text-center mb-3" style="color: #f44336">fooriend</h4>
+        <h4 class="fooriend text-center mb-3" style="color: #f44336">
+          fooriend
+        </h4>
         <h3 class="text-center">アカウント作成</h3>
         <div v-if="failed" class="alert alert-danger" role="alert">
           {{ errorMessage }}
@@ -126,7 +128,11 @@ export default {
           const accessToken = res.data.access_token
           const refreshToken = res.data.refresh_token
           localStorage.setItem('uid', data.uid)
-          localStorage.setItem('user_icon_url', data.icon_url)
+          if (data.icon_url !== null) {
+            localStorage.setItem('user_icon_url', data.icon_url)
+          } else {
+            localStorage.removeItem('user_icon_url')
+          }
           localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)

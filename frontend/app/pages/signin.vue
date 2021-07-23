@@ -7,7 +7,9 @@
           src="@/assets/fooriend_logo_bland_color.png"
           width="100"
         />
-        <h4 class="text-center mb-3" style="color: #f44336">fooriend</h4>
+        <h4 class="fooriend text-center mb-3" style="color: #f44336">
+          fooriend
+        </h4>
         <div v-if="failed" class="alert alert-danger">
           サインインに失敗しました
         </div>
@@ -47,6 +49,7 @@
 
 <script>
 /* eslint-disable no-console */
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -61,6 +64,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      storeSignin: 'storeSignin',
+    }),
     onSubmit() {
       const form = {
         uid: this.userId,
@@ -73,10 +79,15 @@ export default {
           const accessToken = res.data.access_token
           const refreshToken = res.data.refresh_token
           localStorage.setItem('uid', data.uid)
-          localStorage.setItem('user_icon_url', data.icon_url)
+          if (data.icon_url !== null) {
+            localStorage.setItem('user_icon_url', data.icon_url)
+          } else {
+            localStorage.removeItem('user_icon_url')
+          }
           localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
+          this.storeSignin()
           this.failed = false
           this.$router.go(-1)
         })
