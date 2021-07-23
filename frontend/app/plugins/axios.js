@@ -29,7 +29,7 @@ export default function ({ $axios, app: { router } }, inject) {
 
       const refreshToken = localStorage.getItem('refreshToken')
       if (!refreshToken) {
-        router.push('/login')
+        router.push('/signin')
       }
 
       error.config._retry = true

@@ -137,7 +137,7 @@ export default {
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
           this.failed = false
-          this.$router.go(-1)
+          this.$router.go(-2)
           alert('アカウント作成に成功しました')
         })
         .catch((e) => {
