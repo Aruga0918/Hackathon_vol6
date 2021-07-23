@@ -45,7 +45,10 @@ def signin():
             {
                 "access_token": access_token,
                 "refresh_token": refresh_token,
-                "username": username
+                "username": username,
+                "icon_url": user.icon_url,
+                "id": user.id,
+                "uid": user.uid
             }
         ),
         HTTPStatus.OK
