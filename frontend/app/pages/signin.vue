@@ -42,6 +42,7 @@
             </button>
           </div>
         </form>
+        <p>新規登録は<nuxt-link to="/signup">こちら</nuxt-link></p>
       </div>
     </div>
   </div>
@@ -59,7 +60,7 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('accessToken') !== null) {
+    if (![null, undefined].includes(localStorage.getItem('accessToken'))) {
       this.$router.push('/')
     }
   },
