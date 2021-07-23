@@ -50,7 +50,13 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    'nuxt-webfontloader',
   ],
+  webfontloader: {
+    google: {
+      families: ['Cambay', 'Cambay — Bold'],
+    },
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   proxy: {

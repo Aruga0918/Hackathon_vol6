@@ -7,7 +7,9 @@
           src="@/assets/fooriend_logo_bland_color.png"
           width="100"
         />
-        <h4 class="text-center mb-3" style="color: #f44336">fooriend</h4>
+        <h4 class="fooriend text-center mb-3" style="color: #f44336">
+          fooriend
+        </h4>
         <div v-if="failed" class="alert alert-danger">
           サインインに失敗しました
         </div>

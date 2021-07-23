@@ -17,7 +17,9 @@
                 height="50px"
               ></b-img>
             </td>
-            <td class="align-middle p-0 m-0 pl-1 text-white">fooriend</td>
+            <td class="fooriend align-middle p-0 m-0 pl-1 pt-1 text-white">
+              <strong> fooriend </strong>
+            </td>
           </tr>
         </tbody>
       </table>
