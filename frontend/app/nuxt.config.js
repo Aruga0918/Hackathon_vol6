@@ -25,7 +25,14 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios', '~/plugins/mock.js'],
+  plugins: [
+    {
+      src: '~/plugins/persistedstate.js',
+      ssr: false,
+    },
+    '~/plugins/axios',
+    '~/plugins/mock.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

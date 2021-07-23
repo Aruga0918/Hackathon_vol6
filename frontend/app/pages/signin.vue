@@ -47,6 +47,7 @@
 
 <script>
 /* eslint-disable no-console */
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -61,6 +62,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      storeSignin: 'storeSignin',
+    }),
     onSubmit() {
       const form = {
         uid: this.userId,
@@ -81,6 +85,7 @@ export default {
           localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
+          this.storeSignin()
           this.failed = false
           this.$router.go(-1)
         })

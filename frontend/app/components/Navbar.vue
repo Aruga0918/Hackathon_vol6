@@ -23,36 +23,8 @@
       </table>
     </b-navbar-brand>
 
-    <b-nav-item-dropdown v-if="isLogin" right class="d-block d-sm-none">
-      <template #button-content>
-        <img
-          v-if="icon_url !== null"
-          :src="icon_url"
-          style="border-radius: 50%"
-          height="30px"
-        />
-        <img
-          v-else
-          src="@/assets/person.png"
-          style="border-radius: 50%"
-          height="30px"
-        />
-      </template>
-      <b-dropdown-item
-        :to="{
-          name: 'user-userId',
-          params: {
-            userId: userId,
-          },
-        }"
-        nuxt
-        >プロフィール</b-dropdown-item
-      >
-      <b-dropdown-item @click="signout">ログアウト</b-dropdown-item>
-    </b-nav-item-dropdown>
-    <nuxt-link v-else class="btn btn-light d-block d-sm-none" to="/signin"
-      >ログイン</nuxt-link
-    >
+    <navbar-user-icon v-if="isSignin" class="d-block d-sm-none" />
+    <navbar-login-icon v-else class="d-block d-sm-none" />
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
@@ -92,48 +64,21 @@
           </nuxt-link>
         </b-nav-item>
       </b-navbar-nav>
-      <b-navbar-nav class="d-none d-sm-block ml-auto">
-        <img
-          v-if="icon_url !== null"
-          :src="icon_url"
-          style="border-radius: 50%"
-          height="30px"
-        />
-        <img
-          v-else
-          src="@/assets/person.png"
-          style="border-radius: 50%"
-          height="30px"
-        />
-      </b-navbar-nav>
+
+      <navbar-user-icon v-if="isSignin" class="d-none d-sm-block ml-auto" />
+      <navbar-login-icon v-else class="d-none d-sm-block ml-auto" />
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: () => {
-    return {
-      isLogin: null,
-    }
+    return {}
   },
   computed: {
-    icon_url() {
-      return localStorage.getItem('user_icon_url')
-    },
-    userId() {
-      return localStorage.getItem('uid')
-    },
-  },
-  created() {
-    this.isLogin = localStorage.getItem('accessToken') !== null
-  },
-  methods: {
-    signout() {
-      localStorage.clear()
-      this.isLogin = false
-      this.$router.replace('/')
-    },
+    ...mapGetters(['isSignin']),
   },
 }
 </script>
