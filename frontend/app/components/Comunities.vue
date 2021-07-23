@@ -19,12 +19,12 @@
           style="border-radius: 50%; height: 60px; width: 60px; float: left"
         />
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
-          <p class="d-inline ml-auto">{{ comm.name }}</p>
+          <p class="d-inline ml-auto">{{ comm.name }} ID: {{ comm.id }}</p>
           <b-nav-item-dropdown text="詳細" right style="list-style: none">
             <b-dropdown-item href="#"
               >メンバー：{{ comm.member_cnt }}</b-dropdown-item
             >
-            <b-dropdown-item><Invite :id="comm.id" /></b-dropdown-item>
+            <b-dropdown-item><Invite :commid="comm.id" /></b-dropdown-item>
           </b-nav-item-dropdown>
         </div>
 
@@ -50,7 +50,7 @@
 export default {
   props: {
     belongings: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },

@@ -1,10 +1,13 @@
 <template>
   <div style="text-align: right">
-    <b-button v-b-modal.modal-2 variant="" style="margin-right: 16px"
+    <b-button
+      variant=""
+      style="margin-right: 16px"
+      @click="$bvModal.show(`${commid.toString()}`)"
       >メンバー招待</b-button
     >
 
-    <b-modal id="modal-2" title="コミュニティ新規作成" @ok="submit">
+    <b-modal :id="commid.toString()" title="メンバーを招待する" @ok="invite">
       <div class="creater">
         <form action="" method="post">
           <div class="row d-inline-block" style="padding: 0px 16px">
@@ -52,7 +55,7 @@
 <script>
 export default {
   props: {
-    id: {
+    commid: {
       type: Number,
       required: true,
     },
@@ -63,6 +66,9 @@ export default {
       memberID: '',
     }
   },
+  mounted() {
+    console.log(this.commid)
+  },
   methods: {
     AddInvite() {
       this.members.push(this.memberID)
@@ -72,7 +78,7 @@ export default {
       this.members.splice(index, 1)
       // splice(始まり,消去数)
     },
-    submit() {
+    invite() {
       const url = `/communities/${this.id}/add`
       const params = {
         members: this.members,
