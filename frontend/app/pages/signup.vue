@@ -126,7 +126,11 @@ export default {
           const accessToken = res.data.access_token
           const refreshToken = res.data.refresh_token
           localStorage.setItem('uid', data.uid)
-          localStorage.setItem('user_icon_url', data.icon_url)
+          if (data.icon_url !== null) {
+            localStorage.setItem('user_icon_url', data.icon_url)
+          } else {
+            localStorage.removeItem('user_icon_url')
+          }
           localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
