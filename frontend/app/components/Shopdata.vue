@@ -79,8 +79,67 @@
         nav-class="justify-content-center"
         active-nav-item-class="font-weight-bold text-uppercase text-danger"
       >
-        <b-tab title="ランキング" active><p>I'm the first tab</p></b-tab>
-        <b-tab title="メニュー"><p>I'm the second tab</p></b-tab>
+        <b-tab title="ランキング" active>
+          <b-container class="commlist">
+            <div
+              v-for="(ranking, index) in rankings"
+              :key="ranking.name"
+              class="d-flex"
+              style="
+                align-items: center;
+                justify-content: center;
+                border-bottom-style: ridge;
+                height: 100px;
+              "
+            >
+              <div class="d-flex" style="align-items: center; width: 70%">
+                <img
+                  :src="rankIcon[index]"
+                  class="d-inline-block"
+                  style="height: 100px; width: 100px; float: left"
+                />
+                <div
+                  class="d-inline-block ml-auto mr-auto"
+                  style="width: 260px"
+                >
+                  <p class="d-inline ml-auto">
+                    <a>{{ ranking.name }}</a>
+                  </p>
+                  <p style="font-size: 6px">
+                    価格: {{ ranking.price }} 投稿数:{{ ranking.posted_cnt }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </b-container>
+        </b-tab>
+        <b-tab title="メニュー">
+          <b-container class="menulist">
+            <div
+              v-for="menu in shopdata.menu"
+              :key="menu"
+              class="d-flex"
+              style="
+                align-items: center;
+                justify-content: center;
+                border-bottom-style: ridge;
+                height: 50px;
+              "
+            >
+              <div class="d-flex" style="align-items: center; width: 100%">
+                <div class="d-flex ml-auto mr-auto" style="width: 90%">
+                  <p class="d-inline-block mr-auto my-auto">
+                    <a>{{ menu.name }}</a>
+                  </p>
+                  <p class="d-inline-block ml-auto my-auto">
+                    <a>{{ menu.price }}</a>
+                  </p>
+                  <!-- <p style="font-size: 6px">価格: {{ menu.price }}</p> -->
+                </div>
+              </div>
+            </div>
+          </b-container>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
@@ -94,15 +153,17 @@ export default {
       required: true,
     },
   },
-  // data() {
-  //   return {
-  //     ShopName: shopData.name,
-  //     ShopTime: shopData.description,
-  //     ShopBudget: shopData.budget,
-  //     ShopAdderss: shopData.address,
-  //     ShopImg: shopData.img,
-  //   }
-  // },
+  data() {
+    return {
+      rankings: [],
+      rankIcon: ['f3-1.png', 'f3-2.png', 'f3-3.png'],
+    }
+  },
+  mounted() {
+    this.rankings = this.$axios
+      .get(`/mock/rankings/shops/${this.$route.params.shopId}`)
+      .then((res) => (this.rankings = res.data))
+  },
 }
 </script>
 
