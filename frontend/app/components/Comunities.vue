@@ -64,6 +64,7 @@ export default {
       required: true,
     },
   },
+
   mounted() {
     console.log(this.belongings)
   },
@@ -80,5 +81,15 @@ export default {
         })
     },
   },
+  // data() {
+  //   return {
+  //     comms: [
+  //       { name: 'ベネ英語科', imglink: 'hoge' },
+  //       { name: 'ガストしか勝たん', imglink: 'hogehoge' },
+  //       { name: 'ラーメンハオチー', imglink: 'hogeege' },
+  //       { name: '３年B組', imglink: 'hohoho' },
+  //     ],
+  //   }
+  // },
 }
 </script>

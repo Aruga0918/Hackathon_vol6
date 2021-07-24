@@ -61,7 +61,7 @@ def get_community_info(community_id):
         ret = dict()
         ret["id"] = community_data.id
         ret["name"] = community_data.name
-        ret["icon_url"] = community_data.icon_url
+        ret["comm_icon_url"] = community_data.icon_url
         ret["description"] = community_data.description or ""
         ret["host_user"] = community_data.host_user
         ret["members"] = []
@@ -75,11 +75,12 @@ def get_community_info(community_id):
             member_data["uid"] = user_data.uid
             member_data["name"] = user_data.name
             member_data["icon_url"] = user_data.icon_url
+            member_data["is_join"] = cud.is_join
             ret["members"].append(member_data)
 
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     return jsonify(ret), HTTPStatus.OK
 
@@ -122,7 +123,7 @@ def create_community():
             return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": "Internal server error"}), 500
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     # 招待したいユーザーのデータの有無を確認する
     members = payload.get("members")
@@ -135,7 +136,7 @@ def create_community():
             member_ids.append(member_data.id)
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": "Internal server error"}), 500
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     # コミュニティ作成
     description = payload.get("description")
@@ -146,7 +147,7 @@ def create_community():
     except Exception as e:
         logger.error(e)
         db.session.rollback()
-        return jsonify({"message": "Internal server error"}), 500
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     # メンバー登録
     try:
@@ -160,9 +161,9 @@ def create_community():
     except Exception as e:
         logger.error(e)
         db.session.rollback()
-        return jsonify({"message": "Internal server error"}), 500
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return jsonify(community.to_dict()), 200
+    return jsonify(community.to_dict()), HTTPStatus.OK
 
 
 @communities.route("/communities/<int:community_id>", methods=["DELETE"])

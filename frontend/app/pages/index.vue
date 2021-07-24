@@ -1,38 +1,54 @@
 <template>
-  <div class="wrapper" style="min-height: 100vh; position: relative">
-    <div style="height: 100%; display: flex; border-bottom-style: ridge">
-      <CommodalForIndex
-        class="d-inline-block"
-        style="width: 15%; margin-top: 0"
-      />
-      <Storylike class="d-inline-block" style="width: 70%" />
-      <img
-        src="~/static/common.png"
-        class="mx-auto"
-        style="
-          margin-top: 5px;
-          height: 30px;
-          width: 30px;
-          border: 1px solid;
-          border-radius: 50%;
-        "
-      />
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="py-1 col col-md-9">
+        <community-list :user-id="userId" />
+        <div v-for="(post, idx) in posts" :key="idx">
+          <user-post :post="post" />
+          <hr class="my-1" />
+        </div>
+        <Post style="z-index: 100; position: sticky; top: 85vh; left: 65vh" />
+      </div>
     </div>
-    <Post style="z-index: 100; position: sticky; top: 85vh; right: 15vh" />
-    <Timeline />
   </div>
 </template>
 
 <script>
-import CommodalForIndex from '../components/CommodalForIndex.vue'
-import Post from '../components/Post.vue'
+import { mapState } from 'vuex'
 export default {
-  components: { Post, CommodalForIndex },
-  data() {
+  data: () => {
     return {
-      userId: 0,
+      posts: [],
     }
   },
-  mounted() {},
+
+  fetch() {
+    this.$api
+      .get(`/api/posts/communities/${this.communityId}`)
+      .then((res) => {
+        this.posts = res.data
+      })
+      .catch(() => {
+        console.error(`/api/posts/communities/${this.communityId}`)
+      })
+  },
+  computed: {
+    ...mapState({
+      userId: (state) => state.user.id,
+      communityId: (state) => state.communityId,
+    }),
+  },
+  watch: {
+    communityId() {
+      this.$api
+        .get(`/api/posts/communities/${this.communityId}`)
+        .then((res) => {
+          this.posts = res.data
+        })
+        .catch(() => {
+          console.error(`/api/posts/communities/${this.communityId}`)
+        })
+    },
+  },
 }
 </script>

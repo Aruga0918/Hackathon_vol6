@@ -13,7 +13,7 @@
     >
       <div class="d-flex" style="align-items: center; width: 100%">
         <img
-          :src="shop.img"
+          :src="shop.icon_url"
           class="d-inline-block"
           style="height: 100px; width: 100px; float: left"
         />
@@ -38,35 +38,31 @@
 </template>
 
 <script>
-// 例:http://localhost:3000/category/1で和食を出す
+import { mapState } from 'vuex'
 export default {
-  asyncData() {
-    // const Shoplist = require(`~/assets/shopdata.json`)
-    // const categories = require(`~/assets/category.json`)
-    return {
-      // Shoplist,
-      // categories,
-    }
-  },
   data() {
     return {
       shops: [],
       // Shoplist: [],
     }
   },
-  created() {
-    this.shops = this.$axios
-      .get(`/mock/categories/${this.$route.params.categoryId}/shops`)
+
+  computed: {
+    ...mapState({
+      communityId: (state) => state.communityId,
+    }),
+  },
+  mounted() {
+    const params = {
+      community_id: this.communityId,
+    }
+    this.$api
+      .get(`api/categories/${this.$route.params.categoryId}/shops`, {
+        params,
+      })
       .then((res) => {
         this.shops = res.data
       })
-    // const id = this.$route.params.categoryId
-    // const category = this.categories[id - 1].CategoryName
-    // for (const i of this.Shoplist) {
-    //   if (i.category === category) {
-    //     this.shops.push(i)
-    //   }
-    // }
   },
 }
 </script>

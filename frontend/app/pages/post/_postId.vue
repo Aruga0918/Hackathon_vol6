@@ -32,7 +32,7 @@
         <div>
           <p>店&nbsp;&nbsp;{{ post.shop_name }}</p>
           <p class="m-0">メニュー</p>
-          <ul v-for="menu in post.menu" :key="menu.menu_id" class="m-0">
+          <ul v-for="(menu, idx) in post.menu" :key="idx" class="m-0">
             <li>{{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}</li>
           </ul>
           <div class="mb-3" />
@@ -53,11 +53,15 @@ export default {
       post: [],
     }
   },
-  async fetch() {
-    const post = await this.$axios.get(
-      `/mock/posts/${this.$route.params.postId}`
-    )
-    this.post = post.data
+  fetch() {
+    this.$axios
+      .get(`/api/posts/${this.$route.params.postId}`)
+      .then((res) => {
+        this.post = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>

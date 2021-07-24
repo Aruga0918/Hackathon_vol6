@@ -117,7 +117,7 @@ def seed_shop():
     shops = [
         Shop(
             name=data["name"],
-            lattitude=data["lattitude"],
+            latitude=data["lattitude"],
             longitude=data["longitude"],
             description=data["description"],
             address=data["address"],
@@ -156,11 +156,12 @@ def seed_menu():
 def seed_post():
     # data = []
     for user_id in range(1, 11):
-        for shop_id in range(1, 11):
+        for shop in Shop.query.all():
+            shop_id = shop.id
             data = []
             post = Post(user_id=user_id, shop_id=shop_id, message="おいしかった"*user_id)
             menus = Menu.query.filter(Menu.shop_id == shop_id).all()
-            sampled_menus = random.sample(menus, min(len(menus), 4))
+            sampled_menus = random.sample(menus, min(len(menus), 10))
 
             for menu in sampled_menus:
                 post_menu = PostMenu(post_id=post.id, menu_id=menu.id)

@@ -1,19 +1,48 @@
 <template>
-  <ul class="horizontal-list">
-    <li v-for="comm in communities" :key="comm.id" class="item">
-      <img
-        v-if="comm.icon_url"
-        style="object-fit: contain; border-radius: 50%; width: 100%"
-        :src="comm.icon_url"
-      />
-      <img
-        v-else
-        style="object-fit: contain; border-radius: 50%; width: 100%"
-        src="@/assets/community.png"
-      />
-    </li>
-  </ul>
+  <div>
+    <template v-if="isLoggedin">
+      <ul class="horizontal-list">
+        <template v-for="(community, idx) in communityList">
+          <li :key="idx" class="item" @click="storeCommunityId(community.id)">
+            <img
+              v-if="community.icon_url"
+              style="border-radius: 50%"
+              :src="community.icon_url"
+              width="30"
+            />
+            <img
+              v-else
+              style="border-radius: 50%"
+              src="@/assets/community.png"
+              width="30"
+            />
+          </li>
+        </template>
+      </ul>
+    </template>
+    <div v-else>ログインしましょう</div>
+  </div>
 </template>
+
+<script>
+import { mapMutations } from 'vuex'
+export default {
+  props: {
+    communityList: {
+      type: Array,
+      required: true,
+    },
+    isLoggedin: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    ...mapMutations({ storeCommunityId: 'storeCommunityId' }),
+  },
+}
+</script>
+
 <style>
 .horizontal-list {
   overflow-x: auto;

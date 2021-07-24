@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex" @click="goPostDetailPage">
     <div style="width: 15%" class="mr-1">
       <b-img
         v-if="post.user_icon_url"
@@ -22,7 +22,7 @@
       <div style="line-height: 1em" class="mb-1">
         <p class="m-0">店&nbsp;&nbsp;{{ post.shop_name }}</p>
         <p class="m-0">メニュー</p>
-        <ul v-for="menu in post.menu" :key="menu.menu_id" class="m-0">
+        <ul v-for="(menu, idx) in post.menu" :key="idx" class="m-0">
           <li>{{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}</li>
         </ul>
         <p>{{ post.message }}</p>
@@ -37,6 +37,11 @@ export default {
     post: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    goPostDetailPage() {
+      this.$router.push(`/post/${this.post.post_id}`)
     },
   },
 }

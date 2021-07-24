@@ -13,10 +13,14 @@ export default {
     }
   },
   mounted() {
-    this.belongings = this.$axios
-      .get(`/mock/users/${this.$route.params.userId}/community`)
+    this.$api
+      .get(`/api/users/communities`)
       .then((res) => {
+        console.log('api', res.data)
         this.belongings = res.data
+      })
+      .catch((e) => {
+        console.error(e)
       })
   },
 }

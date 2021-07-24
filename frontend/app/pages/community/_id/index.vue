@@ -58,27 +58,15 @@ export default {
       posts: [],
     }
   },
-  async fetch() {
-    // this.community = this.$axios
-    //   .get(`/mock/communities/${this.$route.params.id}`)
-    //   .then((res) => {
-    //     this.community = res.data
-    //     console.log(this.community)
-    //   })
-    const community = await this.$axios.get(
-      `/mock/communities/${this.$route.params.id}`
-    )
-    this.community = community.data
-
-    // this.posts = this.$axios
-    //   .get(`/mock/posts/communities/${this.$route.params.id}`)
-    //   .then((res) => {
-    //     this.posts = res.data
-    //   })
-    const posts = await this.$axios.get(
-      `/mock/posts/communities/${this.$route.params.id}`
-    )
-    this.posts = posts.data
+  mounted() {
+    this.$api
+      .get(`/mock/users/communities`)
+      .then((res) => {
+        this.belongings = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>
