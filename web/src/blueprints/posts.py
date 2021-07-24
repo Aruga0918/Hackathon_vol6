@@ -50,6 +50,7 @@ def get_post_detailed_info(post_id):
     Returns
     -------
     {
+        "post_id" : 投稿id,
         "user_name" : ユーザーの名前,
         "user_id" : (数字の方の)ユーザーid,
         "uid" : (文字列の方の)ユーザーid,
@@ -119,6 +120,7 @@ def get_post_detailed_info(post_id):
     ]
 
     post_detailed_info = {
+        "post_id":post_id,
         "user_name": user_data.name,
         "user_id": user_data.id,
         "uid": user_data.uid,
@@ -145,6 +147,7 @@ def get_post(post_id):
     Returns
     -------
     {
+        "post_id" : 投稿id,
         "user_name" : ユーザーの名前,
         "user_id" : (数字の方の)ユーザーid,
         "uid" : (文字列の方の)ユーザーid,
@@ -187,6 +190,7 @@ def get_user_posts(user_id):
     -------
     [
         {
+            "post_id" : 投稿id,
             "user_name" : ユーザーの名前,
             "user_id" : (数字の方の)ユーザーid,
             "uid" : (文字列の方の)ユーザーid,
@@ -235,6 +239,7 @@ def get_shop_posts(shop_id):
     -------
     [
         {
+            "post_id" : 投稿id,
             "user_name" : ユーザーの名前,
             "user_id" : (数字の方の)ユーザーid,
             "uid" : (文字列の方の)ユーザーid,
@@ -284,6 +289,7 @@ def get_community_posts(community_id):
     -------
     [
         {
+            "post_id" : 投稿id,
             "user_name" : ユーザーの名前,
             "user_id" : (数字の方の)ユーザーid,
             "uid" : (文字列の方の)ユーザーid,
