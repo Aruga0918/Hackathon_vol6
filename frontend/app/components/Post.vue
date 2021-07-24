@@ -27,20 +27,19 @@
         <form action="" method="post">
           <label for="ComunityName">カテゴリ</label>
           <select
-            v-model="category"
+            v-model="selectedCategoryId"
             class="form-select"
             aria-label="Default select example"
-            @change="SearchByCategory(category)"
+            @change="SearchByCategory()"
           >
-            <option disabled value="">
-              Open this select category{{ category }}
+            <option disabled value="">Open this select category</option>
+            <option
+              v-for="category in categories"
+              :key="category.id"
+              :value="category.id"
+            >
+              {{ category.name }}
             </option>
-            <option>和食</option>
-            <option>洋食</option>
-            <option>イタリアン</option>
-            <option>中華</option>
-            <option>ラーメン</option>
-            <option>カフェ</option>
           </select>
         </form>
         <br />
@@ -48,13 +47,15 @@
           <label for="ComunityDescription">お店を選択</label>
           <br />
           <select
-            v-model="shopname"
+            v-model="selectedShopId"
             class="form-select"
             aria-label="Default select example"
-            @change="GetMenu(shopname)"
+            @change="GetMenu()"
           >
             <option disabled value="">Open this select shop</option>
-            <option v-for="shop in incategory" :key="shop">{{ shop }}</option>
+            <option v-for="shop in shops" :key="shop.id" :value="shop.id">
+              {{ shop.name }}
+            </option>
           </select>
         </form>
         <br />
@@ -62,68 +63,96 @@
           <label for="ComunityDescription">メニューを選択</label>
           <br />
           <select
+            v-model="atefoods"
             class="form-select"
             aria-label="Default select example"
             multiple
           >
             <option disabled value="">Open this select menu</option>
-            <option v-for="menu in menus" :key="menu">{{ menu }}</option>
+            <option
+              v-for="menu in menus"
+              :key="menu.menu_id"
+              :value="menu.menu_id"
+            >
+              {{ menu.name }}
+            </option>
           </select>
         </form>
-        <!-- <form action="" method="post">
-            <div class="row d-inline-block" style="padding:0px 16px;">
-            <div class="col-xs-8">   
-                <label for="Invitation">メンバー招待</label>
-                <br>
-                <input class="form-control" type="text" name="Invitation" id="Invitation" placeholder="ユーザーID" v-model="memberID">
-            </div>
-            </div>
-            type = buttonにすると閉じない
-            <button type="button" class="btn btn-danger btn-circle btn-circle-sm m-1 d-inline-block" @click="AddInvite">＋</button>
+        {{ atefoods }}
+        <form action="" method="post">
+          <label for="PostDescription">メッセージ</label>
+          <br />
+          <input
+            id="PostDescription"
+            v-model="message"
+            class="form-control"
+            type="text"
+            name="ComunityDescription"
+            placeholder="任意"
+          />
         </form>
-        <li class="d-inline-block" style="width:50%" v-for="member in members" :key="member">
-            {{member}}
-        <b-button variant="outline-secondary" type="button" @click="Remove(member)">削除</b-button>
-        </li> -->
       </div>
     </b-modal>
   </div>
 </template>
 
 <script>
-import shops from '../assets/shopdata.json'
 export default {
+  props: {
+    userId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
-      shops,
+      categories: [],
+      shops: [],
       category: '',
       shopname: '',
+      atefoods: [],
       incategory: [],
       menus: [],
-
+      selectedCategoryId: 0,
+      selectedShopId: 0,
+      message: '',
       candidates: [],
     }
   },
+  created() {
+    this.categories = this.$api.get(`/api/categories`).then((res) => {
+      this.categories = res.data
+    })
+  },
   methods: {
-    SearchByCategory(category) {
-      for (const shop of this.shops) {
-        if (shop.category === category) {
-          this.incategory.push(shop.name)
-          const precand = []
-          precand.shopname = shop.name
-          precand.menu = shop.menu
-          this.candidates.push(precand)
-        }
-      }
+    SearchByCategory() {
+      this.shops = this.$api
+        .get(`/api/categories/${this.selectedCategoryId}/shops`)
+        .then((res) => {
+          this.shops = res.data
+        })
     },
-    GetMenu(targetshop) {
-      for (const shopdata of this.candidates) {
-        if (shopdata.shopname === targetshop) {
-          for (const item in shopdata.menu) {
-            this.menus.push(item)
-          }
-        }
+    GetMenu() {
+      this.menus = this.$api
+        .get(`/api/shops/${this.selectedShopId}`)
+        .then((res) => {
+          this.menus = res.data.menu
+        })
+    },
+    CreatePost() {
+      const url = `/api/posts/${this.userId}/shops/${this.selectedShopId}`
+      const params = {
+        menus: this.atefoods,
+        message: this.message,
       }
+      this.$api
+        .post(url, params)
+        .then(() => {
+          alert('created')
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
     },
   },
 }

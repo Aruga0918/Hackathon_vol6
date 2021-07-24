@@ -2,7 +2,7 @@
   <div>
     <CommodalForIndex
       class="d-inline-block"
-      style="width: 15%; margin-top: 0"
+      style="width: 15%; margin-top: 0; text-align: left"
     />
 
     <Storylike

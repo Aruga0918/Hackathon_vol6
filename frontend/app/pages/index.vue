@@ -3,11 +3,11 @@
     <div class="row justify-content-center">
       <div class="py-1 col col-md-9">
         <community-list :user-id="userId" />
-        <div v-for="(post, idx) in posts" :key="idx">
+        <Post style="z-index: 100; position: sticky; top: 85vh; left: 85%" />
+        <div v-for="(post, idx) in posts" :key="idx" style="z-index: -1">
           <user-post :post="post" />
           <hr class="my-1" />
         </div>
-        <Post style="z-index: 100; position: sticky; top: 85vh; left: 65vh" />
       </div>
     </div>
   </div>

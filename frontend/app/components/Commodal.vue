@@ -100,12 +100,11 @@ export default {
       allmembers: [],
     }
   },
-  created() {
-    let alldata = []
-    alldata = this.$axios.get(`/mock/users`).then((res) => {
-      alldata = res.data
+  async fetch() {
+    await this.$api.get(`api/users`).then((res) => {
+      this.alldata = res.data
     })
-    for (const part of alldata) {
+    for (const part of this.alldata) {
       this.allmembers.push(part.uid)
     }
   },
@@ -119,13 +118,13 @@ export default {
       // splice(始まり,消去数)
     },
     submit() {
-      const url = '/mock/communities/create'
+      const url = '/api/communities/create'
       const params = {
         community_name: this.community_name,
         description: this.description,
         members: this.members,
       }
-      this.$axios
+      this.$api
         .post(url, params)
         .then(() => {
           alert('created')
