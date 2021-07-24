@@ -18,7 +18,7 @@
               ></b-img>
             </td>
             <td class="fooriend align-middle p-0 m-0 pl-1 pt-1 text-white">
-              <strong> fooriend </strong>
+              <strong> FOOrienD </strong>
             </td>
           </tr>
         </tbody>
