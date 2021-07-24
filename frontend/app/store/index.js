@@ -5,7 +5,11 @@ const store = () =>
     state: {
       isSignin: false,
       user: {},
-      communityId: 0,
+      // communityId: 0,
+      community: {
+        name: 'public community',
+        id: 0,
+      },
     },
     getters: {
       isSignin(state) {
@@ -27,8 +31,11 @@ const store = () =>
       storeUser(state, user) {
         state.user = user
       },
-      storeCommunityId(state, communityId) {
-        state.communityId = communityId
+      // storeCommunityId(state, communityId) {
+      //   state.communityId = communityId
+      // },
+      storeCommunity(state, community) {
+        state.community = community
       },
     },
   })

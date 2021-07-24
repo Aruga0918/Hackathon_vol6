@@ -4,11 +4,13 @@
       <b-img
         v-if="post.user_icon_url"
         :src="post.user_icon_url"
+        class="icon-circle"
         style="object-fit: contain; border-radius: 50%; width: 100%"
       />
       <b-img
         v-else
         src="@/assets/person.png"
+        class="icon-circle"
         style="object-fit: contain; border-radius: 50%; width: 100%"
       />
     </div>
@@ -39,6 +41,9 @@
           <p>{{ post.message }}</p>
         </div>
       </div>
+      <p class="text-muted text-right">
+        <small>{{ post.created_at }}</small>
+      </p>
     </div>
   </div>
 </template>

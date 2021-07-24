@@ -7,11 +7,13 @@
             <b-img
               v-if="user.icon_url"
               :src="user.icon_url"
+              class="icon-circle"
               style="object-fit: contain; border-radius: 50%; width: 100%"
             />
             <b-img
               v-else
               src="@/assets/person.png"
+              class="icon-circle"
               style="object-fit: contain; border-radius: 50%; width: 100%"
             />
           </div>

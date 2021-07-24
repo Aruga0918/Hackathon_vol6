@@ -229,7 +229,7 @@ def get_user_posts(user_id):
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return jsonify(return_data), HTTPStatus.OK
+    return jsonify(return_data[:10]), HTTPStatus.OK
 
 
 @posts.route("/posts/shops/<int:shop_id>", methods=["GET"])
@@ -279,7 +279,7 @@ def get_shop_posts(shop_id):
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return jsonify(return_data), HTTPStatus.OK
+    return jsonify(return_data[:10]), HTTPStatus.OK
 
 
 @posts.route("/posts/communities/<int:community_id>", methods=["GET"])
@@ -343,10 +343,10 @@ def get_community_posts(community_id):
             logger.error(e)
             return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
     else:
-        user_id = get_jwt_identity()
+        # user_id = get_jwt_identity()
         try:
             community_user_data = CommunityUser.query.filter(
-                CommunityUser.user_id == user_id,
+                # CommunityUser.user_id == user_id,
                 CommunityUser.community_id == community_id
             ).first()
             if community_user_data is None:
@@ -370,7 +370,8 @@ def get_community_posts(community_id):
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    return jsonify(return_data), HTTPStatus.OK
+    return jsonify(return_data[:10]), HTTPStatus.OK
+    # return jsonify(return_data), HTTPStatus.OK
 
 
 @posts.route("/posts/users/<int:user_id>/shops/<int:shop_id>", methods=["POST"])

@@ -15,4 +15,8 @@
 .bg-bland-color {
   background-color: #f44336;
 }
+.icon-circle {
+  border-radius: 50%;
+  border: 1px solid #00cc00;
+}
 </style>
