@@ -1,7 +1,7 @@
 <template>
   <div class="Container" style="vertical-align: center">
     <div class="primary_shopdata d-flex" style="height: 20vh">
-      <img :src="shopdata.img" style="object-fit: scale-down" />
+      <img :src="shopdata.icon_url" style="object-fit: scale-down" />
       <div class="d-inline-block ml-auto mr-auto" style="margin-top: 16px">
         <div class="primarydata mr-auto">
           <big style="height: 20%; font-weight: bold">{{ shopdata.name }}</big>
@@ -94,9 +94,9 @@
             >
               <div class="d-flex" style="align-items: center; width: 70%">
                 <img
-                  :src="require(`~/static/f3-${index + 1}.png`)"
+                  :src="require(`~/assets/${rankIcon[index]}`)"
                   class="d-inline-block"
-                  style="height: 50px; width: 70px; float: left"
+                  style="height: 100px; width: 100px; float: left"
                 />
                 <div
                   class="d-inline-block ml-auto mr-auto"
@@ -117,7 +117,7 @@
           <b-container class="menulist">
             <div
               v-for="menu in shopdata.menu"
-              :key="menu.name"
+              :key="menu"
               class="d-flex"
               style="
                 align-items: center;
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     shopdata: {
@@ -153,16 +154,34 @@ export default {
       required: true,
     },
   },
-  data() {
+  data: () => {
     return {
       rankings: [],
-      rankIcon: ['~/static/f3-1.png', '~/static/f3-2.png', '~/static/f3-3.png'],
+      rankIcon: ['f3-1.png', 'f3-2.png', 'f3-3.png'],
     }
   },
+  computed: {
+    ...mapState({
+      communityId: (state) => state.communityId,
+    }),
+  },
   mounted() {
-    this.rankings = this.$axios
-      .get(`/mock/rankings/shops/${this.$route.params.shopId}`)
-      .then((res) => (this.rankings = res.data))
+    const params = {
+      n_cnt: this.rankIcon.length,
+      community_id: this.communityId,
+    }
+    this.$api
+      .get(`/api/rankings/shops/${this.$route.params.shopId}`, { params })
+      .then((res) => {
+        const data = res.data
+        this.rankings = data.slice(
+          0,
+          Math.min(data.length, this.rankIcon.length)
+        )
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>

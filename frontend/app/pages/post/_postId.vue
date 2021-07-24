@@ -53,11 +53,15 @@ export default {
       post: [],
     }
   },
-  async fetch() {
-    const post = await this.$axios.get(
-      `/mock/posts/${this.$route.params.postId}`
-    )
-    this.post = post.data
+  fetch() {
+    this.$axios
+      .get(`/api/posts/${this.$route.params.postId}`)
+      .then((res) => {
+        this.post = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>

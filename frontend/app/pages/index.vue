@@ -22,8 +22,15 @@ export default {
     }
   },
 
-  async fetch() {
-    this.posts = await this.getCommunity()
+  fetch() {
+    this.$api
+      .get(`/api/posts/communities/${this.communityId}`)
+      .then((res) => {
+        this.posts = res.data
+      })
+      .catch(() => {
+        console.error(`/api/posts/communities/${this.communityId}`)
+      })
   },
   computed: {
     ...mapState({
@@ -32,16 +39,15 @@ export default {
     }),
   },
   watch: {
-    async communityId() {
-      this.posts = await this.getCommunity()
-    },
-  },
-  methods: {
-    async getCommunity() {
-      const posts = await this.$axios.get(
-        `/mock/posts/communities/${this.communityId}`
-      )
-      return posts.data
+    communityId() {
+      this.$api
+        .get(`/api/posts/communities/${this.communityId}`)
+        .then((res) => {
+          this.posts = res.data
+        })
+        .catch(() => {
+          console.error(`/api/posts/communities/${this.communityId}`)
+        })
     },
   },
 }

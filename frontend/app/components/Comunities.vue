@@ -64,8 +64,5 @@ export default {
   //     ],
   //   }
   // },
-  mounted() {
-    console.log(this.belongings)
-  },
 }
 </script>

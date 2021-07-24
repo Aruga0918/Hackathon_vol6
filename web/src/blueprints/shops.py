@@ -62,6 +62,7 @@ def get_shop_info(shop_id):
     return_data = {
         "id": shop_data.id,
         "name": shop_data.name,
+        "icon_url" : shop_data.icon_url,
         "latitude": str(shop_data.latitude),
         "longitude": str(shop_data.longitude),
         "description": shop_data.description,
