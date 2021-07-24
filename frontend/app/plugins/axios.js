@@ -33,10 +33,17 @@ export default function ({ $axios, app: { router } }, inject) {
       }
 
       error.config._retry = true
-      const res = await $axios.$get('/auth/refresh', {
-        headers: { Authorization: `Bearer ${refreshToken}` },
-      })
-      localStorage.setItem('accessToken', res.access_token)
+
+      this.$axios
+        .$get('/auth/refresh', {
+          headers: { Authorization: `Bearer ${refreshToken}` },
+        })
+        .then((res) => {
+          localStorage.setItem('accessToken', res.data.access_token)
+        })
+        .catch(() => {
+          router.push('/signin')
+        })
 
       const response = await api.request(error.config).catch((err) => {
         throw err

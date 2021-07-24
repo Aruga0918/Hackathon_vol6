@@ -36,11 +36,12 @@ def get_categories():
     return_data = []
     for category_data in category_data_list:
         try:
-            shop_cnt = ShopCategory.query.filter(ShopCategory.category_id == category_data.id).count()
+            shop_cnt = ShopCategory.query.filter(
+                ShopCategory.category_id == category_data.id).count()
         except Exception as e:
             logger.error(e)
             return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
-        
+
         return_data.append(
             {
                 "id": category_data.id,
@@ -77,8 +78,8 @@ def get_shops(category_id):
         }
     ]
     """
-    payload = request.json
-    community_id = payload.get("community_id")
+
+    community_id = int(request.args.get('community_id', '0'))
 
     try:
         category_data = Category.query.filter(Category.id == category_id).first()
@@ -89,7 +90,8 @@ def get_shops(category_id):
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        shop_category_data_list = ShopCategory.query.filter(ShopCategory.category_id == category_id).all()
+        shop_category_data_list = ShopCategory.query.filter(
+            ShopCategory.category_id == category_id).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -104,7 +106,7 @@ def get_shops(category_id):
             logger.error(e)
             return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-        if community_id is None:
+        if community_id == 0:
             try:
                 posted_cnt = Post.query.filter(Post.shop_id == shop_data.id).count()
             except Exception as e:
@@ -112,14 +114,17 @@ def get_shops(category_id):
                 return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
         else:
             try:
-                community_user_data_list = CommunityUser.query.filter(CommunityUser.community_id == community_id).all()
+                community_user_data_list = CommunityUser.query.filter(
+                    CommunityUser.community_id == community_id).all()
             except Exception as e:
                 logger.error(e)
                 return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-            user_id_list = [community_user_data.user_id for community_user_data in community_user_data_list]
+            user_id_list = [
+                community_user_data.user_id for community_user_data in community_user_data_list]
             try:
-                posted_cnt = Post.query.filter(Post.shop_id == shop_data.id, Post.user_id.in_(user_id_list)).count()
+                posted_cnt = Post.query.filter(
+                    Post.shop_id == shop_data.id, Post.user_id.in_(user_id_list)).count()
             except Exception as e:
                 logger.error(e)
                 return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR

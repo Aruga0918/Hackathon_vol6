@@ -40,12 +40,16 @@ export default {
       communityList: [],
     }
   },
-  async fetch() {
+  fetch() {
     if (this.isLoggedin) {
-      const communityList = await this.$axios.get(
-        `/mock/users/${this.userId}/communities`
-      )
-      this.communityList = communityList.data
+      this.$api
+        .get('/users/communities')
+        .then((res) => {
+          this.communityList = res.data
+        })
+        .catch((e) => {
+          console.error(e)
+        })
     } else {
       console.log('no login')
     }

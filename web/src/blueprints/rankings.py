@@ -35,11 +35,8 @@ def get_rankings(shop_id):
     ]
 
     """
-    payload = request.json
-    n_cnt = payload.get("n_cnt")
-    if n_cnt is None:
-        n_cnt = 3
-    community_id = payload.get("community_id")
+    n_cnt = int(request.args.get('n_cnt', "3"))
+    community_id = int(request.args.get('community_id', '0'))
 
     try:
         shop_data = Shop.query.filter(Shop.id == shop_id).first()
@@ -50,12 +47,15 @@ def get_rankings(shop_id):
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        if community_id is None:
+        if community_id == 0:
             post_data_list = Post.query.filter(Post.shop_id == shop_id).all()
         else:
-            community_user_data_list = CommunityUser.query.filter(CommunityUser.community_id == community_id).all()
-            user_id_list = [community_user_data.user_id for community_user_data in community_user_data_list]
-            post_data_list = Post.query.filter(Post.shop_id == shop_id, Post.user_id.in_(user_id_list)).all()
+            community_user_data_list = CommunityUser.query.filter(
+                CommunityUser.community_id == community_id).all()
+            user_id_list = [
+                community_user_data.user_id for community_user_data in community_user_data_list]
+            post_data_list = Post.query.filter(
+                Post.shop_id == shop_id, Post.user_id.in_(user_id_list)).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -63,16 +63,19 @@ def get_rankings(shop_id):
     post_id_list = [post_data.id for post_data in post_data_list]
 
     try:
-        post_menu_data_list = PostMenu.query.filter(PostMenu.post_id.in_(post_id_list)).all()
+        post_menu_data_list = PostMenu.query.filter(
+            PostMenu.post_id.in_(post_id_list)).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    posted_menu_list = [post_menu_data.menu_id for post_menu_data in post_menu_data_list]
+    posted_menu_list = [
+        post_menu_data.menu_id for post_menu_data in post_menu_data_list]
     top_n_menu_id, posted_cnt_dict = get_top_n_id(n_cnt, posted_menu_list)
 
     try:
-        menu_data_list = [Menu.query.filter(Menu.id == menu_id).first() for menu_id in top_n_menu_id]
+        menu_data_list = [Menu.query.filter(
+            Menu.id == menu_id).first() for menu_id in top_n_menu_id]
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -81,7 +84,7 @@ def get_rankings(shop_id):
         {
             "menu_id": menu_data.id,
             "name": menu_data.name,
-            "price":menu_data.price,
+            "price": menu_data.price,
             "posted_cnt": posted_cnt_dict.get(menu_data.id)
         }
         for menu_data in menu_data_list
@@ -115,7 +118,7 @@ def get_top_n_id(n_cnt, posted_menu_list):
         else:
             menu_cnt_dict[menu] = 0
 
-    sorted_menu = sorted(menu_cnt_dict.items(), key = lambda x : x[1], reverse=True)
+    sorted_menu = sorted(menu_cnt_dict.items(), key=lambda x: x[1], reverse=True)
 
     rank = 0
     top_n_menu_id = []

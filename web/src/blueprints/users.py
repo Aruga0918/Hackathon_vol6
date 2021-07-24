@@ -40,9 +40,9 @@ def get_user_info(user_id):
         return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     return_data = {
-        "name": user_data.name, 
-        "id": user_data.id, 
-        "uid": user_data.uid, 
+        "name": user_data.name,
+        "id": user_data.id,
+        "uid": user_data.uid,
         "icon_url": user_data.icon_url,
         "profile": user_data.profile
     }
@@ -85,9 +85,9 @@ def get_users_info():
     for user_data in users_data:
         return_data.append(
             {
-                "name": user_data.name, 
-                "id": user_data.id, 
-                "uid": user_data.uid, 
+                "name": user_data.name,
+                "id": user_data.id,
+                "uid": user_data.uid,
                 "icon_url": user_data.icon_url,
                 "profile": user_data.profile
             }
@@ -172,7 +172,8 @@ def get_user_communities():
         return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        community_user_data = CommunityUser.query.filter(CommunityUser.user_id == user_id).all()
+        community_user_data = CommunityUser.query.filter(
+            CommunityUser.user_id == user_id).all()
         if not community_user_data:
             return jsonify({"message": "Community data not found"}), HTTPStatus.BAD_REQUEST
     except Exception as e:
@@ -183,12 +184,13 @@ def get_user_communities():
     for data in community_user_data:
         community_id = data.community_id
         community_data = Community.query.filter(Community.id == community_id).first()
-        member_cnt = CommunityUser.query.filter(CommunityUser.community_id == community_id).count()
+        member_cnt = CommunityUser.query.filter(
+            CommunityUser.community_id == community_id).count()
         return_data.append(
             {
-                "id": community_id, 
-                "name": community_data.name, 
-                "icon_url": community_data.icon_url, 
+                "id": community_id,
+                "name": community_data.name,
+                "icon_url": community_data.icon_url,
                 "member_cnt": member_cnt
             }
         )

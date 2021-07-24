@@ -13,7 +13,7 @@ class Shop(db.Model):
 
     name = db.Column(db.String(255), nullable=False)
 
-    lattitude = db.Column(DOUBLE(9, 6),  default=None)
+    latitude = db.Column(DOUBLE(9, 6),  default=None)
     longitude = db.Column(DOUBLE(9, 6), default=None)
 
     description = db.Column(db.String(255),  default=None)

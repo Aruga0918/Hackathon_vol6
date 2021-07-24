@@ -14,13 +14,14 @@ const store = () =>
     },
     mutations: {
       storeSignin(state) {
-        if (localStorage.getItem('accessToken') !== null) {
+        if (localStorage.getItem('accessToken')) {
           state.isSignin = true
         }
       },
       storeSignout(state) {
-        if (localStorage.getItem('accessToken') === null) {
+        if (!localStorage.getItem('accessToken')) {
           state.isSignin = false
+          this.communityId = 0
         }
       },
       storeUser(state, user) {

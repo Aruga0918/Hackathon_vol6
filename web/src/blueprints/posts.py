@@ -16,24 +16,28 @@ class DatabaseError(Exception):
 
 class PostNotFoundError(DatabaseError):
     """投稿が存在しなかったときに投げる例外"""
+
     def __init__(self):
         self.message = jsonify({"message": "Post data not found"})
 
 
 class UserNotFoundError(DatabaseError):
     """ユーザーが存在しなかったときに投げる例外"""
+
     def __init__(self):
         self.message = jsonify({"message": "User data not found"})
 
 
 class ShopNotFoundError(DatabaseError):
     """ショップが存在しなかったときに投げる例外"""
+
     def __init__(self):
         self.message = jsonify({"message": "Shop data not found"})
 
 
 class MenuNotFoundError(DatabaseError):
     """メニューが存在しなかったときに投げる例外"""
+
     def __init__(self):
         self.message = jsonify({"message": "Menu data not found"})
 
@@ -72,7 +76,7 @@ def get_post_detailed_info(post_id):
     """
     try:
         post_data = Post.query.filter(Post.id == post_id).first()
-        if  post_data is None:
+        if post_data is None:
             raise PostNotFoundError
     except Exception as e:
         raise e
@@ -88,14 +92,14 @@ def get_post_detailed_info(post_id):
 
     try:
         user_data = User.query.filter(User.id == user_id).first()
-        if  user_data is None:
+        if user_data is None:
             raise UserNotFoundError
     except Exception as e:
         raise e
 
     try:
         shop_data = Shop.query.filter(Shop.id == shop_id).first()
-        if  shop_data is None:
+        if shop_data is None:
             raise ShopNotFoundError
     except Exception as e:
         raise e
@@ -120,7 +124,7 @@ def get_post_detailed_info(post_id):
     ]
 
     post_detailed_info = {
-        "post_id":post_id,
+        "post_id": post_id,
         "user_name": user_data.name,
         "user_id": user_data.id,
         "uid": user_data.uid,
@@ -129,7 +133,7 @@ def get_post_detailed_info(post_id):
         "shop_name": shop_data.name,
         "shop_icon_url": shop_data.icon_url,
         "message": post_data.message,
-        "menu" : menu_list,
+        "menu": menu_list,
         "created_at": post_data.created_at
     }
 
@@ -219,7 +223,8 @@ def get_user_posts(user_id):
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        return_data = [get_post_detailed_info(post_data.id) for post_data in post_data_list]
+        return_data = [get_post_detailed_info(post_data.id)
+                       for post_data in post_data_list]
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -268,7 +273,8 @@ def get_shop_posts(shop_id):
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        return_data = [get_post_detailed_info(post_data.id) for post_data in post_data_list]
+        return_data = [get_post_detailed_info(post_data.id)
+                       for post_data in post_data_list]
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -277,7 +283,6 @@ def get_shop_posts(shop_id):
 
 
 @posts.route("/posts/communities/<int:community_id>", methods=["GET"])
-@jwt_required
 def get_community_posts(community_id):
     """
     コミュニティ投稿取得API
@@ -311,27 +316,47 @@ def get_community_posts(community_id):
         ...
     ]
     """
-    try:
-        community_user_data_list = CommunityUser.query.filter(CommunityUser.community_id == community_id).all()
-        if not community_user_data_list:
-            return jsonify({"message": "Community data not found"}), HTTPStatus.BAD_REQUEST
-    except Exception as e:
-        logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+    if community_id == 0:
+        try:
+            community_user_data_list = CommunityUser.query.all()
+            if not community_user_data_list:
+                return jsonify({"message": "Community data not found"}), HTTPStatus.BAD_REQUEST
+        except Exception as e:
+            logger.error(e)
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+    else:
+        try:
+            community_user_data_list = CommunityUser.query.filter(
+                CommunityUser.community_id == community_id).all()
+            if not community_user_data_list:
+                return jsonify({"message": "Community data not found"}), HTTPStatus.BAD_REQUEST
+        except Exception as e:
+            logger.error(e)
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    user_id = get_jwt_identity()
-    try:
-        community_user_data = CommunityUser.query.filter(
-            CommunityUser.user_id == user_id, 
-            CommunityUser.community_id == community_id
+    if community_id == 0:
+        try:
+            community_user_data = CommunityUser.query.first()
+            if community_user_data is None:
+                return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
+        except Exception as e:
+            logger.error(e)
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+    else:
+        user_id = get_jwt_identity()
+        try:
+            community_user_data = CommunityUser.query.filter(
+                CommunityUser.user_id == user_id,
+                CommunityUser.community_id == community_id
             ).first()
-        if community_user_data is None:
-            return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
-    except Exception as e:
-        logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+            if community_user_data is None:
+                return jsonify({"message": "Unauthorized"}), HTTPStatus.UNAUTHORIZED
+        except Exception as e:
+            logger.error(e)
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    user_id_list = [community_user_data.user_id for community_user_data in community_user_data_list]
+    user_id_list = [
+        community_user_data.user_id for community_user_data in community_user_data_list]
     try:
         post_data_list = Post.query.filter(Post.user_id.in_(user_id_list)).all()
     except Exception as e:
@@ -339,7 +364,8 @@ def get_community_posts(community_id):
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     try:
-        return_data = [get_post_detailed_info(post_data.id) for post_data in post_data_list]
+        return_data = [get_post_detailed_info(post_data.id)
+                       for post_data in post_data_list]
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -391,7 +417,7 @@ def post(user_id, shop_id):
             return jsonify({"message": "Shop data not found"}), HTTPStatus.BAD_REQUEST
     except Exception as e:
         logger.error(e)
-        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR    
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     for menu_id in menus:
         try:

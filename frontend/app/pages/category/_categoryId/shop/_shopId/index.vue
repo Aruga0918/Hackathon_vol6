@@ -9,9 +9,14 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(`/mock/shops/${this.$route.params.shopId}`).then((res) => {
-      this.shopData = res.data
-    })
+    this.$api
+      .get(`/api/shops/${this.$route.params.shopId}`)
+      .then((res) => {
+        this.shopData = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>

@@ -52,15 +52,23 @@ export default {
       user: {},
     }
   },
-  async fetch() {
-    const posts = await this.$axios.get(
-      `/mock/posts/users/${this.$route.params.userId}`
-    )
-    this.posts = posts.data
-    const user = await this.$axios.get(
-      `/mock/users/${this.$route.params.userId}`
-    )
-    this.user = user.data
+  fetch() {
+    this.$api
+      .get(`/api/posts/users/${this.$route.params.userId}`)
+      .then((res) => {
+        this.posts = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+    this.$api
+      .get(`/api/users/${this.$route.params.userId}`)
+      .then((res) => {
+        this.user = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   },
 }
 </script>
