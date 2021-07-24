@@ -1,25 +1,10 @@
 <template>
   <ul class="horizontal-list">
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
+    <li v-for="comm in communities" :key="comm.id" class="item">
+      <img
+        style="object-fit: contain; border-radius: 50%; width: 100%"
+        :src="comm.icon_url"
+      />
     </li>
   </ul>
 </template>
@@ -47,3 +32,25 @@
   width: 100%;
 }
 </style>
+<script>
+export default {
+  // props: {
+  //   userId:{
+  //     type:Number,
+  //     required: true
+  //   },
+  // },
+  data() {
+    return {
+      communities: [],
+    }
+  },
+  mounted() {
+    this.communities = this.$axios
+      .get(`/mock/users/1/community`)
+      .then((res) => {
+        this.communities = res.data
+      })
+  },
+}
+</script>

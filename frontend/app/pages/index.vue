@@ -18,7 +18,7 @@
         "
       />
     </div>
-    <Post style="z-index: 100; position: sticky; top: 85vh; left: 65vh" />
+    <Post style="z-index: 100; position: sticky; top: 85vh; right: 15vh" />
     <Timeline />
   </div>
 </template>
@@ -28,5 +28,11 @@ import CommodalForIndex from '../components/CommodalForIndex.vue'
 import Post from '../components/Post.vue'
 export default {
   components: { Post, CommodalForIndex },
+  data() {
+    return {
+      userId: 0,
+    }
+  },
+  mounted() {},
 }
 </script>
