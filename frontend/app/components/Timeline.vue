@@ -1,39 +1,35 @@
 <template>
-  <b-container class="commlist">
+  <div>
     <div
       v-for="post in posts"
       :key="post.user_id"
       class="d-flex"
-      style="
-        align-items: center;
-        justify-content: center;
-        border-bottom-style: ridge;
-        height: 100px;
-      "
+      style="border-bottom: ridge"
     >
-      <div class="d-flex" style="align-items: center; width: 90%">
-        <img
+      <div style="width: 15%" class="mr-1">
+        <b-img
           :src="post.user_icon_url"
-          class="d-inline-block"
-          style="border-radius: 50%; height: 60px; width: 60px; float: left"
+          style="object-fit: contain; border-radius: 50%; width: 100%"
         />
-        <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
-          <div class="d-inline ml-auto">
-            <p style="font-weight: bold; margin-bottom: 0">
-              {{ post.user_name }}
-            </p>
-            {{ menus }}
-            <p style="font-size: 6px; margin-bottom: 0; text-align: right">
-              を食べました
-            </p>
-          </div>
-          <p style="color: gray; margin-bottom: 0">
-            -場所- {{ post.shop_name }}
-          </p>
+      </div>
+      <div style="width: 85%">
+        <div class="d-flex m-0 p-0" style="line-height: 0.5em">
+          <h6 class="m-0">
+            {{ post.user_name }}
+          </h6>
+          <small class="text-muted p-0 m-1">@{{ post.uid }}</small>
+        </div>
+        <div style="line-height: 1em" class="mb-1">
+          <p class="m-0">店&nbsp;&nbsp;{{ post.shop_name }}</p>
+          <p class="m-0">メニュー</p>
+          <ul v-for="menu in post.menu" :key="menu.menu_id" class="m-0">
+            <li>{{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}</li>
+          </ul>
+          <p>{{ post.message }}</p>
         </div>
       </div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -64,19 +60,19 @@ export default {
       //   },
       // ],
       posts: [],
-      menus: [],
+      // menus: [],
     }
   },
   mounted() {
-    this.rankings = this.$axios
-      .get(`/posts/communities/0`)
+    this.posts = this.$axios
+      .get(`/mock/posts/communities/0`)
       .then((res) => (this.posts = res.data))
 
-    for (const post of this.posts) {
-      for (const list of post.menu) {
-        this.menus.push(list.name)
-      }
-    }
+    // for (const post of this.posts) {
+    //   for (const list of post.menu) {
+    //     this.menus.push(list.name)
+    //   }
+    // }
   },
 }
 </script>

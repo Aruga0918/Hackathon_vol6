@@ -14,18 +14,27 @@
     >
       <div class="d-flex" style="align-items: center; width: 85%">
         <img
-          src="https://placekitten.com/g/30/30"
+          v-if="comm.icon_url"
+          :src="comm.icon_url"
+          class="d-inline-block"
+          style="border-radius: 50%; height: 60px; width: 60px; float: left"
+        />
+        <img
+          v-else
+          src="@/assets/community.png"
           class="d-inline-block"
           style="border-radius: 50%; height: 60px; width: 60px; float: left"
         />
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
-          <p class="d-inline ml-auto">{{ comm.name }} ID: {{ comm.id }}</p>
-          <b-nav-item-dropdown text="詳細" right style="list-style: none">
+          <!-- <b-nav-item-dropdown text="詳細" right style="list-style: none">
             <b-dropdown-item href="#"
               >メンバー：{{ comm.member_cnt }}</b-dropdown-item
             >
             <b-dropdown-item><Invite :commid="comm.id" /></b-dropdown-item>
-          </b-nav-item-dropdown>
+          </b-nav-item-dropdown> -->
+          <NuxtLink :to="{ name: `community-id`, params: { id: comm.id } }">
+            <big class="d-inline ml-auto">{{ comm.name }}</big>
+          </NuxtLink>
         </div>
 
         <b-button
@@ -39,6 +48,7 @@
             color: white;
             background-color: #ba000d;
           "
+          @click="Delete(comm.id)"
           >退会</b-button
         >
       </div>
@@ -52,6 +62,23 @@ export default {
     belongings: {
       type: Array,
       required: true,
+    },
+  },
+
+  mounted() {
+    console.log(this.belongings)
+  },
+  methods: {
+    Delete(id) {
+      const url = `/mock/communities/${id}/members/${this.$route.params.userId}`
+      this.$axios
+        .delete(url)
+        .then(() => {
+          alert('退会しました')
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
     },
   },
   // data() {

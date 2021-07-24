@@ -2,21 +2,6 @@
   <div iclass="container">
     <div class="row justify-content-center mx-1 mt-3">
       <div class="py-1 col col-md-8">
-        <!-- <table class="table table-borderless m-0 p-0">
-          <tbody>
-            <tr class="row">
-              <b-img
-                class="col-3"
-                :src="user.icon_url"
-                style="object-fit: scale-down; width: 100%"
-              />
-              <td class="col-9">
-                <big>{{ user.name }}</big>
-                <p>@ {{ user.uid }}</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>  -->
         <div class="d-flex">
           <div style="width: 20%" class="mr-1">
             <b-img

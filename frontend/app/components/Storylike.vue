@@ -67,3 +67,25 @@ export default {
   width: 100%;
 }
 </style>
+<script>
+export default {
+  // props: {
+  //   userId:{
+  //     type:Number,
+  //     required: true
+  //   },
+  // },
+  data() {
+    return {
+      communities: [],
+    }
+  },
+  mounted() {
+    this.communities = this.$axios
+      .get(`/mock/users/1/community`)
+      .then((res) => {
+        this.communities = res.data
+      })
+  },
+}
+</script>

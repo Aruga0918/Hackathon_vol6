@@ -43,8 +43,10 @@ export default {
   data() {
     return {
       shops: [],
+      // Shoplist: [],
     }
   },
+
   computed: {
     ...mapState({
       communityId: (state) => state.communityId,
