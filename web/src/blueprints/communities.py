@@ -10,72 +10,18 @@ communities = Blueprint("communities", __name__)
 logger = logging.getLogger("app")
 
 
-@communities.route("/communities", methods=["POST"])
-@jwt_required
-def create_community():
-    try:
-        payload = request.json
-        community_name = payload.get("community_name")
-        if community_name is None:
-            raise ValueError("community_name is None")
-    except Exception as e:
-        logger.error(e)
-        return jsonify({"message": "Bad request error"}), 400
-
-    user_id = get_jwt_identity()
-    try:
-        user_data = User.query.filter(User.id == user_id).first()
-        if user_data is None:
-            return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
-    except Exception as e:
-        logger.error(e)
-        return jsonify({"message": "Internal server error"}), 500
-
-    # 招待したいユーザーのデータの有無を確認する
-    members = payload.get("members")
-    member_ids = []
-    try:
-        for member_uid in members:
-            member_data = User.query.filter(User.uid == member_uid).first()
-            if member_data is None:
-                return jsonify({"message": "Member data not found"}), HTTPStatus.BAD_REQUEST
-            member_ids.append(member_data.id)
-    except Exception as e:
-        logger.error(e)
-        return jsonify({"message": "Internal server error"}), 500
-
-    # コミュニティ作成
-    description = payload.get("description")
-    try:
-        community = Community(community_name, user_id, description=description)
-        db.session.add(community)
-        db.session.commit()
-    except Exception as e:
-        logger.error(e)
-        db.session.rollback()
-        return jsonify({"message": "Internal server error"}), 500
-
-    # メンバー登録
-    try:
-        community_user = CommunityUser(community.id, user_id, is_join=True)
-        db.session.add(community_user)
-        db.session.commit()
-        for member_id in member_ids:
-            community_user = CommunityUser(community.id, member_id)
-            db.session.add(community_user)
-            db.session.commit()
-    except Exception as e:
-        logger.error(e)
-        db.session.rollback()
-        return jsonify({"message": "Internal server error"}), 500
-
-    return jsonify(community.to_dict()), 200
-
-
 @communities.route("/communities/<int:community_id>", methods=["GET"])
 @jwt_required
 def get_community_info(community_id):
+    """
+    コミュニティ情報取得API
 
+    Parameters
+    ----------
+
+    Returns
+    -------
+    """
     user_id = get_jwt_identity()
     # ユーザーがコミュニティに属しているか検証
     try:
@@ -136,6 +82,208 @@ def get_community_info(community_id):
         return jsonify({"message": "Internal server error"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     return jsonify(ret), HTTPStatus.OK
+
+
+@communities.route("/communities/create", methods=["POST"])
+@jwt_required
+def create_community():
+    """
+    コミュニティ作成API
+
+    Parameters
+    ----------
+    community_name : str
+        コミュニティの名前
+    description : str
+        コミュニティの説明
+    members : List[int]
+        招待するuserのid
+    community_icon : str, default None
+        アイコンのurl
+
+    Returns
+    -------
+    community_id : int
+        コミュニティのid
+    """
+    try:
+        payload = request.json
+        community_name = payload.get("community_name")
+        if community_name is None:
+            raise ValueError("community_name is None")
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Bad request error"}), 400
+
+    user_id = get_jwt_identity()
+    try:
+        user_data = User.query.filter(User.id == user_id).first()
+        if user_data is None:
+            return jsonify({"message": "User data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Internal server error"}), 500
+
+    # 招待したいユーザーのデータの有無を確認する
+    members = payload.get("members")
+    member_ids = []
+    try:
+        for member_uid in members:
+            member_data = User.query.filter(User.uid == member_uid).first()
+            if member_data is None:
+                return jsonify({"message": "Member data not found"}), HTTPStatus.BAD_REQUEST
+            member_ids.append(member_data.id)
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": "Internal server error"}), 500
+
+    # コミュニティ作成
+    description = payload.get("description")
+    try:
+        community = Community(community_name, user_id, description=description)
+        db.session.add(community)
+        db.session.commit()
+    except Exception as e:
+        logger.error(e)
+        db.session.rollback()
+        return jsonify({"message": "Internal server error"}), 500
+
+    # メンバー登録
+    try:
+        community_user = CommunityUser(community.id, user_id, is_join=True)
+        db.session.add(community_user)
+        db.session.commit()
+        for member_id in member_ids:
+            community_user = CommunityUser(community.id, member_id)
+            db.session.add(community_user)
+            db.session.commit()
+    except Exception as e:
+        logger.error(e)
+        db.session.rollback()
+        return jsonify({"message": "Internal server error"}), 500
+
+    return jsonify(community.to_dict()), 200
+
+
+@communities.route("/communities/<int:community_id>", methods=["DELETE"])
+@jwt_required
+def delete_community(community_id):
+    """
+    コミュニティ削除API
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
+
+
+@communities.route("/communities/<int:community_id>", methods=["PATCH"])
+@jwt_required
+def edit_community(community_id):
+    """
+    コミュニティ編集API
+
+    Parameters
+    ----------
+    community_name : str
+        コミュニティの名前
+    description : str
+        コミュニティの説明
+    community_icon : str, default None
+        アイコンのurl    
+
+    Returns
+    -------
+
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
+
+
+@communities.route("/communities/<int:community_id>/join", methods=["POST"])
+@jwt_required
+def join_community(community_id):
+    """
+    コミュニティ参加API
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    community_id : int
+        コミュニティのid    
+
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
+
+
+@communities.route("/communities/<int:community_id>/join", methods=["DELETE"])
+@jwt_required
+def cancel_community_invitation(community_id):
+    """
+    コミュニティ参加拒否API
+
+    Parameters
+    ----------
+
+    Returns
+    -------　
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
+
+
+@communities.route("/communities/<int:community_id>/add", methods=["PATCH"])
+@jwt_required
+def invite_users(community_id):
+    """
+    ユーザー招待API
+
+    Parameters
+    ----------
+    members : List[int]
+        招待するuserのid
+
+    Returns
+    -------　
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
+
+
+@communities.route("/communities/<int:community_id>/members/<int:user_id>", methods=["DELETE"])
+@jwt_required
+def withdraw_community(community_id, user_id):
+    """
+    ユーザー退会API
+
+    Parameters
+    ----------
+
+    Returns
+    -------　
+    """
+    logger.warn("warn")
+    logger.error("error")
+    logger.critical("critical")
+    return jsonify({"message": "api_test"})
 
 
 @communities.route("/communities/test")

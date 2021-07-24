@@ -23,7 +23,7 @@ class Post(db.Model):
         nullable=False,
     )
 
-    message = db.Column(db.String(255))
+    message = db.Column(db.String(255), default=None)
 
     created_at = db.Column(
         db.DateTime,
@@ -44,12 +44,6 @@ class Post(db.Model):
         secondary=PostMenu.__tablename__,
         back_populates='posts',
     )
-    post_menu = db.relationship('PostMenu')
-
-    def __init__(self, user_id, shop_id, message=None):
-        self.user_id = user_id
-        self.shop_id = shop_id
-        self.message = message
 
     def to_dict(self):
         return dict(

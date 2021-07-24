@@ -12,7 +12,6 @@ export default {
       belongings: [],
     }
   },
-
   mounted() {
     this.belongings = this.$axios.get(`/mock/users/1/community`).then((res) => {
       this.belongings = res.data

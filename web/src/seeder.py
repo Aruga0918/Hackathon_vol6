@@ -1,6 +1,6 @@
 import click
 from flask.cli import with_appcontext
-from models import User, Template, Community, Post, Menu, Category, \
+from models import User, Community, Post, Menu, Category, \
     Shop, CommunityUser, PostMenu, ShopCategory
 from database import db
 from flask_bcrypt import Bcrypt
@@ -77,16 +77,16 @@ def seed_community():
 
 
 def seed_community_user():
-    communities_users = []
+    # communities_users = []
+    data = []
     for i in range(1, 11):
         user = User.query.filter(User.id == i).first()
         for j in range(1, 4):
             community = Community.query.filter(Community.id == j).first()
-            community_user = CommunityUser(community.id, user.id, is_join=j % 2 == 0)
-            community_user.user = user
-            community.community_user.append(community_user)
-            communities_users.append(community_user)
-    commit_all(communities_users)
+            community_user = CommunityUser(
+                user_id=user.id, community_id=community.id, is_join=j % 2 == 0)
+            data.append(community_user)
+    commit_all(data)
 
 
 def seed_shop_category_menu():
@@ -138,19 +138,19 @@ def seed_menu():
 
 
 def seed_post():
-    posts = []
+    # data = []
     for user_id in range(1, 11):
         for shop_id in range(1, 11):
+            data = []
             post = Post(user_id=user_id, shop_id=shop_id, message="おいしかった"*user_id)
             menus = Menu.query.filter(Menu.shop_id == shop_id).all()
             sampled_menus = random.sample(menus, min(len(menus), 4))
 
             for menu in sampled_menus:
-                post_menu = PostMenu(post.id, menu.id)
-                post_menu.menu = menu
-                post.post_menu.append(post_menu)
-                posts.append(post)
-    commit_all(posts)
+                post_menu = PostMenu(post_id=post.id, menu_id=menu.id)
+                post.menus.append(menu)
+                data.append(post)
+    commit_all(data)
 
 
 def register_command(app):
