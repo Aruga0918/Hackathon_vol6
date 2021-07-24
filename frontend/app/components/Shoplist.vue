@@ -1,8 +1,8 @@
 <template>
   <b-container class="commlist">
     <div
-      v-for="shop in shops"
-      :key="shop.name"
+      v-for="(shop, idx) in shops"
+      :key="idx"
       class="d-flex"
       style="
         align-items: center;

@@ -3,7 +3,7 @@
     <div class="row" style="width: 100%">
       <div
         v-for="category in categories"
-        :key="category.id"
+        :key="category"
         class="card col-6 col-xs-6 col-sm-6 col-md-6"
       >
         <nuxt-link
@@ -14,10 +14,10 @@
           }"
         >
           <div class="filter">
-            <img class="card-img" :src="icons[category.name]" alt="" />
+            <img class="card-img" :src="category.IconUrl" alt="" />
           </div>
           <div class="card-img-overlay">
-            <p class="text-white">{{ category.name }}</p>
+            <p class="text-white">{{ category.CategoryName }}</p>
           </div>
         </nuxt-link>
       </div>
@@ -28,20 +28,10 @@
 <script>
 export default {
   asyncData() {
-    const icons = require(`~/assets/categories.json`)
+    const categories = require(`~/assets/category.json`)
     return {
-      icons,
+      categories,
     }
-  },
-  data() {
-    return {
-      categories: [],
-    }
-  },
-  created() {
-    this.categories = this.$axios.get(`/mock/categories`).then((res) => {
-      this.categories = res.data
-    })
   },
 }
 </script>

@@ -116,8 +116,8 @@
         <b-tab title="メニュー">
           <b-container class="menulist">
             <div
-              v-for="menu in shopdata.menu"
-              :key="menu"
+              v-for="(menu, idx) in shopdata.menu"
+              :key="idx"
               class="d-flex"
               style="
                 align-items: center;

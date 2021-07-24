@@ -60,8 +60,8 @@
           </button>
         </form>
         <li
-          v-for="member in members"
-          :key="member"
+          v-for="(member, idx) in members"
+          :key="idx"
           class="d-inline-block"
           style="width: 50%"
         >
