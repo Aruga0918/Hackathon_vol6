@@ -4,7 +4,15 @@
       class="TopContainer d-flex"
       style="height: 20vh; vertical-align: center"
     >
-      <img :src="user.icon_url" style="object-fit: contain" />
+      <img
+        :src="user.icon_url"
+        style="
+          object-fit: contain;
+          border-radius: 50%;
+          border: 1px solid #00cc00;
+        "
+        class="icon-circle"
+      />
       <div class="d-inline-block ml-auto mr-auto" style="margin-top: 16px">
         <div class="primarydata mr-auto" style="width: 50%">
           <big style="height: 20%; font-weight: bold">{{ user.name }}</big>
@@ -31,7 +39,7 @@
           <div class="d-flex" style="align-items: center; width: 85%">
             <img
               :src="user.icon_url"
-              class="d-inline-block"
+              class="d-inline-block icon-circle"
               style="padding-right:16px border-radius: 50%; height: 60px; width: 60px; float:left"
             />
             <div

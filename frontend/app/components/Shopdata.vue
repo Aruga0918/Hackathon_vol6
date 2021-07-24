@@ -162,7 +162,7 @@ export default {
   },
   computed: {
     ...mapState({
-      communityId: (state) => state.communityId,
+      communityId: (state) => state.community.id,
     }),
   },
   mounted() {

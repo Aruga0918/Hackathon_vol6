@@ -1,29 +1,17 @@
 <template>
-  <div>
-    <CommodalForIndex
-      class="d-inline-block"
-      style="width: 15%; margin-top: 0"
-    />
-
-    <Storylike
-      class="d-inline-block"
-      style="width: 70%"
-      :community-list="communityList"
-      :is-loggedin="isLoggedin"
-    />
-
-    <img
-      src="~/static/common.png"
-      class="mx-auto"
-      style="
-        margin-top: 5px;
-        height: 30px;
-        width: 30px;
-        border: 1px solid;
-        border-radius: 50%;
-      "
-    />
-  </div>
+  <!-- <div class="row"> -->
+  <table v-if="isLoggedin" class="table table-borderless my-2">
+    <tbody>
+      <tr>
+        <td class="align-middle m-0 p-0">
+          <CommodalForIndex style="width: 20vw" />
+        </td>
+        <td class="align-middle m-0 p-0">
+          <Storylike :community-list="communityList" style="width: 80vw" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -43,7 +31,7 @@ export default {
   fetch() {
     if (this.isLoggedin) {
       this.$api
-        .get('/users/communities')
+        .get('/api/users/communities')
         .then((res) => {
           this.communityList = res.data
         })

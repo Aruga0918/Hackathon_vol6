@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: right">
+  <div style="text-align: center">
     <b-button
       v-b-modal.modal-1
       class="btn-circlelg"
@@ -8,11 +8,11 @@
         border-color: #cddc39;
         border: solid;
         background-color: white;
-        margin-right: 16px;
         line-height: 36px;
       "
       >＋</b-button
     >
+    <!-- <p class="small text-center">作成</p> -->
 
     <b-modal id="modal-1" title="コミュニティ新規作成">
       <div class="creater">
@@ -80,7 +80,6 @@
         </li>
       </div>
     </b-modal>
-    <p style="font-size: 6px">コミュニティ</p>
   </div>
 </template>
 
