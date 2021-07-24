@@ -3,7 +3,14 @@
     <b-button
       v-b-modal.modal-1
       class="btn-circlelg"
-      style="background-color: #cddc39; border: none; margin-right: 16px"
+      style="
+        color: #cddc39;
+        border-color: #cddc39;
+        border: solid;
+        background-color: white;
+        margin-right: 16px;
+        line-height: 36px;
+      "
       >＋</b-button
     >
 
@@ -73,6 +80,7 @@
         </li>
       </div>
     </b-modal>
+    <p style="font-size: 6px">コミュニティ</p>
   </div>
 </template>
 

@@ -94,9 +94,9 @@
             >
               <div class="d-flex" style="align-items: center; width: 70%">
                 <img
-                  :src="require(rankIcon[index])"
+                  :src="require(`~/static/f3-${index + 1}.png`)"
                   class="d-inline-block"
-                  style="height: 100px; width: 100px; float: left"
+                  style="height: 50px; width: 70px; float: left"
                 />
                 <div
                   class="d-inline-block ml-auto mr-auto"

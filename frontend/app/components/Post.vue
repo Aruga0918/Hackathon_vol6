@@ -1,7 +1,10 @@
 <template>
-  <div style="text-align: right">
+  <div
+    class="d-inline-block"
+    style="text-align: right height: 42px; width:54px"
+  >
     <b-button
-      v-b-modal.modal-1
+      v-b-modal.modal-post
       class="btn-circlelg"
       style="background-color: #cddc39; border: none; margin-right: 16px"
     >
@@ -19,7 +22,7 @@
       </svg>
     </b-button>
 
-    <b-modal id="modal-1" title="新規投稿作成">
+    <b-modal id="modal-post" title="新規投稿作成">
       <div class="creater">
         <form action="" method="post">
           <label for="ComunityName">カテゴリ</label>
