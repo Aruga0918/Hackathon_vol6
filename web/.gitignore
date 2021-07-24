@@ -1,35 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@matatabinoneko 
-jphacks
-/
-A_2001
-3
-0
-0
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-A_2001/web/.gitignore
-@tunamagur0
-tunamagur0 Add authentification
-Latest commit 11f7596 on Oct 31, 2020
- History
- 2 contributors
-@zukash@tunamagur0
-142 lines (115 sloc)  2.03 KB
-  
 # secret key
 src/*.json
 
@@ -186,4 +154,4 @@ Blog
 About
 Loading complete
 
-logs/
+logs/*

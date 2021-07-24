@@ -25,7 +25,14 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios'],
+  plugins: [
+    {
+      src: '~/plugins/persistedstate.js',
+      ssr: false,
+    },
+    '~/plugins/axios',
+    '~/plugins/mock.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,7 +50,13 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    'nuxt-webfontloader',
   ],
+  webfontloader: {
+    google: {
+      families: ['Cambay', 'Cambay — Bold'],
+    },
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   proxy: {
