@@ -1,5 +1,5 @@
 const community = {
-  id: '1',
+  id: 1,
   members: [
     {
       name: '名前',
