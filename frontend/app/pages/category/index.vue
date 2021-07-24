@@ -3,7 +3,7 @@
     <div class="row" style="width: 100%">
       <div
         v-for="category in categories"
-        :key="category"
+        :key="category.id"
         class="card col-6 col-xs-6 col-sm-6 col-md-6"
       >
         <nuxt-link
