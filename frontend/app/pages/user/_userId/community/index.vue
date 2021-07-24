@@ -14,7 +14,7 @@ export default {
   },
   mounted() {
     this.belongings = this.$axios
-      .get(`/mock/users/${this.$route.params.userId}/community`)
+      .get(`/mock/users/${this.$route.params.userId}/communities`)
       .then((res) => {
         this.belongings = res.data
       })

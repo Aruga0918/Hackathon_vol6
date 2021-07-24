@@ -1,28 +1,48 @@
 <template>
-  <ul class="horizontal-list">
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-    <li class="item">
-      <img style="border-radius: 50%" src="https://placekitten.com/g/30/30" />
-    </li>
-  </ul>
+  <div>
+    <template v-if="isLoggedin">
+      <ul class="horizontal-list">
+        <template v-for="(community, idx) in communityList">
+          <li :key="idx" class="item" @click="storeCommunityId(community.id)">
+            <img
+              v-if="community.icon_url"
+              style="border-radius: 50%"
+              :src="community.icon_url"
+              width="30"
+            />
+            <img
+              v-else
+              style="border-radius: 50%"
+              src="@/assets/community.png"
+              width="30"
+            />
+          </li>
+        </template>
+      </ul>
+    </template>
+    <div v-else>ログインしましょう</div>
+  </div>
 </template>
+
+<script>
+import { mapMutations } from 'vuex'
+export default {
+  props: {
+    communityList: {
+      type: Array,
+      required: true,
+    },
+    isLoggedin: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    ...mapMutations({ storeCommunityId: 'storeCommunityId' }),
+  },
+}
+</script>
+
 <style>
 .horizontal-list {
   overflow-x: auto;
