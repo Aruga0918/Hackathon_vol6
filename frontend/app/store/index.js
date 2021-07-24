@@ -5,7 +5,7 @@ const store = () =>
     state: {
       isSignin: false,
       user: {},
-      communityId: '',
+      communityId: 0,
     },
     getters: {
       isSignin(state) {
