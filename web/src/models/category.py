@@ -32,10 +32,6 @@ class Category(db.Model):
         secondary=ShopCategory.__tablename__,
         back_populates='categories',
     )
-    shop_category = db.relationship('ShopCategory')
-
-    def __init__(self, name):
-        self.name = name
 
     def to_dict(self):
         return dict(

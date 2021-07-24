@@ -38,14 +38,8 @@ class Menu(db.Model):
     posts = db.relationship(
         'Post',
         secondary=PostMenu.__tablename__,
-        back_populates='menus',
+        back_populates=__tablename__,
     )
-    post_menu = db.relationship('PostMenu')
-
-    def __init__(self, shop_id, name, price):
-        self.shop_id = shop_id
-        self.name = name
-        self.price = price
 
     def to_dict(self):
         return dict(

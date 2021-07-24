@@ -14,10 +14,10 @@ class User(db.Model):
     uid = db.Column(db.String(30), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    icon_url = db.Column(db.String(255))
-    profile = db.Column(db.String(255))
+    icon_url = db.Column(db.String(255), default=None)
+    profile = db.Column(db.String(255), default=None)
 
-    is_private = db.Column(db.Boolean(), nullable=False)
+    is_private = db.Column(db.Boolean(), default=False)
 
     created_at = db.Column(
         db.DateTime,
@@ -38,15 +38,6 @@ class User(db.Model):
         secondary=CommunityUser.__tablename__,
         back_populates='users',
     )
-    community_user = db.relationship('CommunityUser')
-
-    def __init__(self, uid, name, password, icon_url=None, profile=None, is_private=False):
-        self.uid = uid
-        self.name = name
-        self.password = password
-        self.icon_url = icon_url
-        self.profile = profile
-        self.is_private = is_private
 
     def to_dict(self):
         return dict(
