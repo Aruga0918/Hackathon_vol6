@@ -48,6 +48,7 @@
             color: white;
             background-color: #ba000d;
           "
+          @click="Delete(comm.id)"
           >退会</b-button
         >
       </div>
@@ -65,6 +66,19 @@ export default {
   },
   mounted() {
     console.log(this.belongings)
+  },
+  methods: {
+    Delete(id) {
+      const url = `/mock/communities/${id}/members/${this.$route.params.userId}`
+      this.$axios
+        .delete(url)
+        .then(() => {
+          alert('退会しました')
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
+    },
   },
 }
 </script>
