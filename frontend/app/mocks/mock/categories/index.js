@@ -1,7 +1,7 @@
 const categories = [
   {
     id: 1,
-    name: 'hoge',
+    name: '和食',
     shop_cnt: 32,
   },
   {

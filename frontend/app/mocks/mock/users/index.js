@@ -18,6 +18,6 @@ const users = [
 export default {
   // ユーザー一覧取得API
   get({ values }) {
-    return [200, { data: users }]
+    return [200, users]
   },
 }

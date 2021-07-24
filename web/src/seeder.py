@@ -31,6 +31,8 @@ def seed(arg):
         seed_community()
     elif arg == "community_user":
         seed_community_user()
+    elif arg == "shop_cateogry":
+        seed_shop_cateogry()
     elif arg == "shop_cat_menu":
         seed_shop_category_menu()
     elif arg == "shop":
@@ -96,6 +98,9 @@ def seed_shop_category_menu():
     # shopをadd
     seed_shop()
 
+    # category_shopをadd
+    seed_shop_cateogry()
+
     # menuをadd
     seed_menu()
 
@@ -121,6 +126,17 @@ def seed_shop():
         for data in shops_json_data
     ]
     commit_all(shops)
+
+
+def seed_shop_cateogry():
+    array = []
+    for data in shops_json_data:
+        shop_id = Shop.query.filter(Shop.name == data["name"]).first().id
+        category_id = Category.query.filter(
+            Category.name == data["category"]).first().id
+        shop_category = ShopCategory(shop_id=shop_id, category_id=category_id)
+        array.append(shop_category)
+    commit_all(array)
 
 
 def seed_menu():

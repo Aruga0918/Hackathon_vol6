@@ -1,67 +1,104 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo />
-      <h1 class="title">
-        {{ name }}
-      </h1>
-      <h2 class="subtitle">
-        {{ description }}
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="py-5 col col-md-4">
+        <img
+          class="d-block mx-auto mb-0"
+          src="@/assets/fooriend_logo_bland_color.png"
+          width="100"
+        />
+        <h4 class="fooriend text-center mb-3" style="color: #f44336">
+          fooriend
+        </h4>
+        <div v-if="failed" class="alert alert-danger">
+          サインインに失敗しました
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="userId">ユーザーid</label>
+            <input
+              id="userId"
+              v-model="userId"
+              type="text"
+              class="mb-3 form-control"
+              required
+            />
+
+            <label for="password">パスワード</label>
+            <input
+              id="password"
+              v-model="password"
+              type="password"
+              class="mb-3 form-control"
+              required
+            />
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              :disabled="userId === '' || password === ''"
+              @click="onSubmit"
+            >
+              サインイン
+            </button>
+          </div>
+        </form>
+        <p>新規登録は<nuxt-link to="/signup">こちら</nuxt-link></p>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import AppLogo from '~/components/Logo.vue'
+/* eslint-disable no-console */
+import { mapMutations } from 'vuex'
 export default {
-  components: {
-    AppLogo,
-  },
-  data: () => {
+  data() {
     return {
-      name: 'signin page',
+      userId: '',
+      password: '',
+      failed: false,
     }
+  },
+  created() {
+    if (![null, undefined].includes(localStorage.getItem('accessToken'))) {
+      this.$router.push('/')
+    }
+  },
+  methods: {
+    ...mapMutations({
+      storeSignin: 'storeSignin',
+      storeUser: 'storeUser',
+    }),
+    onSubmit() {
+      const form = {
+        uid: this.userId,
+        password: this.password,
+      }
+      this.$api
+        .post('/api/auth/signin', form)
+        .then((res) => {
+          const data = res.data
+          const accessToken = res.data.access_token
+          const refreshToken = res.data.refresh_token
+          // localStorage.setItem('uid', data.uid)
+          // if (data.icon_url !== null) {
+          //   localStorage.setItem('user_icon_url', data.icon_url)
+          // } else {
+          //   localStorage.removeItem('user_icon_url')
+          // }
+          // localStorage.setItem('username', data.username)
+          localStorage.setItem('accessToken', accessToken)
+          localStorage.setItem('refreshToken', refreshToken)
+          this.storeSignin()
+          this.storeUser(data)
+          this.failed = false
+          this.$router.go(-1)
+        })
+        .catch((e) => {
+          console.error(e)
+          this.failed = true
+        })
+    },
   },
 }
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links {
-  padding-top: 15px;
-}
-</style>

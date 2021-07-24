@@ -1,67 +1,75 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo />
-      <h1 class="title">
-        {{ name }}
-      </h1>
-      <h2 class="subtitle">
-        category id: {{ $route.params.categoryId }}<br />
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
+  <b-container class="shoplist">
+    <div
+      v-for="shop in shops"
+      :key="shop.name"
+      class="d-flex"
+      style="
+        align-items: center;
+        justify-content: center;
+        border-bottom-style: ridge;
+        height: 150px;
+      "
+    >
+      <div class="d-flex" style="align-items: center; width: 100%">
+        <img
+          :src="shop.img"
+          class="d-inline-block"
+          style="height: 100px; width: 100px; float: left"
+        />
+        <div class="d-inline-block ml-auto mr-auto" style="width: 260px">
+          <p class="d-inline ml-auto">
+            <NuxtLink
+              :to="{
+                name: 'category-categoryId-shop-shopId',
+                params: {
+                  categoryId: $route.params.categoryId,
+                  shopId: shop.id,
+                },
+              }"
+              >{{ shop.name }}</NuxtLink
+            >
+          </p>
+          <p style="font-size: 6px">{{ shop.opentime }}</p>
+        </div>
       </div>
     </div>
-  </section>
+  </b-container>
 </template>
 
 <script>
-import AppLogo from '~/components/Logo.vue'
+// 例:http://localhost:3000/category/1で和食を出す
 export default {
-  components: {
-    AppLogo,
-  },
-  data: () => {
+  asyncData() {
+    const Shoplist = require(`~/assets/shopdata.json`)
+    const categories = require(`~/assets/category.json`)
     return {
-      name: 'shop list page',
+      Shoplist,
+      categories,
     }
+  },
+  data() {
+    return {
+      shops: [],
+    }
+  },
+  mounted() {
+    // window: (onload = function () {
+    const id = this.$route.params.categoryId
+    const category = this.categories[id - 1].CategoryName
+    for (const i of this.Shoplist) {
+      if (i.category === category) {
+        this.shops.push(i)
+      }
+    }
+    // }),
+
+    // async getEventInfo() {
+    //   this.shops = await this.$axios
+    //     .get('mock/categories/this.$route.params.categoryId/shops')
+    //     .then((res) => res.data)
+    // },
+    // console.log(this.shops)
   },
 }
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links {
-  padding-top: 15px;
-}
-</style>
