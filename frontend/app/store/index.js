@@ -4,6 +4,8 @@ const store = () =>
   new Vuex.Store({
     state: {
       isSignin: false,
+      user: {},
+      communityId: '',
     },
     getters: {
       isSignin(state) {
@@ -20,6 +22,12 @@ const store = () =>
         if (localStorage.getItem('accessToken') === null) {
           state.isSignin = false
         }
+      },
+      storeUser(state, user) {
+        state.user = user
+      },
+      storeCommunityId(state, communityId) {
+        state.communityId = communityId
       },
     },
   })

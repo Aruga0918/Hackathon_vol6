@@ -49,7 +49,10 @@
         </b-nav-item>
 
         <b-nav-item>
-          <nuxt-link class="nlink" :to="{ name: 'community' }">
+          <nuxt-link
+            class="nlink"
+            :to="{ name: 'user-userId-community', params: { userId: user.id } }"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -74,13 +77,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   data: () => {
     return {}
   },
   computed: {
     ...mapGetters(['isSignin']),
+    ...mapState({
+      user: (state) => state.user,
+    }),
   },
 }
 </script>
