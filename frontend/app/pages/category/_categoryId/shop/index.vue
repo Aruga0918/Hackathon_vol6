@@ -41,35 +41,32 @@
 // 例:http://localhost:3000/category/1で和食を出す
 export default {
   asyncData() {
-    const Shoplist = require(`~/assets/shopdata.json`)
-    const categories = require(`~/assets/category.json`)
+    // const Shoplist = require(`~/assets/shopdata.json`)
+    // const categories = require(`~/assets/category.json`)
     return {
-      Shoplist,
-      categories,
+      // Shoplist,
+      // categories,
     }
   },
   data() {
     return {
       shops: [],
+      // Shoplist: [],
     }
   },
-  mounted() {
-    // window: (onload = function () {
-    const id = this.$route.params.categoryId
-    const category = this.categories[id - 1].CategoryName
-    for (const i of this.Shoplist) {
-      if (i.category === category) {
-        this.shops.push(i)
-      }
-    }
-    // }),
-
-    // async getEventInfo() {
-    //   this.shops = await this.$axios
-    //     .get('mock/categories/this.$route.params.categoryId/shops')
-    //     .then((res) => res.data)
-    // },
-    // console.log(this.shops)
+  created() {
+    this.shops = this.$axios
+      .get(`/mock/categories/${this.$route.params.categoryId}/shops`)
+      .then((res) => {
+        this.shops = res.data
+      })
+    // const id = this.$route.params.categoryId
+    // const category = this.categories[id - 1].CategoryName
+    // for (const i of this.Shoplist) {
+    //   if (i.category === category) {
+    //     this.shops.push(i)
+    //   }
+    // }
   },
 }
 </script>

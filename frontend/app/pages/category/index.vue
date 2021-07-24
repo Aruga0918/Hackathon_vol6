@@ -14,10 +14,10 @@
           }"
         >
           <div class="filter">
-            <img class="card-img" :src="category.IconUrl" alt="" />
+            <img class="card-img" :src="icons[category.name]" alt="" />
           </div>
           <div class="card-img-overlay">
-            <p class="text-white">{{ category.CategoryName }}</p>
+            <p class="text-white">{{ category.name }}</p>
           </div>
         </nuxt-link>
       </div>
@@ -28,10 +28,20 @@
 <script>
 export default {
   asyncData() {
-    const categories = require(`~/assets/category.json`)
+    const icons = require(`~/assets/categories.json`)
     return {
-      categories,
+      icons,
     }
+  },
+  data() {
+    return {
+      categories: [],
+    }
+  },
+  created() {
+    this.categories = this.$axios.get(`/mock/categories`).then((res) => {
+      this.categories = res.data
+    })
   },
 }
 </script>

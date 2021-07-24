@@ -1088,7 +1088,7 @@
     },
     {
         "name": "ダテカフェ オーダー DaTe Cafe O'rder",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/94/01/P029909401/P029909401_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/94/01/P029909401/P029909401_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 09:15～20:00 （料理L.O. 19:30 ドリンクL.O. 19:30）",
@@ -1118,7 +1118,7 @@
     },
     {
         "name": "ROMANDO ROLL",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/00/15/P038110015/P038110015_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/00/15/P038110015/P038110015_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 10:00～20:00 （料理L.O. 20:00 ドリンクL.O. 20:00）",
@@ -1148,7 +1148,7 @@
     },
     {
         "name": "ヘンボッハン テッペ",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/49/13/P036764913/P036764913_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/49/13/P036764913/P036764913_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 10:00～20:00 （料理L.O. 20:00 ドリンクL.O. 20:00）",
@@ -1171,7 +1171,7 @@
     },
     {
         "name": "The Roof top E Garden ザ ルーフトップイーガーデン",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/69/32/P038036932/P038036932_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/69/32/P038036932/P038036932_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 10:00～23:00 （料理L.O. 20:00 ドリンクL.O. 20:00）",
@@ -1211,7 +1211,7 @@
     },
     {
         "name": "小さな街の食堂 カフェ ミスティー cafe MISTY",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/27/55/P032532755/P032532755_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/27/55/P032532755/P032532755_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 11:00～21:00 （料理L.O. 20:30 ドリンクL.O. 20:00）",
@@ -1282,7 +1282,7 @@
     },
     {
         "name": "NEW YORK KITCHEN エスパル仙台",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/34/82/P010513482/P010513482_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/34/82/P010513482/P010513482_58_s.jpg",
         "opentime": "月～日: 08:00～22:30 （料理L.O. 22:30 ドリンクL.O. 22:30）",
@@ -1318,7 +1318,7 @@
     },
     {
         "name": "カフェ コンコンブル CAFE Con-combre",
-        "category": "カフェ・スイーツ",
+        "category": "カフェ",
         "img": "https://imgfp.hotp.jp/IMGH/03/56/P023150356/P023150356_238.jpg",
         "desktopicon_url": "https://imgfp.hotp.jp/IMGH/03/56/P023150356/P023150356_58_s.jpg",
         "opentime": "月～日、祝日、祝前日: 11:00～23:00 （料理L.O. 22:00 ドリンクL.O. 22:30）",
