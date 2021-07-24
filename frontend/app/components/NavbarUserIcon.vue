@@ -2,8 +2,8 @@
   <b-nav-item-dropdown right>
     <template #button-content>
       <img
-        v-if="icon_url !== null"
-        :src="icon_url"
+        v-if="existIconUrl"
+        :src="user.icon_url"
         style="border-radius: 50%"
         height="30px"
       />
@@ -18,7 +18,7 @@
       :to="{
         name: 'user-userId',
         params: {
-          userId: userId,
+          userId: user.id,
         },
       }"
       nuxt
@@ -29,14 +29,14 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   computed: {
-    icon_url() {
-      return localStorage.getItem('user_icon_url')
-    },
-    userId() {
-      return localStorage.getItem('uid')
+    ...mapState({
+      user: (state) => state.user,
+    }),
+    existIconUrl() {
+      return ![null, undefined].includes(this.user.icon_url)
     },
   },
   methods: {

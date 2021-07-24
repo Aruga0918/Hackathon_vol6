@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 /* eslint-disable no-console */
 export default {
   data() {
@@ -114,6 +115,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      storeSignin: 'storeSignin',
+      storeUser: 'storeUser',
+    }),
     onSubmit() {
       const form = {
         uid: this.userId,
@@ -127,15 +132,17 @@ export default {
           const data = res.data
           const accessToken = res.data.access_token
           const refreshToken = res.data.refresh_token
-          localStorage.setItem('uid', data.uid)
-          if (data.icon_url !== null) {
-            localStorage.setItem('user_icon_url', data.icon_url)
-          } else {
-            localStorage.removeItem('user_icon_url')
-          }
-          localStorage.setItem('username', data.username)
+          // localStorage.setItem('uid', data.uid)
+          // if (data.icon_url !== null) {
+          //   localStorage.setItem('user_icon_url', data.icon_url)
+          // } else {
+          //   localStorage.removeItem('user_icon_url')
+          // }
+          // localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
+          this.storeSignin()
+          this.storeUser(data)
           this.failed = false
           this.$router.go(-2)
           alert('アカウント作成に成功しました')
