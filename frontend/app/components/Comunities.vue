@@ -1,8 +1,8 @@
 <template>
   <b-container class="commlist">
     <div
-      v-for="comm in belongings"
-      :key="comm.name"
+      v-for="(comm, idx) in belongings"
+      :key="idx"
       class="d-flex"
       style="
         align-items: center;

@@ -17,8 +17,8 @@
       <div class="bar">投稿</div>
       <b-container class="posts">
         <div
-          v-for="post in user.posts"
-          :key="post.name"
+          v-for="(post, idx) in user.posts"
+          :key="idx"
           class="d-flex"
           style="
             align-items: center;

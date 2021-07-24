@@ -54,7 +54,9 @@
             @change="GetMenu(shopname)"
           >
             <option disabled value="">Open this select shop</option>
-            <option v-for="shop in incategory" :key="shop">{{ shop }}</option>
+            <option v-for="(shop, idx) in incategory" :key="idx">
+              {{ shop }}
+            </option>
           </select>
         </form>
         <br />
@@ -67,7 +69,7 @@
             multiple
           >
             <option disabled value="">Open this select menu</option>
-            <option v-for="menu in menus" :key="menu">{{ menu }}</option>
+            <option v-for="(menu, idx) in menus" :key="idx">{{ menu }}</option>
           </select>
         </form>
         <!-- <form action="" method="post">
