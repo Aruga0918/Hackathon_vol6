@@ -2,7 +2,13 @@
   <div class="d-flex">
     <div style="width: 15%" class="mr-1">
       <b-img
+        v-if="post.user_icon_url"
         :src="post.user_icon_url"
+        style="object-fit: contain; border-radius: 50%; width: 100%"
+      />
+      <b-img
+        v-else
+        src="@/assets/person.png"
         style="object-fit: contain; border-radius: 50%; width: 100%"
       />
     </div>

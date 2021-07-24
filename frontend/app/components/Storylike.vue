@@ -2,8 +2,14 @@
   <ul class="horizontal-list">
     <li v-for="comm in communities" :key="comm.id" class="item">
       <img
+        v-if="comm.icon_url"
         style="object-fit: contain; border-radius: 50%; width: 100%"
         :src="comm.icon_url"
+      />
+      <img
+        v-else
+        style="object-fit: contain; border-radius: 50%; width: 100%"
+        src="@/assets/community.png"
       />
     </li>
   </ul>
