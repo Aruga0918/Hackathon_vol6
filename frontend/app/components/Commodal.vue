@@ -40,14 +40,25 @@
             <div class="col-xs-8">
               <label for="Invitation">メンバー招待</label>
               <br />
-              <input
+              <!-- <input
                 id="Invitation"
                 v-model="memberID"
                 class="form-control"
                 type="text"
                 name="Invitation"
                 placeholder="ユーザーID"
-              />
+              /> -->
+              <b-form-input
+                id="Invitation"
+                v-model="memberID"
+                placeholder="ユーザーID"
+                list="candidates"
+              ></b-form-input>
+              <datalist id="candidates">
+                <option v-for="member in allmembers" :key="member">
+                  {{ member }}
+                </option>
+              </datalist>
             </div>
           </div>
           <!-- type = buttonにすると閉じない -->
@@ -86,6 +97,16 @@ export default {
       memberID: '',
       community_name: '',
       description: '',
+      allmembers: [],
+    }
+  },
+  created() {
+    let alldata = []
+    alldata = this.$axios.get(`/mock/users`).then((res) => {
+      alldata = res.data
+    })
+    for (const part of alldata) {
+      this.allmembers.push(part.uid)
     }
   },
   methods: {

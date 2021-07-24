@@ -117,7 +117,7 @@
           <b-container class="menulist">
             <div
               v-for="menu in shopdata.menu"
-              :key="menu"
+              :key="menu.name"
               class="d-flex"
               style="
                 align-items: center;

@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="text-align: center">
-    <div class="row" style="width: 100%">
+    <div class="row mx-auto" style="width: 100%">
       <div
         v-for="category in categories"
         :key="category.id"
@@ -39,7 +39,7 @@ export default {
     }
   },
   created() {
-    this.categories = this.$axios.get(`/mock/categories`).then((res) => {
+    this.categories = this.$api.get(`api/categories`).then((res) => {
       this.categories = res.data
     })
   },
