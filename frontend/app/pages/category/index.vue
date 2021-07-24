@@ -9,23 +9,20 @@
             class="col-6 mt-1"
             @click="goShopListPage(category.id)"
           >
-            <div v-for="(cj, _idx) in categoryJson" :key="_idx">
-              <div
-                v-if="cj.CategoryName === category.name"
-                class="card bg-dark text-white"
-              >
-                <img
-                  class="bd-placeholder-img bd-placeholder-img-lg card-img"
-                  width="100%"
-                  :src="cj.IconUrl"
-                />
-                <div class="card-img-overlay">
-                  <h5 class="card-title">
-                    {{ category.name }}({{ category.shop_cnt }})
-                  </h5>
-                </div>
+            <!-- <div v-for="(cj, _idx) in categoryJson" :key="_idx"> -->
+            <div class="card bg-dark text-white">
+              <img
+                class="bd-placeholder-img bd-placeholder-img-lg card-img"
+                width="100%"
+                :src="categoryJson[category.name]"
+              />
+              <div class="card-img-overlay">
+                <h5 class="card-title">
+                  {{ category.name }}({{ category.shop_cnt }})
+                </h5>
               </div>
             </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -34,7 +31,7 @@
 </template>
 
 <script>
-import categoryJson from '@/assets/category.json'
+import categoryJson from '@/assets/categories.json'
 export default {
   data: () => {
     return {
@@ -42,6 +39,7 @@ export default {
       categoryJson,
     }
   },
+
   fetch() {
     this.$api
       .get('/api/categories')

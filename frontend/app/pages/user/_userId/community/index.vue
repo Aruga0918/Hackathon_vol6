@@ -12,7 +12,7 @@ export default {
       belongings: [],
     }
   },
-  mounted() {
+  created() {
     this.$api
       .get(`/api/users/communities`)
       .then((res) => {

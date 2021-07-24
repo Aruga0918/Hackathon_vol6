@@ -40,14 +40,25 @@
             <div class="col-xs-8">
               <label for="Invitation">メンバー招待</label>
               <br />
-              <input
+              <!-- <input
                 id="Invitation"
                 v-model="memberID"
                 class="form-control"
                 type="text"
                 name="Invitation"
                 placeholder="ユーザーID"
-              />
+              /> -->
+              <b-form-input
+                id="Invitation"
+                v-model="memberID"
+                placeholder="ユーザーID"
+                list="candidates"
+              ></b-form-input>
+              <datalist id="candidates">
+                <option v-for="member in allmembers" :key="member">
+                  {{ member }}
+                </option>
+              </datalist>
             </div>
           </div>
           <!-- type = buttonにすると閉じない -->
@@ -86,6 +97,15 @@ export default {
       memberID: '',
       community_name: '',
       description: '',
+      allmembers: [],
+    }
+  },
+  async fetch() {
+    await this.$api.get(`api/users`).then((res) => {
+      this.alldata = res.data
+    })
+    for (const part of this.alldata) {
+      this.allmembers.push(part.uid)
     }
   },
   methods: {
@@ -98,13 +118,13 @@ export default {
       // splice(始まり,消去数)
     },
     submit() {
-      const url = '/mock/communities/create'
+      const url = '/api/communities/create'
       const params = {
         community_name: this.community_name,
         description: this.description,
         members: this.members,
       }
-      this.$axios
+      this.$api
         .post(url, params)
         .then(() => {
           alert('created')
