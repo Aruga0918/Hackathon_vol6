@@ -121,6 +121,12 @@
             </div>
           </b-container>
         </b-tab>
+        <b-tab title="投稿一覧">
+          <div v-for="(post, idx) in posts" :key="idx">
+            <user-post :post="post" />
+            <hr class="my-1" />
+          </div>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
@@ -139,6 +145,7 @@ export default {
     return {
       rankings: [],
       rankIcon: ['f3-1.png', 'f3-2.png', 'f3-3.png'],
+      posts: [],
     }
   },
   computed: {
@@ -159,6 +166,15 @@ export default {
           0,
           Math.min(data.length, this.rankIcon.length)
         )
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+    this.$api
+      .get(`/api/posts/shops/${this.$route.params.shopId}`)
+      .then((res) => {
+        this.posts = res.data
+        console.log(this.posts)
       })
       .catch((e) => {
         console.error(e)
