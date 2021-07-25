@@ -149,6 +149,7 @@ def create_community():
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     # メンバー登録
+    members = [member_id for member_id in members if member_id != user_id]
     try:
         community_user = CommunityUser(community_id=community.id, user_id=user_id, is_join=True)
         db.session.add(community_user)
