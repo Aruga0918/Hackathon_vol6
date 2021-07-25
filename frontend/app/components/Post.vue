@@ -92,7 +92,6 @@
         </form>
       </div>
     </b-modal>
-    {{ userId }}
   </div>
 </template>
 
