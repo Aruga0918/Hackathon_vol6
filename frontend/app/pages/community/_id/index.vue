@@ -63,12 +63,20 @@ export default {
       .get(`/api/communities/${this.$route.params.id}`)
       .then((res) => {
         this.community = res.data
-        console.log(this.community)
       })
       .catch((e) => {
         console.error(e)
       })
-    console.log(this.community)
+
+    this.$api
+      .get(`/api/posts/communities/${this.$route.params.id}`)
+      .then((res) => {
+        this.posts = res.data
+        console.log(this.posts)
+      })
+      .catch((e) => {
+        console.erro(e)
+      })
   },
 }
 </script>

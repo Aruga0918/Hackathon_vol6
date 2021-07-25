@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center">
+  <div style="text-align: center; height: 69px">
     <b-button
       v-b-modal.modal-1
       class="btn-circlelg"
@@ -15,9 +15,9 @@
       >＋</b-button
     >
     <p
-      class="text-center small my-0"
+      class="text-center small my-0 mx-auto"
       style="
-        max-width: 70px;
+        max-width: 100px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

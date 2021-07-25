@@ -64,11 +64,12 @@
             color: white;
             background-color: #ba000d;
           "
-          @click="Delete(comm.id)"
+          @click="Participate(comm.id)"
           >参加</b-button
         >
       </div>
     </div>
+    {{ $route.params.userId }}
   </b-container>
 </template>
 
@@ -95,6 +96,7 @@ export default {
         .catch(() => {
           alert('An error occured')
         })
+      console.log(url)
     },
     Participate(id) {
       const url = `/api/communities/${id}/join`
