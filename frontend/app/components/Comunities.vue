@@ -38,6 +38,7 @@
         </div>
 
         <b-button
+          v-if="comm.is_join"
           size="sm"
           variant="danger"
           class="mb-2 my-sm-0"
@@ -50,6 +51,21 @@
           "
           @click="Delete(comm.id)"
           >退会</b-button
+        >
+        <b-button
+          v-else
+          size="sm"
+          variant="danger"
+          class="mb-2 my-sm-0"
+          type="submit"
+          style="
+            float: right;
+            vertical-align: middle;
+            color: white;
+            background-color: #ba000d;
+          "
+          @click="Delete(comm.id)"
+          >参加</b-button
         >
       </div>
     </div>
@@ -70,11 +86,22 @@ export default {
   },
   methods: {
     Delete(id) {
-      const url = `/mock/communities/${id}/members/${this.$route.params.userId}`
-      this.$axios
+      const url = `/api/communities/${id}/members/${this.$route.params.userId}`
+      this.$api
         .delete(url)
         .then(() => {
           alert('退会しました')
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
+    },
+    Participate(id) {
+      const url = `/api/communities/${id}/join`
+      this.$api
+        .post(url)
+        .then(() => {
+          alert('参加しました')
         })
         .catch(() => {
           alert('An error occured')
