@@ -1,6 +1,9 @@
 <template>
   <div class="m-0">
-    <div class="d-flex align-middle" style="overflow-x: scroll; width: 100%">
+    <div
+      class="d-flex align-middle m-0"
+      style="overflow-x: scroll; width: 100%"
+    >
       <storylike-icon
         :community="publicCommunity"
         :selected="communityId === publicCommunity.id"

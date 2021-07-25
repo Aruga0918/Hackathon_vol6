@@ -67,6 +67,7 @@ export default {
       .catch((e) => {
         console.error(e)
       })
+
     this.$api
       .get(`/api/posts/communities/${this.$route.params.id}`)
       .then((res) => {
