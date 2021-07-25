@@ -53,10 +53,6 @@
             @change="GetMenu()"
           >
             <option disabled value="">Open this select shop</option>
-<<<<<<< HEAD
-=======
-
->>>>>>> 5aee36e6e861def0d460b19279a8e522bdd26b62
             <option v-for="shop in shops" :key="shop.id" :value="shop.id">
               {{ shop.name }}
             </option>
@@ -73,10 +69,6 @@
             multiple
           >
             <option disabled value="">Open this select menu</option>
-<<<<<<< HEAD
-=======
-
->>>>>>> 5aee36e6e861def0d460b19279a8e522bdd26b62
             <option
               v-for="menu in menus"
               :key="menu.menu_id"

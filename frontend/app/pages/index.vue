@@ -17,11 +17,6 @@
             <user-post :post="post" />
             <hr class="my-1" />
           </div>
-<<<<<<< HEAD
-=======
-
-          <Post style="z-index: 100; position: sticky; top: 85vh; left: 65vh" />
->>>>>>> 5aee36e6e861def0d460b19279a8e522bdd26b62
         </div>
       </div>
     </div>
