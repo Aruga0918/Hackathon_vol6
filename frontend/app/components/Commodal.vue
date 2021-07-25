@@ -55,8 +55,12 @@
                 list="candidates"
               ></b-form-input>
               <datalist id="candidates">
-                <option v-for="member in allmembers" :key="member">
-                  {{ member }}
+                <option
+                  v-for="member in allmembers"
+                  :key="member.uid"
+                  :value="member.id"
+                >
+                  {{ member.uid }}
                 </option>
               </datalist>
             </div>
@@ -98,15 +102,16 @@ export default {
       community_name: '',
       description: '',
       allmembers: [],
+      // alldata: [],
     }
   },
   async fetch() {
     await this.$api.get(`api/users`).then((res) => {
-      this.alldata = res.data
+      this.allmembers = res.data
     })
-    for (const part of this.alldata) {
-      this.allmembers.push(part.uid)
-    }
+    // for (const part of this.alldata) {
+    //   this.allmembers.push({part.uid : part.id})
+    // }
   },
   methods: {
     AddInvite() {
