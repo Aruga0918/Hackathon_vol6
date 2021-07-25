@@ -1,18 +1,33 @@
 const categories = [
   {
     id: 1,
-    name: 'hoge',
+    name: '和食',
     shop_cnt: 32,
   },
   {
     id: 2,
-    name: 'fuga',
+    name: '洋食',
     shop_cnt: 2,
   },
   {
     id: 3,
-    name: 'hogefuga',
-    shop_cnt: 0,
+    name: 'イタリアン・フレンチ',
+    shop_cnt: 5,
+  },
+  {
+    id: 4,
+    name: '中華',
+    shop_cnt: 32,
+  },
+  {
+    id: 5,
+    name: 'ラーメン',
+    shop_cnt: 2,
+  },
+  {
+    id: 6,
+    name: 'カフェ・スイーツ',
+    shop_cnt: 8,
   },
 ]
 

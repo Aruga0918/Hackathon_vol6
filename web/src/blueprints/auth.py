@@ -33,6 +33,8 @@ def signin():
             return jsonify({"message": f"not user {uid}"}), HTTPStatus.UNAUTHORIZED
 
         username = user.name
+        icon_url = user.icon_url
+        _id = user.id
 
         if not bcrypt.check_password_hash(user.password, password):
             return jsonify({"message": "Bad username or password"}), HTTPStatus.UNAUTHORIZED
@@ -45,7 +47,10 @@ def signin():
             {
                 "access_token": access_token,
                 "refresh_token": refresh_token,
-                "username": username
+                "username": username,
+                "icon_url": icon_url,
+                "id": _id,
+                "uid": uid
             }
         ),
         HTTPStatus.OK
@@ -58,19 +63,28 @@ def signin():
 def signup():
     if not request.is_json:
         return jsonify({"message": "Missing JSON in request"}), HTTPStatus.BAD_REQUEST
-    data = request.get_json()
-    uid = data["uid"]
-    name = data["username"]
-    password = data["password"]
 
-    user = db.session.query(User).filter_by(uid=uid).first()
+    try:
+        data = request.get_json()
+        uid = data["uid"]
+        name = data["username"]
+        password = data["password"]
+
+        user = db.session.query(User).filter_by(uid=uid).first()
+    except Exception as e:
+        logger.warn(e)
+        db.session.rollback()
+        return jsonify({"message": "Internal server error can't get params"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
     # 新規登録
     if not user:
         hashed_pass = bcrypt.generate_password_hash(password).decode('utf-8')
         try:
-            user = User(uid, name, hashed_pass)
+            user = User(uid=uid, name=name, password=hashed_pass)
             db.session.add(user)
             db.session.commit()
+            icon_url = user.icon_url
+            _id = user.id
         except Exception as e:
             logger.warn(e)
             db.session.rollback()
@@ -86,7 +100,10 @@ def signup():
             {
                 "access_token": access_token,
                 "refresh_token": refresh_token,
-                "username": name
+                "username": name,
+                "icon_url": icon_url,
+                "id": _id,
+                "uid": uid
             }
         ),
         HTTPStatus.OK

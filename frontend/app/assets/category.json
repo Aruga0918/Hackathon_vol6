@@ -1,0 +1,35 @@
+[
+    {
+        "CategoryName":"和食",
+        "id":1,
+        "IconUrl":"https://cdn.pixabay.com/photo/2016/08/19/09/30/japan-1604865_1280.jpg"
+    },
+    {
+        "CategoryName":"洋食",
+        "id":2,
+        "IconUrl":"https://cdn.pixabay.com/photo/2016/10/23/05/40/restaurant-1762236_1280.jpg"
+    },
+    {
+        "CategoryName":"イタリアン・フレンチ",
+        "id":3,
+        "IconUrl":"https://cdn.pixabay.com/photo/2018/04/21/04/00/food-3337657_1280.jpg"
+    },
+    {
+        "CategoryName":"中華",
+        "id":4,
+        "IconUrl":"https://cdn.pixabay.com/photo/2017/02/25/15/08/dimsum-2097947_1280.jpg"
+    },
+    {
+        "CategoryName":"ラーメン",
+        "id":5,
+        "IconUrl":"https://cdn.pixabay.com/photo/2017/04/04/00/36/ramen-2199962_1280.jpg"
+    },
+    {
+        "CategoryName":"カフェ",
+        "id":6,
+        "IconUrl":"https://cdn.pixabay.com/photo/2015/10/12/14/54/coffee-983955_1280.jpg"
+    }
+    
+    
+
+]

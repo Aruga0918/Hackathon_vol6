@@ -1,62 +1,82 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo />
-      <h1 class="title">
-        {{ name }}
-      </h1>
-      <h2 class="subtitle">
-        {{ description }}
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
+  <div>
+    <div class="row justify-content-center mx-1 mt-3">
+      <div class="py-1 col col-md-8">
+        <div class="d-flex">
+          <div style="width: 20%" class="mr-1">
+            <b-img
+              v-if="community.comm_icon_url"
+              :src="community.comm_icon_url"
+              style="object-fit: contain; border-radius: 50%; width: 100%"
+            />
+            <b-img
+              v-else
+              src="~/assets/community.png"
+              style="object-fit: contain; border-radius: 50%; width: 100%"
+            />
+          </div>
+          <div style="width: 80%">
+            <big style="my-auto">{{ community.name }}</big>
+          </div>
+        </div>
+
+        <p>{{ community.description }}</p>
+
+        <b-tabs
+          content-class="mt-3"
+          nav-class="justify-content-center"
+          active-nav-item-class="font-weight-bold text-uppercase text-danger"
         >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
+          <b-tab title="ユーザー" active>
+            <b-container class="userlist">
+              <Invite :commid="$route.params.id" />
+              <div v-for="(member, id) in community.members" :key="id">
+                <user-data :member="member" style="border: none" />
+                <hr class="my-1" />
+              </div>
+            </b-container>
+          </b-tab>
+          <b-tab title="投稿">
+            <b-container class="postlist">
+              <div v-for="(post, idx) in posts" :key="idx">
+                <user-post :post="post" />
+                <hr class="my-1" />
+              </div>
+            </b-container>
+          </b-tab>
+        </b-tabs>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import AppLogo from '~/components/Logo.vue'
 export default {
-  components: {
-    AppLogo,
+  data() {
+    return {
+      community: [],
+      posts: [],
+    }
+  },
+  mounted() {
+    this.$api
+      .get(`/api/communities/${this.$route.params.id}`)
+      .then((res) => {
+        this.community = res.data
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+
+    this.$api
+      .get(`/api/posts/communities/${this.$route.params.id}`)
+      .then((res) => {
+        this.posts = res.data
+        console.log(this.posts)
+      })
+      .catch((e) => {
+        console.erro(e)
+      })
   },
 }
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links {
-  padding-top: 15px;
-}
-</style>

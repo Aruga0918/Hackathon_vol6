@@ -1,62 +1,66 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo />
-      <h1 class="title">
-        {{ name }}
-      </h1>
-      <h2 class="subtitle">
-        {{ description }}
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
+  <div>
+    <community-list :user-id="userId" />
+    <hr class="m-0 p-0" />
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="py-1 col col-md-9">
+          <Post
+            style="z-index: 100; position: sticky; top: 85vh; left: 65vh"
+            :user-id="userId"
+          />
+          <p class="text-center">
+            <strong class="bland-color">{{ community.name }}</strong
+            >の投稿一覧
+          </p>
+          <div v-for="(post, idx) in posts" :key="idx">
+            <user-post :post="post" />
+            <hr class="my-1" />
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
-import AppLogo from '~/components/Logo.vue'
+import { mapState } from 'vuex'
 export default {
-  components: {
-    AppLogo,
+  data: () => {
+    return {
+      posts: [],
+    }
+  },
+
+  fetch() {
+    this.$api
+      .get(`/api/posts/communities/${this.communityId}`)
+      .then((res) => {
+        this.posts = res.data
+      })
+      .catch(() => {
+        console.error(`/api/posts/communities/${this.communityId}`)
+      })
+  },
+  computed: {
+    ...mapState({
+      userId: (state) => state.user.id,
+      communityId: (state) => state.community.id,
+      community: (state) => state.community,
+    }),
+  },
+  watch: {
+    communityId() {
+      this.posts = []
+      this.$api
+        .get(`/api/posts/communities/${this.communityId}`)
+        .then((res) => {
+          this.posts = res.data
+        })
+        .catch(() => {
+          console.error(`/api/posts/communities/${this.communityId}`)
+        })
+    },
   },
 }
 </script>
-
-<style>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links {
-  padding-top: 15px;
-}
-</style>
