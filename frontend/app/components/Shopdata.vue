@@ -174,7 +174,7 @@ export default {
       .get(`/api/posts/shops/${this.$route.params.shopId}`)
       .then((res) => {
         this.posts = res.data
-        console.log(this.posts)
+        // console.log(this.posts)
       })
       .catch((e) => {
         console.error(e)

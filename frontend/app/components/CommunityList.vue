@@ -33,7 +33,7 @@ export default {
       this.$api
         .get('/api/users/communities')
         .then((res) => {
-          this.communityList = res.data
+          this.communityList = res.data.filter((community) => community.is_join)
         })
         .catch((e) => {
           console.error(e)
