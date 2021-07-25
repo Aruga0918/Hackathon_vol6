@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; height: 69px">
+  <div style="text-align: center">
     <b-button
       v-b-modal.modal-1
       class="btn-circlelg"
@@ -8,24 +8,10 @@
         border-color: #cddc39;
         border: solid;
         background-color: white;
-        margin-right: 16px;
-        margin-left: 10px;
         line-height: 36px;
       "
       >＋</b-button
     >
-    <p
-      class="text-center small my-0 mx-auto"
-      style="
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: gray;
-      "
-    >
-      コミュニティズ
-    </p>
     <!-- <p class="small text-center">作成</p> -->
 
     <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
@@ -76,8 +62,12 @@
                 list="candidates"
               ></b-form-input>
               <datalist id="candidates">
-                <option v-for="member in allmembers" :key="member">
-                  {{ member }}
+                <option
+                  v-for="member in allmembers"
+                  :key="member.uid"
+                  :value="member.id"
+                >
+                  {{ member.uid }}
                 </option>
               </datalist>
             </div>
@@ -97,7 +87,7 @@
           class="d-inline-block"
           style="width: 50%"
         >
-          {{ member }}
+          {{ member.uid }}
           <b-button
             variant="outline-secondary"
             type="button"
@@ -119,16 +109,16 @@ export default {
       community_name: '',
       description: '',
       allmembers: [],
-      alldata: [],
+      // alldata: [],
     }
   },
   async fetch() {
     await this.$api.get(`api/users`).then((res) => {
-      this.alldata = res.data
+      this.allmembers = res.data
     })
-    for (const part of this.alldata) {
-      this.allmembers.push(part.uid)
-    }
+    // for (const part of this.alldata) {
+    //   this.allmembers.push({part.uid : part.id})
+    // }
   },
   methods: {
     AddInvite() {
@@ -144,6 +134,7 @@ export default {
       const params = {
         community_name: this.community_name,
         description: this.description,
+        members: this.members,
       }
       this.$api
         .post(url, params)

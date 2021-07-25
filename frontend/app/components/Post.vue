@@ -22,7 +22,7 @@
       </svg>
     </b-button>
 
-    <b-modal id="modal-post" title="新規投稿作成">
+    <b-modal id="modal-post" title="新規投稿作成" @ok="CreatePost">
       <div class="creater">
         <form action="" method="post">
           <label for="ComunityName">カテゴリ</label>
@@ -139,7 +139,7 @@ export default {
         })
     },
     CreatePost() {
-      const url = `/api/posts/${this.userId}/shops/${this.selectedShopId}`
+      const url = `/api/posts/users/${this.userId}/shops/${this.selectedShopId}`
       const params = {
         menus: this.atefoods,
         message: this.message,
