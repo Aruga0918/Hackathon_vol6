@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import categoryJson from '@/assets/categories.json'
 export default {
   asyncData() {
     const categoryIcon = require(`~/assets/categories.json`)
@@ -36,6 +37,7 @@ export default {
   data() {
     return {
       categories: [],
+      categoryJson,
     }
   },
   created() {
