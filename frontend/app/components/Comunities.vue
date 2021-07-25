@@ -16,13 +16,13 @@
         <img
           v-if="comm.icon_url"
           :src="comm.icon_url"
-          class="d-inline-block"
+          class="d-inline-block icon-circle mr-1"
           style="border-radius: 50%; height: 60px; width: 60px; float: left"
         />
         <img
           v-else
           src="@/assets/community.png"
-          class="d-inline-block"
+          class="d-inline-block icon-circle mr-1"
           style="border-radius: 50%; height: 60px; width: 60px; float: left"
         />
         <div class="d-inline-block ml-auto mr-auto" style="width: 260px">

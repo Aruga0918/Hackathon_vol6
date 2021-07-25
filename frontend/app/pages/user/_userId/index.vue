@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <p>{{ user.profile }}</p>
+        <p class="text-break">{{ user.profile }}</p>
 
         <h5 class="text-center text-white bg-bland-color">投稿</h5>
         <div>
