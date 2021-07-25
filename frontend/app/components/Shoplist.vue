@@ -1,8 +1,8 @@
 <template>
   <b-container class="commlist">
-    <div
-      v-for="shop in shops"
-      :key="shop.name"
+    <!-- <div
+      v-for="(shop, idx) in shops"
+      :key="idx"
       class="d-flex"
       style="
         align-items: center;
@@ -25,29 +25,29 @@
           <p style="font-size: 6px">{{ shop.opentime }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </b-container>
 </template>
 
 <script>
-import Shoplist from '../assets/shopdata.json'
-import category from '../assets/category.json'
-export default {
-  data() {
-    return {
-      shops: [],
-      id: '',
-      CategoryList: category,
-    }
-  },
-  methods: {
-    getByCategoryId(id) {
-      for (const i of Shoplist) {
-        if (i.id === id) {
-          this.shops.push(i)
-        }
-      }
-    },
-  },
-}
+// import Shoplist from '../assets/shopdata.json'
+// import category from '../assets/category.json'
+// export default {
+//   data() {
+//     return {
+//       shops: [],
+//       id: '',
+//       CategoryList: category,
+//     }
+//   },
+//   methods: {
+//     getByCategoryId(id) {
+//       for (const i of Shoplist) {
+//         if (i.id === id) {
+//           this.shops.push(i)
+//         }
+//       }
+//     },
+//   },
+// }
 </script>

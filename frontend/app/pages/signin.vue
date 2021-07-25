@@ -8,7 +8,7 @@
           width="100"
         />
         <h4 class="fooriend text-center mb-3" style="color: #f44336">
-          fooriend
+          FOOrienD
         </h4>
         <div v-if="failed" class="alert alert-danger">
           サインインに失敗しました
@@ -60,7 +60,7 @@ export default {
     }
   },
   created() {
-    if (![null, undefined].includes(localStorage.getItem('accessToken'))) {
+    if (localStorage.getItem('accessToken')) {
       this.$router.push('/')
     }
   },
@@ -80,19 +80,12 @@ export default {
           const data = res.data
           const accessToken = res.data.access_token
           const refreshToken = res.data.refresh_token
-          // localStorage.setItem('uid', data.uid)
-          // if (data.icon_url !== null) {
-          //   localStorage.setItem('user_icon_url', data.icon_url)
-          // } else {
-          //   localStorage.removeItem('user_icon_url')
-          // }
-          // localStorage.setItem('username', data.username)
           localStorage.setItem('accessToken', accessToken)
           localStorage.setItem('refreshToken', refreshToken)
           this.storeSignin()
           this.storeUser(data)
           this.failed = false
-          this.$router.go(-1)
+          this.$router.push('/')
         })
         .catch((e) => {
           console.error(e)

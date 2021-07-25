@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: right">
+  <div style="text-align: center">
     <b-button
       v-b-modal.modal-1
       class="btn-circlelg"
@@ -14,6 +14,7 @@
       "
       >＋</b-button
     >
+    <!-- <p class="small text-center">作成</p> -->
 
     <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
       <div class="creater">
@@ -79,8 +80,8 @@
           </button>
         </form>
         <li
-          v-for="member in members"
-          :key="member"
+          v-for="(member, idx) in members"
+          :key="idx"
           class="d-inline-block"
           style="width: 50%"
         >

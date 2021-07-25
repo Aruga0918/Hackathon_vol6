@@ -29,7 +29,7 @@
         >
           <b-tab title="ユーザー" active>
             <b-container class="userlist">
-              <Invite :commid="community.id" />
+              <Invite :commid="$route.params.id" />
               <div v-for="(member, id) in community.members" :key="id">
                 <user-data :member="member" style="border: none" />
                 <hr class="my-1" />
@@ -60,9 +60,9 @@ export default {
   },
   mounted() {
     this.$api
-      .get(`/mock/users/communities`)
+      .get(`/api/users/communities`)
       .then((res) => {
-        this.belongings = res.data
+        this.community = res.data
       })
       .catch((e) => {
         console.error(e)

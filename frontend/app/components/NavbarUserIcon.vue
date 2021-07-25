@@ -3,12 +3,14 @@
     <template #button-content>
       <img
         v-if="existIconUrl"
+        class="icon-circle"
         :src="user.icon_url"
         style="border-radius: 50%"
         height="30px"
       />
       <img
         v-else
+        class="icon-circle"
         src="@/assets/person.png"
         style="border-radius: 50%"
         height="30px"

@@ -78,7 +78,6 @@
             </option>
           </select>
         </form>
-        {{ atefoods }}
         <form action="" method="post">
           <label for="PostDescription">メッセージ</label>
           <br />
@@ -93,6 +92,7 @@
         </form>
       </div>
     </b-modal>
+    {{ userId }}
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <div class="row mx-auto" style="width: 100%">
       <div
         v-for="category in categories"
-        :key="category.id"
+        :key="category"
         class="card col-6 col-xs-6 col-sm-6 col-md-6"
       >
         <nuxt-link
@@ -14,7 +14,7 @@
           }"
         >
           <div class="filter">
-            <img class="card-img" :src="icons[category.name]" alt="" />
+            <img class="card-img" :src="categoryIcon[category.name]" alt="" />
           </div>
           <div class="card-img-overlay">
             <p class="text-white">{{ category.name }}</p>
@@ -28,9 +28,9 @@
 <script>
 export default {
   asyncData() {
-    const icons = require(`~/assets/categories.json`)
+    const categoryIcon = require(`~/assets/categories.json`)
     return {
-      icons,
+      categoryIcon,
     }
   },
   data() {
@@ -39,7 +39,7 @@ export default {
     }
   },
   created() {
-    this.categories = this.$api.get(`api/categories`).then((res) => {
+    this.categories = this.$api.get(`/api/categories`).then((res) => {
       this.categories = res.data
     })
   },
