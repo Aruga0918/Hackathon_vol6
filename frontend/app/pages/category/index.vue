@@ -1,25 +1,30 @@
 <template>
-  <div class="container" style="text-align: center">
-    <div class="row mx-auto" style="width: 100%">
-      <div
-        v-for="category in categories"
-        :key="category"
-        class="card col-6 col-xs-6 col-sm-6 col-md-6"
-      >
-        <nuxt-link
-          class="nlink"
-          :to="{
-            name: 'category-categoryId-shop',
-            params: { categoryId: category.id },
-          }"
-        >
-          <div class="filter">
-            <img class="card-img" :src="categoryIcon[category.name]" alt="" />
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="py-1 col col-md-9">
+        <div class="row">
+          <div
+            v-for="(category, idx) in categories"
+            :key="idx"
+            class="col-6 mt-1 px-1"
+            @click="goShopListPage(category.id)"
+          >
+            <!-- <div v-for="(cj, _idx) in categoryJson" :key="_idx"> -->
+            <div class="card bg-dark text-white">
+              <img
+                class="bd-placeholder-img bd-placeholder-img-lg card-img"
+                width="100%"
+                :src="categoryJson[category.name]"
+              />
+              <div class="card-img-overlay">
+                <h5 class="card-title">
+                  {{ category.name }}({{ category.shop_cnt }})
+                </h5>
+              </div>
+            </div>
+            <!-- </div> -->
           </div>
-          <div class="card-img-overlay">
-            <p class="text-white">{{ category.name }}</p>
-          </div>
-        </nuxt-link>
+        </div>
       </div>
     </div>
   </div>
@@ -28,22 +33,28 @@
 <script>
 import categoryJson from '@/assets/categories.json'
 export default {
-  asyncData() {
-    const categoryIcon = require(`~/assets/categories.json`)
-    return {
-      categoryIcon,
-    }
-  },
-  data() {
+  data: () => {
     return {
       categories: [],
       categoryJson,
     }
   },
-  created() {
-    this.categories = this.$api.get(`/api/categories`).then((res) => {
-      this.categories = res.data
-    })
+
+  fetch() {
+    this.$api
+      .get('/api/categories')
+      .then((res) => {
+        this.categories = res.data
+        console.log(this.categories)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  },
+  methods: {
+    goShopListPage(categoryId) {
+      this.$router.push(`/category/${categoryId}/shop`)
+    },
   },
 }
 </script>

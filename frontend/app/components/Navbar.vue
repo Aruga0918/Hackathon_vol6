@@ -14,7 +14,7 @@
               <b-img
                 src="@/assets/fooriend_logo_bland_color_reverse.jpg"
                 alt="Rounded image"
-                height="50px"
+                height="40px"
               ></b-img>
             </td>
             <td class="fooriend align-middle p-0 m-0 pl-1 pt-1 text-white">
