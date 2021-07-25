@@ -25,7 +25,10 @@ const store = () =>
       storeSignout(state) {
         if (!localStorage.getItem('accessToken')) {
           state.isSignin = false
-          this.communityId = 0
+          state.community = {
+            name: 'public community',
+            id: 0,
+          }
         }
       },
       storeUser(state, user) {

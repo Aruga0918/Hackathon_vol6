@@ -13,7 +13,7 @@
       width="50"
     />
     <p
-      class="text-center small"
+      class="text-center small mb-1"
       style="
         max-width: 70px;
         overflow: hidden;

@@ -2,8 +2,8 @@
   <!-- <div class="row"> -->
   <table v-if="isLoggedin" class="table table-borderless my-2">
     <tbody>
-      <tr>
-        <td class="align-middle m-0 p-0">
+      <tr style="height: 69px">
+        <td class="align-middle m-0 p-0" style="height: 69px">
           <CommodalForIndex style="width: 20vw" />
         </td>
         <td class="align-middle m-0 p-0">
@@ -33,7 +33,7 @@ export default {
       this.$api
         .get('/api/users/communities')
         .then((res) => {
-          this.communityList = res.data
+          this.communityList = res.data.filter((community) => community.is_join)
         })
         .catch((e) => {
           console.error(e)

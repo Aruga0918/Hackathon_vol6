@@ -153,6 +153,8 @@ def get_user_communities():
 
     Returns
     -------
+    is_join : bool
+        参加しているかしていないか
     id : int
         コミュニティのid
     name : str
@@ -183,6 +185,7 @@ def get_user_communities():
     return_data = []
     for data in community_user_data:
         community_id = data.community_id
+        is_join = data.is_join
         community_data = Community.query.filter(Community.id == community_id).first()
         member_cnt = CommunityUser.query.filter(
             CommunityUser.community_id == community_id).count()
@@ -191,7 +194,8 @@ def get_user_communities():
                 "id": community_id,
                 "name": community_data.name,
                 "icon_url": community_data.icon_url,
-                "member_cnt": member_cnt
+                "member_cnt": member_cnt,
+                "is_join": is_join
             }
         )
 

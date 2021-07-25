@@ -14,7 +14,7 @@
     >
     <!-- <p class="small text-center">作成</p> -->
 
-    <b-modal id="modal-1" title="コミュニティ新規作成">
+    <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
       <div class="creater">
         <form action="" method="post">
           <label for="ComunityName"
@@ -22,6 +22,7 @@
           >
           <input
             id="ComunityName"
+            v-model="community_name"
             class="form-control"
             type="text"
             name="ComunityName"
@@ -33,6 +34,7 @@
           <br />
           <input
             id="ComunityDescription"
+            v-model="description"
             class="form-control"
             type="text"
             name="ComunityDescription"
@@ -45,14 +47,29 @@
             <div class="col-xs-8">
               <label for="Invitation">メンバー招待</label>
               <br />
-              <input
+              <!-- <input
                 id="Invitation"
                 v-model="memberID"
                 class="form-control"
                 type="text"
                 name="Invitation"
                 placeholder="ユーザーID"
-              />
+              /> -->
+              <b-form-input
+                id="Invitation"
+                v-model="memberID"
+                placeholder="ユーザーID"
+                list="candidates"
+              ></b-form-input>
+              <datalist id="candidates">
+                <option
+                  v-for="member in allmembers"
+                  :key="member.uid"
+                  :value="member.id"
+                >
+                  {{ member.uid }}
+                </option>
+              </datalist>
             </div>
           </div>
           <!-- type = buttonにすると閉じない -->
@@ -70,7 +87,7 @@
           class="d-inline-block"
           style="width: 50%"
         >
-          {{ member }}
+          {{ member.uid }}
           <b-button
             variant="outline-secondary"
             type="button"
@@ -89,7 +106,19 @@ export default {
     return {
       members: [],
       memberID: '',
+      community_name: '',
+      description: '',
+      allmembers: [],
+      // alldata: [],
     }
+  },
+  async fetch() {
+    await this.$api.get(`api/users`).then((res) => {
+      this.allmembers = res.data
+    })
+    // for (const part of this.alldata) {
+    //   this.allmembers.push({part.uid : part.id})
+    // }
   },
   methods: {
     AddInvite() {
@@ -99,6 +128,22 @@ export default {
       const index = this.members.indexOf(target)
       this.members.splice(index, 1)
       // splice(始まり,消去数)
+    },
+    submit() {
+      const url = '/api/communities/create'
+      const params = {
+        community_name: this.community_name,
+        description: this.description,
+        members: this.members,
+      }
+      this.$api
+        .post(url, params)
+        .then(() => {
+          alert('created')
+        })
+        .catch(() => {
+          alert('An error occured')
+        })
     },
   },
 }

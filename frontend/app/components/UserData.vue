@@ -6,6 +6,7 @@
           <b-img
             v-if="member.icon_url"
             :src="member.icon_url"
+            class="icon-circle"
             style="
               object-fit: contain;
               border-radius: 50%;
@@ -15,7 +16,8 @@
           />
           <b-img
             v-else
-            :src="member.icon_url"
+            src="@/assets/person.png"
+            class="icon-circle"
             style="
               object-fit: contain;
               border-radius: 50%;

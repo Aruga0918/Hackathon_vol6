@@ -7,11 +7,13 @@
             <b-img
               v-if="community.comm_icon_url"
               :src="community.comm_icon_url"
+              class="icon-circle"
               style="object-fit: contain; border-radius: 50%; width: 100%"
             />
             <b-img
               v-else
               src="~/assets/community.png"
+              class="icon-circle"
               style="object-fit: contain; border-radius: 50%; width: 100%"
             />
           </div>
@@ -31,7 +33,11 @@
             <b-container class="userlist">
               <Invite :commid="$route.params.id" />
               <div v-for="(member, id) in community.members" :key="id">
-                <user-data :member="member" style="border: none" />
+                <user-data
+                  :member="member"
+                  style="border: none"
+                  @click="goUserPage(member.id)"
+                />
                 <hr class="my-1" />
               </div>
             </b-container>
@@ -60,13 +66,29 @@ export default {
   },
   mounted() {
     this.$api
-      .get(`/mock/users/communities`)
+      .get(`/api/communities/${this.$route.params.id}`)
       .then((res) => {
         this.community = res.data
       })
       .catch((e) => {
         console.error(e)
       })
+
+    this.$api
+      .get(`/api/posts/communities/${this.$route.params.id}`)
+      .then((res) => {
+        this.posts = res.data
+        console.log(this.posts)
+      })
+      .catch((e) => {
+        console.erro(e)
+      })
+  },
+  methods: {
+    goUserPage(userId) {
+      console.log('hoge')
+      this.$router.push(`/user/${userId}`)
+    },
   },
 }
 </script>

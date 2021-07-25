@@ -17,6 +17,6 @@
 }
 .icon-circle {
   border-radius: 50%;
-  border: 1px solid #00cc00;
+  border: 1px solid #797979;
 }
 </style>

@@ -8,6 +8,8 @@ from models import User, CommunityUser, Menu, PostMenu, Post, Shop
 posts = Blueprint("posts", __name__)
 logger = logging.getLogger("app")
 
+POST_NUM = 10 # 返す投稿の数
+
 
 class DatabaseError(Exception):
     """データベースからの情報取得に失敗したときに投げる例外の基底クラス"""
@@ -217,7 +219,7 @@ def get_user_posts(user_id):
     ]
     """
     try:
-        post_data_list = Post.query.filter(Post.user_id == user_id).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.user_id == user_id).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -267,7 +269,7 @@ def get_shop_posts(shop_id):
     ]
     """
     try:
-        post_data_list = Post.query.filter(Post.shop_id == shop_id).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.shop_id == shop_id).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -356,9 +358,11 @@ def get_community_posts(community_id):
             return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     user_id_list = [
-        community_user_data.user_id for community_user_data in community_user_data_list]
+        community_user_data.user_id for community_user_data in community_user_data_list 
+        if community_user_data.is_join
+        ]
     try:
-        post_data_list = Post.query.filter(Post.user_id.in_(user_id_list)).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.user_id.in_(user_id_list)).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -467,7 +471,66 @@ def edit_post(post_id):
     Returns
     -------
     """
-    return jsonify({"message": "api_test"}), HTTPStatus.OK
+    user_id = get_jwt_identity()
+    payload = request.json
+    menus = payload.get("menus")
+    message = payload.get("message")
+
+    if menus is None:
+        return jsonify({"message": "Menus is None"}), HTTPStatus.BAD_REQUEST
+
+    try:
+        post_data = Post.query.filter(Post.id == post_id).first()
+        if post_data is None:
+            return jsonify({"message": "Post data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    if post_data.user_id != user_id:
+        return jsonify({"message": "No edit permission"}), HTTPStatus.UNAUTHORIZED
+
+    try:
+        post_menu_data_list = PostMenu.query.filter(PostMenu.post_id == post_id).all()
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    registered_menu_list = [post_menu_data.menu_id for post_menu_data in post_menu_data_list]
+    delete_menu_list = [menu_id for menu_id in registered_menu_list if menu_id not in menus]
+    add_menu_list = [menu_id for menu_id in menus if menu_id not in registered_menu_list]
+
+    if message is not None:
+        try:
+            post_data.message = message
+            db.session.add(post_data)
+            db.session.commit()
+        except Exception as e:
+            logger.error(e)
+            db.session.rollback()
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    for menu in delete_menu_list:
+        try:
+            post_menu_data = PostMenu.query.filter(PostMenu.post_id == post_id, PostMenu.menu_id == menu).first()
+            db.session.delete(post_menu_data)
+            db.session.commit()
+        except Exception as e:
+            logger.error(e)
+            db.session.rollback()
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    for menu in add_menu_list:
+        try:
+            post_menu_data = PostMenu(post_id=post_id, menu_id=menu)
+            db.session.add(post_menu_data)
+            db.session.commit()
+        except Exception as e:
+            logger.error(e)
+            db.session.rollback()
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR    
+
+    return jsonify(post_data.to_dict()), HTTPStatus.OK
 
 
 @posts.route("/posts/<int:post_id>", methods=["DELETE"])
@@ -482,7 +545,43 @@ def delete_post(post_id):
     Returns
     -------
     """
-    return jsonify({"message": "api_test"}), HTTPStatus.OK
+    user_id = get_jwt_identity()
+
+    try:
+        post_data = Post.query.filter(Post.id == post_id).first()
+        if post_data is None:
+            return jsonify({"message": "Post data not found"}), HTTPStatus.BAD_REQUEST
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    if post_data.user_id != user_id:
+        return jsonify({"message": "No delete permission"}), HTTPStatus.UNAUTHORIZED
+
+    try:
+        post_menu_data_list = PostMenu.query.filter(PostMenu.post_id == post_id).all()
+    except Exception as e:
+        logger.error(e)
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    for post_menu_data in post_menu_data_list:
+        try:
+            db.session.delete(post_menu_data)
+            db.session.commit()
+        except Exception as e:
+            logger.error(e)
+            db.session.rollback()
+            return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    try:
+        db.session.delete(post_data)
+        db.session.commit()
+    except Exception as e:
+        logger.error(e)
+        db.session.rollback()
+        return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    return jsonify({"post_id": post_id}), HTTPStatus.OK
 
 
 @posts.route("/posts/test")

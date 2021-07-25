@@ -64,6 +64,16 @@ export default {
     return {
       members: [],
       memberID: '',
+      alldata: [],
+      allmembers: [],
+    }
+  },
+  async fetch() {
+    await this.$api.get(`api/users`).then((res) => {
+      this.alldata = res.data
+    })
+    for (const part of this.alldata) {
+      this.allmembers.push(part.uid)
     }
   },
   mounted() {

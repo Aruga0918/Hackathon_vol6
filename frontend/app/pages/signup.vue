@@ -8,7 +8,7 @@
           width="100"
         />
         <h4 class="fooriend text-center mb-3" style="color: #f44336">
-          fooriend
+          FOOrienD
         </h4>
         <h3 class="text-center">アカウント作成</h3>
         <div v-if="failed" class="alert alert-danger" role="alert">
@@ -110,7 +110,7 @@ export default {
     },
   },
   created() {
-    if (localStorage.getItem('accessToken') !== null) {
+    if (localStorage.getItem('accessToken')) {
       this.$router.push('/')
     }
   },
@@ -144,7 +144,7 @@ export default {
           this.storeSignin()
           this.storeUser(data)
           this.failed = false
-          this.$router.go(-2)
+          this.$router.push('/')
           alert('アカウント作成に成功しました')
         })
         .catch((e) => {
