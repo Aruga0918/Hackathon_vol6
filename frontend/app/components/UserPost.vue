@@ -25,7 +25,7 @@
         </h6>
         <small class="text-muted p-0 m-1">@{{ post.uid }}</small>
       </div>
-      <div style="line-height: 1em" class="mb-1">
+      <div style="line-height: 1.2em" class="mb-1">
         <nuxt-link
           :to="{
             name: 'category-categoryId-shop-shopId',
@@ -51,8 +51,10 @@
         <div @click="goPostDetailPage">
           <!-- <p class="m-0">メニュー</p> -->
           <p style="font-weight: bold">"{{ post.message }}"</p>
-          <ul v-for="(menu, idx) in post.menu" :key="idx" class="m-0">
-            <li>{{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}</li>
+          <ul class="m-0">
+            <li v-for="(menu, idx) in post.menu" :key="idx" class="py-1">
+              {{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}
+            </li>
           </ul>
         </div>
       </div>
