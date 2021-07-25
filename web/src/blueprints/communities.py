@@ -149,6 +149,7 @@ def create_community():
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     # メンバー登録
+    members = [member_id for member_id in members if member_id != user_id]
     try:
         community_user = CommunityUser(community_id=community.id, user_id=user_id, is_join=True)
         db.session.add(community_user)
@@ -415,7 +416,7 @@ def withdraw_community(community_id, user_id):
     Returns
     -------　
     """
-    host_id = get_jwt_identity()
+    applicant_id = get_jwt_identity()
     try:
         community_data = Community.query.filter(Community.id == community_id).first()
         if community_data is None:
@@ -424,8 +425,8 @@ def withdraw_community(community_id, user_id):
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
-    if community_data.host_user != host_id:
-        return jsonify({"message": "Not host user"}), HTTPStatus.BAD_REQUEST
+    if community_data.host_user != applicant_id and user_id != applicant_id:
+        return jsonify({"message": "No permisson"}), HTTPStatus.BAD_REQUEST
 
     try:
         community_user_data = CommunityUser.query.filter(CommunityUser.community_id == community_id, CommunityUser.user_id == user_id).first()
