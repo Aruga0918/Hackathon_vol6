@@ -5,6 +5,10 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="py-1 col col-md-9">
+          <Post
+            style="z-index: 100; position: sticky; top: 85vh; left: 65vh"
+            :user-id="userId"
+          />
           <p class="text-center">
             <strong class="bland-color">{{ community.name }}</strong
             >の投稿一覧
@@ -13,8 +17,6 @@
             <user-post :post="post" />
             <hr class="my-1" />
           </div>
-
-          <Post style="z-index: 100; position: sticky; top: 85vh; left: 65vh" />
         </div>
       </div>
     </div>

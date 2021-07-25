@@ -53,7 +53,6 @@
             @change="GetMenu()"
           >
             <option disabled value="">Open this select shop</option>
-
             <option v-for="shop in shops" :key="shop.id" :value="shop.id">
               {{ shop.name }}
             </option>
@@ -70,7 +69,6 @@
             multiple
           >
             <option disabled value="">Open this select menu</option>
-
             <option
               v-for="menu in menus"
               :key="menu.menu_id"
@@ -80,7 +78,6 @@
             </option>
           </select>
         </form>
-        {{ atefoods }}
         <form action="" method="post">
           <label for="PostDescription">メッセージ</label>
           <br />

@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     this.$api
-      .get(`/mock/users/communities`)
+      .get(`/api/users/communities`)
       .then((res) => {
         this.community = res.data
       })

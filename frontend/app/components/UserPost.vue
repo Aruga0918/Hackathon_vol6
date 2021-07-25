@@ -49,11 +49,11 @@
           >&nbsp;&nbsp;{{ post.shop_name }}</nuxt-link
         >
         <div @click="goPostDetailPage">
-          <p class="m-0">メニュー</p>
+          <!-- <p class="m-0">メニュー</p> -->
+          <p style="font-weight: bold">"{{ post.message }}"</p>
           <ul v-for="(menu, idx) in post.menu" :key="idx" class="m-0">
             <li>{{ menu.name }}&nbsp;&nbsp;¥{{ menu.price }}</li>
           </ul>
-          <p>{{ post.message }}</p>
         </div>
       </div>
       <p class="text-muted text-right">
@@ -81,3 +81,4 @@ export default {
   },
 }
 </script>
+<style scoped></style>
