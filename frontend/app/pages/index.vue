@@ -6,6 +6,7 @@
       <div class="row justify-content-center">
         <div class="py-1 col col-md-9">
           <Post
+            v-if="isSignin"
             style="z-index: 100; position: sticky; top: 85vh; left: 65vh"
             :user-id="userId"
           />
@@ -47,6 +48,7 @@ export default {
       userId: (state) => state.user.id,
       communityId: (state) => state.community.id,
       community: (state) => state.community,
+      isSignin: (state) => state.isSignin,
     }),
   },
   watch: {
