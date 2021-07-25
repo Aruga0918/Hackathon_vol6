@@ -67,6 +67,7 @@ export default {
       .catch((e) => {
         console.error(e)
       })
+    console.log(this.community)
   },
 }
 </script>

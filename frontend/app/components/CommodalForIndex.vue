@@ -14,6 +14,18 @@
       "
       >＋</b-button
     >
+    <p
+      class="text-center small my-0"
+      style="
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: gray;
+      "
+    >
+      コミュニティズ
+    </p>
     <!-- <p class="small text-center">作成</p> -->
 
     <b-modal id="modal-1" title="コミュニティ新規作成" @ok="submit">
