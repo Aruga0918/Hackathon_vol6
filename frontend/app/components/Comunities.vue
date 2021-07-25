@@ -43,33 +43,20 @@
           variant="danger"
           class="mb-2 my-sm-0"
           type="submit"
-          style="
-            float: right;
-            vertical-align: middle;
-            color: white;
-            background-color: #ba000d;
-          "
           @click="Delete(comm.id)"
           >退会</b-button
         >
         <b-button
           v-else
           size="sm"
-          variant="danger"
+          variant="outline-secondary"
           class="mb-2 my-sm-0"
           type="submit"
-          style="
-            float: right;
-            vertical-align: middle;
-            color: white;
-            background-color: #ba000d;
-          "
           @click="Participate(comm.id)"
           >参加</b-button
         >
       </div>
     </div>
-    {{ $route.params.userId }}
   </b-container>
 </template>
 
