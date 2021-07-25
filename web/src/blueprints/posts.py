@@ -8,6 +8,8 @@ from models import User, CommunityUser, Menu, PostMenu, Post, Shop
 posts = Blueprint("posts", __name__)
 logger = logging.getLogger("app")
 
+POST_NUM = 10 # 返す投稿の数
+
 
 class DatabaseError(Exception):
     """データベースからの情報取得に失敗したときに投げる例外の基底クラス"""
@@ -213,7 +215,7 @@ def get_user_posts(user_id):
     ]
     """
     try:
-        post_data_list = Post.query.filter(Post.user_id == user_id).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.user_id == user_id).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -262,7 +264,7 @@ def get_shop_posts(shop_id):
     ]
     """
     try:
-        post_data_list = Post.query.filter(Post.shop_id == shop_id).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.shop_id == shop_id).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
@@ -333,7 +335,7 @@ def get_community_posts(community_id):
 
     user_id_list = [community_user_data.user_id for community_user_data in community_user_data_list]
     try:
-        post_data_list = Post.query.filter(Post.user_id.in_(user_id_list)).all()
+        post_data_list = Post.query.order_by(Post.id.desc()).filter(Post.user_id.in_(user_id_list)).limit(POST_NUM).all()
     except Exception as e:
         logger.error(e)
         return jsonify({"message": f"Internal server error\n{e}"}), HTTPStatus.INTERNAL_SERVER_ERROR
