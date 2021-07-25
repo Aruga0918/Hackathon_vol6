@@ -60,9 +60,10 @@ export default {
   },
   mounted() {
     this.$api
-      .get(`/api/users/communities`)
+      .get(`/api/communities/${this.$route.params.id}`)
       .then((res) => {
         this.community = res.data
+        console.log(this.community)
       })
       .catch((e) => {
         console.error(e)
