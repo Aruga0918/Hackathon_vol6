@@ -5,6 +5,8 @@
 
 ・テーマ：閉じたSNS
 
+[Vol6_英語科.pdf](https://github.com/Aruga0918/Hackathon_vol6/files/7524528/Vol6_.pdf)
+
 
 
 
